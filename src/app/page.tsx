@@ -18,7 +18,7 @@ export default function LandingPage() {
             Social Analytics
           </span>
         </div>
-        <Button variant="contained" size="medium">Sign In</Button>
+        <Button>Sign In</Button>
         {/* <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.9 }} className="border bg-background px-4 py-2 hover:shadow rounded-md hover:bg-slate-100 font-medium font-poppins">
           Sign In
         </motion.button> */}

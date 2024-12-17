@@ -14,14 +14,21 @@ const Variants = {
   outlined: `bg-background hover:bg-purple-100 text-purple-600 border-purple-600`,
 };
 
+const Sizes = {
+    small: "",
+    medium: "px-4 py-2 rounded-md text-base",
+    large: ""
+}
+
 export const Button = ({ children, variant = "text", size = "medium" }: ButtonProps) => {
     const selectedVariant = Variants[variant];
+    const buttonSize = Sizes[size];
 
   return (
     <motion.button
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.9 }}
-      className={`px-4 py-2 hover:shadow rounded-md font-medium font-poppins ${selectedVariant}`}
+      className={`hover:shadow font-medium font-poppins ${selectedVariant} ${buttonSize}`}
     >
       {children}
     </motion.button>
