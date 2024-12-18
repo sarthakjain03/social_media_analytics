@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import { motion } from "motion/react";
 
@@ -9,15 +8,15 @@ type ButtonProps = {
 };
 
 const Variants = {
-  text: `border bg-background hover:bg-slate-100 text-black`,
+  text: `border bg-white hover:bg-slate-100 text-black`,
   contained: `bg-purple-600 hover:bg-purple-700 text-white border-purple-600 hover:border-purple-700`,
-  outlined: `bg-background hover:bg-purple-100 text-purple-600 border-purple-600`,
+  outlined: `bg-background hover:bg-purple-100 text-purple-600 border border-purple-600`,
 };
 
 const Sizes = {
-    small: "",
+    small: "text-sm rounded-md px-4 py-1",
     medium: "px-4 py-2 rounded-md text-base",
-    large: ""
+    large: "px-5 py-2 rounded-lg text-lg"
 }
 
 export const Button = ({ children, variant = "text", size = "medium" }: ButtonProps) => {
