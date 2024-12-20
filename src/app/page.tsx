@@ -1,9 +1,9 @@
 "use client";
 import { motion } from "motion/react";
-import { ChartNoAxesCombined, Globe, BarChart2, Users } from "lucide-react";
+import { Globe, BarChart2, Users } from "lucide-react";
 import { Button } from "@/components/Button";
 import Image from "next/image";
-import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import Header from "@/components/Header";
 
 export default function LandingPage() {
   const features = [
@@ -41,37 +41,7 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white font-poppins">
-      <motion.header
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="mx-auto flex justify-between items-center px-20 py-6"
-      >
-        <div className="flex items-center space-x-3">
-          <ChartNoAxesCombined className="size-7 text-purple-600" />
-          <span className="text-2xl font-bold text-gray-800">Socialytics</span>
-        </div>
-        <SignedOut>
-          <SignInButton mode="modal">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.9 }}
-              className={`hover:shadow font-medium font-poppins px-4 py-2 rounded-md text-base border bg-white hover:bg-slate-100 text-black`}
-            >
-              Sign In
-            </motion.button>
-          </SignInButton>
-        </SignedOut>
-        <SignedIn>
-          <UserButton
-            appearance={{
-              elements: {
-                userButtonAvatarBox: "size-10"
-              }
-            }}
-          />
-        </SignedIn>
-      </motion.header>
+      <Header />
       <main>
         <section
           id="hero"
@@ -82,16 +52,15 @@ export default function LandingPage() {
             animate="animate"
             variants={staggerChildren}
           >
-            <motion.h1 variants={fadeInUp} className="text-5xl font-bold mb-6">
-              Social Media Analysis made <br /> Simpler and Easier
+            <motion.h1 variants={fadeInUp} className="text-5xl font-bold mb-6 leading-tight">
+              Comprehensive Analytics for all your <br /> Social Platforms in one place
+              {/* Social Media Analysis made <br /> Simpler and Easier */}
             </motion.h1>
             <motion.p
               variants={fadeInUp}
-              className="text-2xl text-gray-600 max-w-2xl mb-8 mx-auto"
+              className="text-2xl text-gray-600 max-w-4xl mb-8 mx-auto"
             >
-              Get comprehensive analytics across all your social platforms in
-              one place. Make data-driven decisions and skyrocket your online
-              presence.
+              Social media analytics made simpler and easier. Make data-driven decisions and skyrocket your online brand.
             </motion.p>
             <motion.div
               variants={fadeInUp}
