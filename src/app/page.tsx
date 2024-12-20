@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import { ChartNoAxesCombined, Globe, BarChart2, Users } from "lucide-react";
 import { Button } from "@/components/Button";
 import Image from "next/image";
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 export default function LandingPage() {
   const features = [
@@ -48,11 +49,28 @@ export default function LandingPage() {
       >
         <div className="flex items-center space-x-3">
           <ChartNoAxesCombined className="size-7 text-purple-600" />
-          <span className="text-2xl font-bold text-gray-800">
-            Social Analytics
-          </span>
+          <span className="text-2xl font-bold text-gray-800">Socialytics</span>
         </div>
-        <Button>Sign In</Button>
+        <SignedOut>
+          <SignInButton mode="modal">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.9 }}
+              className={`hover:shadow font-medium font-poppins px-4 py-2 rounded-md text-base border bg-white hover:bg-slate-100 text-black`}
+            >
+              Sign In
+            </motion.button>
+          </SignInButton>
+        </SignedOut>
+        <SignedIn>
+          <UserButton
+            appearance={{
+              elements: {
+                userButtonAvatarBox: "size-10"
+              }
+            }}
+          />
+        </SignedIn>
       </motion.header>
       <main>
         <section
