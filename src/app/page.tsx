@@ -52,15 +52,20 @@ export default function LandingPage() {
             animate="animate"
             variants={staggerChildren}
           >
-            <motion.h1 variants={fadeInUp} className="text-5xl font-bold mb-6 leading-tight">
-              Comprehensive Analytics for all your <br /> Social Platforms in one place
+            <motion.h1
+              variants={fadeInUp}
+              className="text-5xl font-bold mb-6 leading-tight"
+            >
+              Comprehensive Analytics for all your <br /> Social Platforms in
+              one place
               {/* Social Media Analysis made <br /> Simpler and Easier */}
             </motion.h1>
             <motion.p
               variants={fadeInUp}
               className="text-2xl text-gray-600 max-w-4xl mb-8 mx-auto"
             >
-              Social media analytics made simpler and easier. Make data-driven decisions and skyrocket your online brand.
+              Social media analytics made simpler and easier. Make data-driven
+              decisions and skyrocket your online brand.
             </motion.p>
             <motion.div
               variants={fadeInUp}
@@ -145,10 +150,10 @@ export default function LandingPage() {
                   alt="Youtube"
                 />
                 <Image
-                  src={"/linkedin.svg"}
+                  src={"/instagram.png"}
                   width={200}
                   height={150}
-                  alt="Linkedin"
+                  alt="Instagram"
                 />
                 <Image
                   src={"/xlogo.jpg"}
@@ -156,6 +161,12 @@ export default function LandingPage() {
                   height={60}
                   alt="X"
                   className="rounded-full"
+                />
+                <Image
+                  src={"/linkedin.svg"}
+                  width={200}
+                  height={150}
+                  alt="Linkedin"
                 />
               </div>
             </motion.div>
