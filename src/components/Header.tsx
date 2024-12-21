@@ -9,6 +9,7 @@ export default function Header() {
       initial={{ opacity: 0, y: -50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
+      viewport={{ once: true }}
       className="mx-auto flex justify-between items-center px-20 py-6"
     >
       <div className="flex items-center space-x-3">
