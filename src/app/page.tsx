@@ -3,7 +3,6 @@ import { motion } from "motion/react";
 import { Globe, BarChart2, Users } from "lucide-react";
 import { Button } from "@/components/Button";
 import Image from "next/image";
-import Header from "@/components/Header";
 
 export default function LandingPage() {
   const features = [
@@ -40,8 +39,7 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white font-poppins">
-      <Header />
+    <div>
       <main>
         <section
           id="hero"
@@ -210,17 +208,6 @@ export default function LandingPage() {
           </motion.div>
         </section>
       </main>
-      <motion.footer
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        viewport={{ once: true }}
-        className="bg-gray-100 py-6"
-      >
-        <div className="container mx-auto px-4 text-center text-gray-600">
-          <p>&copy; 2025 Social Analytics. All rights reserved.</p>
-        </div>
-      </motion.footer>
     </div>
   );
 }

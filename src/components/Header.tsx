@@ -1,6 +1,5 @@
 "use client";
 import { motion } from "motion/react";
-import { SignedIn, SignInButton, UserButton, SignedOut } from "@clerk/nextjs";
 import { ChartNoAxesCombined } from "lucide-react";
 
 export default function Header() {
@@ -16,8 +15,8 @@ export default function Header() {
         <ChartNoAxesCombined className="size-7 text-purple-600" />
         <span className="text-2xl font-bold text-gray-800">Socialytics</span>
       </div>
-      <SignedOut>
-        <SignInButton mode="modal">
+      {/* <SignedOut>
+        <SignInButton mode="modal"> */}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.9 }}
@@ -25,7 +24,7 @@ export default function Header() {
           >
             Sign In
           </motion.button>
-        </SignInButton>
+        {/* </SignInButton>
       </SignedOut>
       <SignedIn>
         <UserButton
@@ -35,7 +34,7 @@ export default function Header() {
             },
           }}
         />
-      </SignedIn>
+      </SignedIn> */}
     </motion.header>
   );
 }
