@@ -31,7 +31,7 @@ export default function RootLayout({
           <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white font-poppins">
             <Header />
             {children}
-            <footer className="bg-gray-100 py-6 absolute bottom-0 w-full">
+            <footer className="bg-gray-100 py-6 w-full">
               <div className="container mx-auto px-4 text-center text-gray-600">
                 <p>&copy; 2025 Social Analytics. All rights reserved.</p>
               </div>
