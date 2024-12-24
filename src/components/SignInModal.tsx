@@ -51,6 +51,7 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
 
   const formik = useFormik({
     initialValues: {
+      name: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -102,6 +103,18 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
             </Typography>
           </Stack>
           <Stack spacing={2.5}>
+            {formType === "signup" && (
+              <TextField
+                name="name"
+                label="Name"
+                placeholder="Enter your Name"
+                sx={textFieldSx}
+                value={formik.values.name}
+                onChange={formik.handleChange}
+                error={formik.touched.name && Boolean(formik.errors.name)}
+                helperText={formik.touched.name && formik.errors.name}
+              />
+            )}
             <TextField
               name="email"
               label="Email"

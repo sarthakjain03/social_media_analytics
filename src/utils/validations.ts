@@ -9,6 +9,11 @@ export const signInValidation = yup.object({
 });
 
 export const signUpValidation = yup.object({
+  name: yup
+    .string()
+    .min(2, "Name should contain at least 2 characters")
+    .max(40, "Name should not exceed 40 characters")
+    .required("Required"),
   email: yup
     .string()
     .email("Please enter a valid email address")
