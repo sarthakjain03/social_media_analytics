@@ -1,20 +1,26 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, ObjectId } from "mongoose";
 
 export interface User extends Document {
+  userId: ObjectId;
   name: string;
   email: string;
   password: string;
-  verifyCode: string;
-  verifyCodeExpiration: Date;
-  isVerified: boolean;
   usernameForX: string;
+  createdAt: Date
 }
 
 const UserSchema: Schema<User> = new Schema({
+  userId: {
+    type: Schema.Types.ObjectId,
+    index: true,
+    auto: true,
+    unique: true
+  },
   name: {
     type: String,
     required: [true, "Name is required"],
     trim: true,
+    minlength: 2
   },
   email: {
     type: String,
@@ -26,22 +32,14 @@ const UserSchema: Schema<User> = new Schema({
     type: String,
     required: [true, "Password is required"],
   },
-  verifyCode: {
-    type: String,
-    required: [true, "Verification Code is required"],
-  },
-  verifyCodeExpiration: {
-    type: Date,
-    required: [true, "Verification Code Expiration is required"],
-  },
-  isVerified: {
-    type: Boolean,
-    default: false,
-  },
   usernameForX: {
     type: String,
     trim: true,
     unique: true
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now()
   }
 });
 
