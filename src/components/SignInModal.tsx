@@ -14,6 +14,7 @@ import { useFormik } from "formik";
 import { signInValidation, signUpValidation } from "@/utils/validations";
 import Image from "next/image";
 import { MUITextFieldSx } from "@/styles/muiCustomStyles";
+import OtpModal from "./OtpModal";
 
 type ModalProps = {
   open: boolean;
@@ -25,6 +26,7 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
   const [viewPassword, setViewPassword] = useState(false);
   const [viewConfirmPassword, setViewConfirmPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [openOtpModal, setOpenOtpModal] = useState(false);
 
   const switchToSignInForm = () => {
     setFormType("signin");
@@ -45,7 +47,8 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
       formType === "signin" ? signInValidation : signUpValidation,
     onSubmit: (values) => {
       setSubmitting(true);
-
+      setOpenOtpModal(true);
+      
       // TODO: Add the otp api request here
 
       setSubmitting(false);
@@ -53,6 +56,7 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
   });
 
   return (
+    <>
     <Dialog
       open={open}
       onClose={() => {
@@ -245,6 +249,10 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
         </Stack>
       </DialogContent>
     </Dialog>
+    {openOtpModal && (
+      <OtpModal open={openOtpModal} onClose={() => setOpenOtpModal(false)} name={formik.values.name} email={formik.values.email} password={formik.values.password} />
+    )}
+    </>
   );
 };
 
