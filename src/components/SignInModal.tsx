@@ -13,26 +13,11 @@ import { ChartNoAxesCombined, Eye, EyeOff } from "lucide-react";
 import { useFormik } from "formik";
 import { signInValidation, signUpValidation } from "@/utils/validations";
 import Image from "next/image";
+import { MUITextFieldSx } from "@/styles/muiCustomStyles";
 
 type ModalProps = {
   open: boolean;
   onClose: () => void;
-};
-
-const textFieldSx = {
-  "& .MuiInputBase-root": {
-    padding: "0px", // Adjust inner padding
-  },
-  "& .MuiOutlinedInput-input": {
-    padding: "10px 14px", // Adjust text padding
-  },
-  "& .MuiInputLabel-root": {
-    transform: "translate(14px, 10px)", // Default label position
-    transition: "all 0.2s ease-in-out",
-  },
-  "& .MuiInputLabel-shrink": {
-    transform: "translate(14px, -6px) scale(0.75)", // Shrink position
-  },
 };
 
 const SignInModal = ({ open, onClose }: ModalProps) => {
@@ -60,7 +45,9 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
       formType === "signin" ? signInValidation : signUpValidation,
     onSubmit: (values) => {
       setSubmitting(true);
-      console.log(values);
+
+      // TODO: Add the otp api request here
+
       setSubmitting(false);
     },
   });
@@ -108,7 +95,7 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
                 name="name"
                 label="Name"
                 placeholder="Enter your Name"
-                sx={textFieldSx}
+                sx={MUITextFieldSx}
                 value={formik.values.name}
                 onChange={formik.handleChange}
                 error={formik.touched.name && Boolean(formik.errors.name)}
@@ -119,7 +106,7 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
               name="email"
               label="Email"
               placeholder="Enter your Email"
-              sx={textFieldSx}
+              sx={MUITextFieldSx}
               value={formik.values.email}
               onChange={formik.handleChange}
               error={formik.touched.email && Boolean(formik.errors.email)}
@@ -130,7 +117,7 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
               label="Password"
               type={viewPassword ? "text" : "password"}
               placeholder="Enter your Password"
-              sx={textFieldSx}
+              sx={MUITextFieldSx}
               value={formik.values.password}
               onChange={formik.handleChange}
               error={formik.touched.password && Boolean(formik.errors.password)}
@@ -158,7 +145,7 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
                 label="Confirm Password"
                 type={viewConfirmPassword ? "text" : "password"}
                 placeholder="Confirm your Password"
-                sx={textFieldSx}
+                sx={MUITextFieldSx}
                 value={formik.values.confirmPassword}
                 onChange={formik.handleChange}
                 error={

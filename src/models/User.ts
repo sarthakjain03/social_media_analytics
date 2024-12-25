@@ -5,7 +5,6 @@ export interface User extends Document {
   name: string;
   email: string;
   password: string;
-  usernameForX: string;
   createdAt: Date
 }
 
@@ -31,11 +30,6 @@ const UserSchema: Schema<User> = new Schema({
   password: {
     type: String,
     required: [true, "Password is required"],
-  },
-  usernameForX: {
-    type: String,
-    trim: true,
-    unique: true
   },
   createdAt: {
     type: Date,

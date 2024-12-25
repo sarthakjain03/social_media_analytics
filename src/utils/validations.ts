@@ -8,6 +8,7 @@ export const signInValidation = yup.object({
     .required("Required"),
 });
 
+
 export const signUpValidation = yup.object({
   name: yup
     .string()
@@ -24,3 +25,12 @@ export const signUpValidation = yup.object({
     .oneOf([yup.ref("password")], "Passwords must match")
     .required("Required"),
 });
+
+
+export const otpValidation = yup
+  .number()
+  .min(100000, "OTP must be of exactly 6 digits")
+  .max(999999, "OTP must be of exactly 6 digits")
+  .typeError("OTP must contain only digits")
+  .required("Required");
+
