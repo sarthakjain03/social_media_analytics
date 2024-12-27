@@ -10,6 +10,7 @@ import { useFormik } from "formik";
 import { otpValidation } from "@/utils/validations";
 import { MUITextFieldSx } from "@/styles/muiCustomStyles";
 import { useState, useEffect } from "react";
+import { verifyOTP } from "@/utils/authUtils";
 
 type OtpModalProps = {
   open: boolean;
@@ -17,9 +18,17 @@ type OtpModalProps = {
   name: string;
   email: string;
   password: string;
+  onSignUpSuccess: () => void;
 };
 
-const OtpModal = ({ open, onClose, name, email, password }: OtpModalProps) => {
+const OtpModal = ({
+  open,
+  onClose,
+  name,
+  email,
+  password,
+  onSignUpSuccess,
+}: OtpModalProps) => {
   const otpExpirationTime = 30 * 60 + 3; // OTP is valid for 30 minutes
   const [timeLeft, setTimeLeft] = useState(otpExpirationTime);
   const [timerIsRunning, setTimerIsRunning] = useState(true);
@@ -57,13 +66,18 @@ const OtpModal = ({ open, onClose, name, email, password }: OtpModalProps) => {
 
   const formik = useFormik({
     initialValues: {
-      attemptedOtp: null,
+      attemptedOtp: "",
     },
     validationSchema: otpValidation,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       setSubmitting(true);
-
-      // TODO: Add the verify-otp api request here
+      await verifyOTP(
+        name,
+        email,
+        Number(values.attemptedOtp),
+        password,
+        onSignUpSuccess
+      );
 
       setSubmitting(false);
     },
@@ -96,32 +110,35 @@ const OtpModal = ({ open, onClose, name, email, password }: OtpModalProps) => {
             <CircularProgress color="secondary" />
           ) : (
             <Stack spacing={2.5}>
-                <Stack>
-                    {timerIsRunning ? (
-                        <Typography variant="body2" color="textSecondary">
-                            {`You can resend another OTP in ${formatTime(timeLeft)}`}
-                        </Typography>
-                    ) : (
-                        <p onClick={resendOTP} className="cursor-pointer max-w-fit font-poppins text-sm text-gray-600 hover:text-gray-700">
-                            Resend OTP
-                        </p>
-                    )}
-                </Stack>
-              <TextField
-                name="attemptedOtp"
-                label="OTP"
-                placeholder="Enter your OTP"
-                sx={MUITextFieldSx}
-                value={formik.values.attemptedOtp}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.attemptedOtp &&
-                  Boolean(formik.errors.attemptedOtp)
-                }
-                helperText={
-                  formik.touched.attemptedOtp && formik.errors.attemptedOtp
-                }
-              />
+              <Stack>
+                <TextField
+                  name="attemptedOtp"
+                  label="OTP"
+                  placeholder="Enter your OTP"
+                  sx={MUITextFieldSx}
+                  value={formik.values.attemptedOtp}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.attemptedOtp &&
+                    Boolean(formik.errors.attemptedOtp)
+                  }
+                  helperText={
+                    formik.touched.attemptedOtp && formik.errors.attemptedOtp
+                  }
+                />
+                {timerIsRunning ? (
+                  <Typography variant="body2" color="textSecondary">
+                    {`You can resend another OTP in ${formatTime(timeLeft)}`}
+                  </Typography>
+                ) : (
+                  <p
+                    onClick={resendOTP}
+                    className="cursor-pointer max-w-fit font-poppins text-sm text-gray-600 hover:text-gray-700"
+                  >
+                    Resend OTP
+                  </p>
+                )}
+              </Stack>
               <button
                 disabled={submitting}
                 onClick={formik.submitForm}

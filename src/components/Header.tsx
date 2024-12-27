@@ -3,8 +3,10 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import { ChartNoAxesCombined } from "lucide-react";
 import SignInModal from "./SignInModal";
+import { useSession, signOut } from "next-auth/react";
 
 export default function Header() {
+  const { data: session } = useSession();
   const [openModal, setOpenModal] = useState(false);
 
   return (

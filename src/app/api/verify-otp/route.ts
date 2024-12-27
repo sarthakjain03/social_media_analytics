@@ -3,7 +3,7 @@ import OtpModel from "@/models/Otp";
 import UserModel from "@/models/User";
 import bcrypt from "bcryptjs";
 
-export async function GET(request: Request) {
+export async function POST(request: Request) {
     await dbConnect();
 
     try {
