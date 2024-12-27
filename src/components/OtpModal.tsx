@@ -10,7 +10,7 @@ import { useFormik } from "formik";
 import { otpValidation } from "@/utils/validations";
 import { MUITextFieldSx } from "@/styles/muiCustomStyles";
 import { useState, useEffect } from "react";
-import { verifyOTP } from "@/utils/authUtils";
+import { verifyOTP } from "@/actions/authActions";
 
 type OtpModalProps = {
   open: boolean;

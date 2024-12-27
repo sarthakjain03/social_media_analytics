@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import showToast from "./toast";
+import showToast from "../utils/toast";
 import { Dispatch, SetStateAction } from "react";
 import { ApiResponse } from "@/types/ApiResponse";
 

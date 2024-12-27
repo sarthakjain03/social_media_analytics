@@ -16,7 +16,7 @@ import { signInValidation, signUpValidation } from "@/utils/validations";
 import Image from "next/image";
 import { MUITextFieldSx } from "@/styles/muiCustomStyles";
 import OtpModal from "./OtpModal";
-import { userSignUp } from "@/utils/authUtils";
+import { userSignUp } from "@/actions/authActions";
 import { signIn } from "next-auth/react";
 
 type ModalProps = {

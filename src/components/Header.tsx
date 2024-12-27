@@ -4,10 +4,13 @@ import { motion } from "motion/react";
 import { ChartNoAxesCombined } from "lucide-react";
 import SignInModal from "./SignInModal";
 import { useSession, signOut } from "next-auth/react";
+import { Popover } from "@mui/material";
 
 export default function Header() {
   const { data: session } = useSession();
   const [openModal, setOpenModal] = useState(false);
+
+  console.log(session); // TODO: to remove this
 
   return (
     <>
@@ -22,14 +25,25 @@ export default function Header() {
           <ChartNoAxesCombined className="size-7 text-purple-600" />
           <span className="text-2xl font-bold text-gray-800">Socialytics</span>
         </div>
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.9 }}
-          className={`hover:shadow font-medium font-poppins px-4 py-2 rounded-md text-base border bg-white hover:bg-slate-100 text-black`}
-          onClick={() => setOpenModal(true)}
-        >
-          Sign In
-        </motion.button>
+        {session ? (
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.9 }}
+              className={`hover:shadow font-medium font-poppins px-4 py-2 rounded-md text-base border bg-white hover:bg-slate-100 text-black`}
+              onClick={() => signOut()}
+            >
+              Sign Out
+            </motion.button>
+        ) : (
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.9 }}
+            className={`hover:shadow font-medium font-poppins px-4 py-2 rounded-md text-base border bg-white hover:bg-slate-100 text-black`}
+            onClick={() => setOpenModal(true)}
+          >
+            Sign In
+          </motion.button>
+        )}
       </motion.header>
       {openModal && <SignInModal open={openModal} onClose={() => setOpenModal(false)} />}
     </>
