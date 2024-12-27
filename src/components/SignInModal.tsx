@@ -18,6 +18,8 @@ import { MUITextFieldSx } from "@/styles/muiCustomStyles";
 import OtpModal from "./OtpModal";
 import { userSignUp } from "@/actions/authActions";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import showToast from "@/utils/toast";
 
 type ModalProps = {
   open: boolean;
@@ -31,6 +33,8 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
   const [submitting, setSubmitting] = useState(false);
   const [openOtpModal, setOpenOtpModal] = useState(false);
 
+  const router = useRouter();
+
   const switchToSignInForm = () => {
     setFormType("signin");
   };
@@ -39,7 +43,25 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
     setFormType("signup");
   };
 
-  const onSignUpSuccess = () => {
+  const userSignIn = async (email: string, password: string) => {
+    const results = await signIn("credentials", {
+      redirect: false,
+      identifier: email,
+      password: password
+    });
+
+    if (results?.error) {
+      showToast("error", "Incorrect Email or Password");
+    }
+
+    if (results?.url) {
+      router.replace("/dashboard");
+      onClose();
+    }
+  }
+
+  const onSignUpSuccess = async () => {
+    await userSignIn(formik.values.email, formik.values.password);
     setOpenOtpModal(false);
     onClose();
   };
@@ -58,8 +80,9 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
 
       if (formType === "signup") {
         await userSignUp(values.email, setOpenOtpModal);
+        
       } else {
-        // TODO: Add the sign-in functionality here
+        await userSignIn(values.email, values.password);
       }
 
       setSubmitting(false);
@@ -194,7 +217,9 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
                 />
               )}
               {submitting ? (
-                <CircularProgress color="secondary" />
+                <div className="flex justify-center items-center w-full">
+                  <CircularProgress color="secondary" />
+                </div>
               ) : (
                 <>
                   {formType === "signin" ? (

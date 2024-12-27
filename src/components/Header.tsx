@@ -5,12 +5,21 @@ import { ChartNoAxesCombined } from "lucide-react";
 import SignInModal from "./SignInModal";
 import { useSession, signOut } from "next-auth/react";
 import { Popover } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   const { data: session } = useSession();
   const [openModal, setOpenModal] = useState(false);
 
-  console.log(session); // TODO: to remove this
+  const router = useRouter();
+
+  const userSignOut = async () => {
+    const results = await signOut({ redirect: false });
+    
+    if (results?.url) {
+      router.replace("/");
+    }
+  };
 
   return (
     <>
@@ -26,14 +35,14 @@ export default function Header() {
           <span className="text-2xl font-bold text-gray-800">Socialytics</span>
         </div>
         {session ? (
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.9 }}
-              className={`hover:shadow font-medium font-poppins px-4 py-2 rounded-md text-base border bg-white hover:bg-slate-100 text-black`}
-              onClick={() => signOut()}
-            >
-              Sign Out
-            </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.9 }}
+            className={`hover:shadow font-medium font-poppins px-4 py-2 rounded-md text-base border bg-white hover:bg-slate-100 text-black`}
+            onClick={userSignOut}
+          >
+            Sign Out
+          </motion.button>
         ) : (
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -45,7 +54,9 @@ export default function Header() {
           </motion.button>
         )}
       </motion.header>
-      {openModal && <SignInModal open={openModal} onClose={() => setOpenModal(false)} />}
+      {openModal && (
+        <SignInModal open={openModal} onClose={() => setOpenModal(false)} />
+      )}
     </>
   );
 }

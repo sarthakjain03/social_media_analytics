@@ -32,6 +32,8 @@ export async function POST(request: Request) {
         });
         newUser.save();
 
+        await OtpModel.deleteOne({ email });
+
         // TODO: Add function to send email for successfull registeration to the given email address.
 
         return Response.json({

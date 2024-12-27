@@ -10,7 +10,7 @@ import { useFormik } from "formik";
 import { otpValidation } from "@/utils/validations";
 import { MUITextFieldSx } from "@/styles/muiCustomStyles";
 import { useState, useEffect } from "react";
-import { verifyOTP } from "@/actions/authActions";
+import { verifyOTP, userSignUp } from "@/actions/authActions";
 
 type OtpModalProps = {
   open: boolean;
@@ -58,10 +58,10 @@ const OtpModal = ({
     return () => clearInterval(timer);
   }, [timerIsRunning, timeLeft]);
 
-  const resendOTP = () => {
-    setTimerIsRunning(true);
+  const resendOTP = async () => {
+    await userSignUp(email);
 
-    // TODO: Add the otp api request here.
+    setTimerIsRunning(true);
   };
 
   const formik = useFormik({
@@ -107,7 +107,9 @@ const OtpModal = ({
             OTP Verification
           </Typography>
           {submitting ? (
-            <CircularProgress color="secondary" />
+            <div className="flex justify-center items-center w-full">
+              <CircularProgress color="secondary" />
+            </div>
           ) : (
             <Stack spacing={2.5}>
               <Stack>

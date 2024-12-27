@@ -1,6 +1,7 @@
 import dbConnect from "@/database/dbConnect";
 import OtpModel from "@/models/Otp";
 import UserModel from "@/models/User";
+import { sendVerifyOtpEmail } from "@/actions/sendEmails";
 
 export async function POST(request: Request) {
     await dbConnect();
@@ -29,7 +30,8 @@ export async function POST(request: Request) {
         const otpForNewUser = new OtpModel({ email, otp });
         await otpForNewUser.save();
 
-        // TODO: Add function to send email with this OTP to the given email address.
+        // Function to send email with this OTP to the given email address.
+        await sendVerifyOtpEmail(email, otp);
 
         return Response.json({
             success: true,
