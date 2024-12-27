@@ -193,7 +193,7 @@ export default function LandingPage() {
               className="flex justify-center space-x-4"
             >
               <input
-                placeholder="Entern your email"
+                placeholder="Enter your email"
                 className="flex h-10 border rounded-md px-3 py-1 text-gray-900 w-64 bg-white"
               />
               <motion.button
