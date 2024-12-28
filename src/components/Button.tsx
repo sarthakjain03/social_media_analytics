@@ -3,12 +3,12 @@ import { motion } from "motion/react";
 
 type ButtonProps = {
   children: React.ReactNode;
-  variant?: "contained" | "outlined" | "text";
+  variant?: "contained" | "outlined" | "default";
   size?: "small" | "medium" | "large";
 };
 
 const Variants = {
-  text: `border bg-white hover:bg-slate-100 text-black`,
+  default: `border bg-white hover:bg-slate-100 text-black`,
   contained: `bg-purple-600 hover:bg-purple-700 text-white border-purple-600 hover:border-purple-700`,
   outlined: `bg-background hover:bg-purple-100 text-purple-600 border border-purple-600`,
 };
@@ -19,7 +19,7 @@ const Sizes = {
     large: "px-5 py-2 rounded-lg text-lg"
 }
 
-export const Button = ({ children, variant = "text", size = "medium" }: ButtonProps) => {
+export const Button = ({ children, variant = "default", size = "medium" }: ButtonProps) => {
     const selectedVariant = Variants[variant];
     const buttonSize = Sizes[size];
 

@@ -19,7 +19,7 @@ export const signUpValidation = yup.object({
     .string()
     .email("Please enter a valid email address")
     .required("Required"),
-  password: yup.string().min(8, "").required("Required"),
+  password: yup.string().min(8, "Password must be at least 8 characters").required("Required"),
   confirmPassword: yup
     .string()
     .oneOf([yup.ref("password")], "Passwords must match")

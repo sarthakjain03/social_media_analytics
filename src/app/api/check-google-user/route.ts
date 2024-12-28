@@ -12,7 +12,7 @@ export async function POST(request: Request) {
         if (!userRegistered) {
             // If Google user is not registered in database then add the user with a default password
             const defaultPassword = process.env.DEFAULT_PASSWORD_FOR_GOOGLE_USERS as string;
-            const hashedDefaultPassword = bcrypt.hash(defaultPassword, 10);
+            const hashedDefaultPassword = await bcrypt.hash(defaultPassword, 10);
 
             const newUser = new UserModel({
                 name,

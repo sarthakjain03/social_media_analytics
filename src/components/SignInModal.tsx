@@ -16,6 +16,7 @@ import { signInValidation, signUpValidation } from "@/utils/validations";
 import Image from "next/image";
 import { MUITextFieldSx } from "@/styles/muiCustomStyles";
 import OtpModal from "./OtpModal";
+import ForgotPasswordModal from "./ForgotPasswordModal";
 import { signUpOtp } from "@/actions/authActions";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -32,6 +33,7 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
   const [viewConfirmPassword, setViewConfirmPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [openOtpModal, setOpenOtpModal] = useState(false);
+  const [openForgotPasswordModal, setOpenForgotPasswordModal] = useState(false);
 
   const router = useRouter();
 
@@ -47,7 +49,7 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
     const results = await signIn("credentials", {
       redirect: false,
       identifier: email,
-      password: password
+      password: password,
     });
 
     if (results?.error) {
@@ -58,7 +60,7 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
       router.replace("/dashboard");
       onClose();
     }
-  }
+  };
 
   const googleSignIn = async () => {
     const results = await signIn("google");
@@ -66,7 +68,7 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
     if (results?.error) {
       showToast("error", "Error occurred while signing in with Google");
     }
-  }
+  };
 
   const onSignUpSuccess = async () => {
     await credentialsSignIn(formik.values.email, formik.values.password);
@@ -88,7 +90,6 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
 
       if (formType === "signup") {
         await signUpOtp(values.email, setOpenOtpModal);
-        
       } else {
         await credentialsSignIn(values.email, values.password);
       }
@@ -231,16 +232,26 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
               ) : (
                 <>
                   {formType === "signin" ? (
-                    <button
-                      //disabled={submitting}
-                      onClick={formik.submitForm}
-                      className="font-poppins text-lg font-medium text-white bg-purple-700 py-3 rounded-lg hover:bg-purple-800"
-                    >
-                      Sign In
-                    </button>
+                    <Stack spacing={1}>
+                      <button
+                        disabled={submitting}
+                        onClick={formik.submitForm}
+                        className="font-poppins text-lg font-medium text-white bg-purple-700 py-3 rounded-lg hover:bg-purple-800"
+                      >
+                        Sign In
+                      </button>
+                      <div className="flex justify-center">
+                        <p
+                          onClick={() => setOpenForgotPasswordModal(true)}
+                          className="font-poppins text-gray-600 hover:text-gray-700 cursor-pointer max-w-fit"
+                        >
+                          Forgot Password
+                        </p>
+                      </div>
+                    </Stack>
                   ) : (
                     <button
-                      //disabled={submitting}
+                      disabled={submitting}
                       onClick={formik.submitForm}
                       className="font-poppins text-lg font-medium text-white bg-purple-700 py-3 rounded-lg hover:bg-purple-800"
                     >
@@ -327,6 +338,12 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
           email={formik.values.email}
           password={formik.values.password}
           onSignUpSuccess={onSignUpSuccess}
+        />
+      )}
+      {openForgotPasswordModal && (
+        <ForgotPasswordModal
+          open={openForgotPasswordModal}
+          onClose={() => setOpenForgotPasswordModal(false)}
         />
       )}
     </>
