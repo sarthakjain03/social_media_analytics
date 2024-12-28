@@ -1,6 +1,7 @@
 import dbConnect from "@/database/dbConnect";
 import UserModel from "@/models/User";
 import bcrypt from "bcryptjs"
+import sendEmail from "@/actions/sendEmails";
 
 export async function POST(request: Request) {
     await dbConnect();
@@ -21,6 +22,8 @@ export async function POST(request: Request) {
         const results = await UserModel.updateOne({ email: foundEmailWithToken.email }, {
             $set: { resetToken: null, resetTokenExpiry: null, password: hashedNewPassword }
         });
+
+        await sendEmail({ email: foundEmailWithToken.email, type: "PASSWORD_CHANGED" });
 
         return Response.json({
             success: true,

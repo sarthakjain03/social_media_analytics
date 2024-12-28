@@ -1,6 +1,7 @@
 import dbConnect from "@/database/dbConnect";
 import UserModel from "@/models/User";
-import crypto from "crypto"
+import crypto from "crypto";
+import sendEmail from "@/actions/sendEmails";
 
 export async function POST(request: Request) {
     await dbConnect();
@@ -34,7 +35,7 @@ export async function POST(request: Request) {
 
         const resetUrl = `${process.env.NEXTAUTH_URL}/reset-password?token=${newResetToken}`;
         
-        // TODO: send email with resetUrl to the given email address if it is registered.
+        await sendEmail({ email, forgotPasswordUrl: resetUrl, type: 'RESET' });
 
         return Response.json({
             success: true,
