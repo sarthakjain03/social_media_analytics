@@ -16,7 +16,7 @@ import { signInValidation, signUpValidation } from "@/utils/validations";
 import Image from "next/image";
 import { MUITextFieldSx } from "@/styles/muiCustomStyles";
 import OtpModal from "./OtpModal";
-import { userSignUp } from "@/actions/authActions";
+import { signUpOtp } from "@/actions/authActions";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import showToast from "@/utils/toast";
@@ -43,7 +43,7 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
     setFormType("signup");
   };
 
-  const userSignIn = async (email: string, password: string) => {
+  const credentialsSignIn = async (email: string, password: string) => {
     const results = await signIn("credentials", {
       redirect: false,
       identifier: email,
@@ -60,8 +60,16 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
     }
   }
 
+  const googleSignIn = async () => {
+    const results = await signIn("google");
+
+    if (results?.error) {
+      showToast("error", "Error occurred while signing in with Google");
+    }
+  }
+
   const onSignUpSuccess = async () => {
-    await userSignIn(formik.values.email, formik.values.password);
+    await credentialsSignIn(formik.values.email, formik.values.password);
     setOpenOtpModal(false);
     onClose();
   };
@@ -79,10 +87,10 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
       setSubmitting(true);
 
       if (formType === "signup") {
-        await userSignUp(values.email, setOpenOtpModal);
+        await signUpOtp(values.email, setOpenOtpModal);
         
       } else {
-        await userSignIn(values.email, values.password);
+        await credentialsSignIn(values.email, values.password);
       }
 
       setSubmitting(false);
@@ -257,7 +265,7 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
                     </Typography>
                   </Divider>
                   <button
-                    onClick={() => {}}
+                    onClick={googleSignIn}
                     className="border border-purple-700 flex justify-center items-center space-x-2 py-2 rounded-lg hover:bg-purple-100"
                   >
                     <Image

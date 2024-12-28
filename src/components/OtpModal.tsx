@@ -10,7 +10,7 @@ import { useFormik } from "formik";
 import { otpValidation } from "@/utils/validations";
 import { MUITextFieldSx } from "@/styles/muiCustomStyles";
 import { useState, useEffect } from "react";
-import { verifyOTP, userSignUp } from "@/actions/authActions";
+import { verifyOtpAndSignUp, signUpOtp } from "@/actions/authActions";
 
 type OtpModalProps = {
   open: boolean;
@@ -59,7 +59,7 @@ const OtpModal = ({
   }, [timerIsRunning, timeLeft]);
 
   const resendOTP = async () => {
-    await userSignUp(email);
+    await signUpOtp(email);
 
     setTimerIsRunning(true);
   };
@@ -71,7 +71,7 @@ const OtpModal = ({
     validationSchema: otpValidation,
     onSubmit: async (values) => {
       setSubmitting(true);
-      await verifyOTP(
+      await verifyOtpAndSignUp(
         name,
         email,
         Number(values.attemptedOtp),

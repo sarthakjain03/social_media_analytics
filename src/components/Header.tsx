@@ -1,11 +1,11 @@
 "use client"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { ChartNoAxesCombined } from "lucide-react";
 import SignInModal from "./SignInModal";
 import { useSession, signOut } from "next-auth/react";
-import { Popover } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { checkGoogleUserInDatabase } from "@/actions/authActions";
 
 export default function Header() {
   const { data: session } = useSession();
@@ -20,6 +20,16 @@ export default function Header() {
       router.replace("/");
     }
   };
+
+  useEffect(() => {
+    const checkAndAddGoogleUser = async (name: string, email: string) => {
+      await checkGoogleUserInDatabase(name, email);
+    }
+
+    if (session?.user) {
+      checkAndAddGoogleUser(session.user.name ?? "", session.user.email ?? "");
+    }
+  }, [session]);
 
   return (
     <>

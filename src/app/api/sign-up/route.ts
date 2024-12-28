@@ -1,45 +1,48 @@
 import dbConnect from "@/database/dbConnect";
 import OtpModel from "@/models/Otp";
 import UserModel from "@/models/User";
-import { sendVerifyOtpEmail } from "@/actions/sendEmails";
+import bcrypt from "bcryptjs";
 
 export async function POST(request: Request) {
     await dbConnect();
 
     try {
-        const { email } = await request.json();
-        
-        const emailAlreadyRegistered = await UserModel.findOne({ email });
-        if (emailAlreadyRegistered) {
+        const { name, email, attemptedOtp, password } = await request.json();
+        const otpExistsForEmail = await OtpModel.findOne({ email });
+
+        if (!otpExistsForEmail?.otp) {
             return Response.json({
-                success: false,
-                message: "Email address already registered"
-            }, { status: 400 });
+                status: false,
+                message: "OTP not found for given email address. Kindly resend it"
+            }, { status: 404 });
         }
 
-        const otpAlreadyGenerated = await OtpModel.findOne({ email });
-        if (otpAlreadyGenerated) {
+        if (attemptedOtp !== otpExistsForEmail?.otp) {
             return Response.json({
-                success: true,
-                message: "OTP has been sent to the given email address already"
-            }, { status: 200 });
+                status: false,
+                message: "Incorrect OTP"
+            }, { status: 400 })
         }
 
-        const otp = Math.floor(100000 + Math.random()*900000);
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new UserModel({
+            name,
+            email,
+            password: hashedPassword
+        });
+        newUser.save();
 
-        const otpForNewUser = new OtpModel({ email, otp });
-        await otpForNewUser.save();
+        await OtpModel.deleteOne({ email });
 
-        // Function to send email with this OTP to the given email address.
-        await sendVerifyOtpEmail(email, otp);
+        // TODO: Add function to send email for successfull registeration to the given email address.
 
         return Response.json({
             success: true,
-            message: `OTP sent successfully to ${email}`
-        }, { status: 201 });
-
+            message: "Account successfully created"
+        }, { status: 200 });
+ 
     } catch (error) {
-        console.error("Error in sending OTP to the given email", error);
+        console.error("Error verifying OTP", error);
         return Response.json(
             {
                 success: false,

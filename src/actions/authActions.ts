@@ -3,12 +3,12 @@ import showToast from "../utils/toast";
 import { Dispatch, SetStateAction } from "react";
 import { ApiResponse } from "@/types/ApiResponse";
 
-export const userSignUp = async (
+export const signUpOtp = async (
   email: string,
   setOpenOtpModal?: Dispatch<SetStateAction<boolean>>
 ) => {
   try {
-    const response = await axios.post<ApiResponse>(`/api/sign-up`, { email: email });
+    const response = await axios.post<ApiResponse>(`/api/otp`, { email: email });
 
     if (response?.data?.success) {
       if (setOpenOtpModal) {
@@ -27,9 +27,9 @@ export const userSignUp = async (
   }
 };
 
-export const verifyOTP = async (name: string, email: string, attemptedOtp: number, password: string, onSignUpSuccess: () => void) => {
+export const verifyOtpAndSignUp = async (name: string, email: string, attemptedOtp: number, password: string, onSignUpSuccess: () => void) => {
   try {
-    const response = await axios.post<ApiResponse>(`/api/verify-otp`, { name: name, email: email, attemptedOtp: attemptedOtp, password: password });
+    const response = await axios.post<ApiResponse>(`/api/sign-up`, { name: name, email: email, attemptedOtp: attemptedOtp, password: password });
     
     if (response?.data?.success) {
       showToast("success", response?.data?.message);
@@ -46,3 +46,17 @@ export const verifyOTP = async (name: string, email: string, attemptedOtp: numbe
     showToast("error", message);
   }
 };
+
+export const checkGoogleUserInDatabase = async (name: string, email: string) => {
+  try {
+    const response = await axios.post<ApiResponse>(`/api/check-google-user`, { name: name, email: email });
+    
+    
+  } catch (error) {
+    const axiosError = error as AxiosError<ApiResponse>;
+    const message =
+      axiosError.response?.data.message ?? "Error occurred while checking google user in database";
+    showToast("error", message);
+  }
+}
+
