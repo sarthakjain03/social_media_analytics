@@ -4,6 +4,8 @@ export interface User extends Document {
   name: string;
   email: string;
   password: string;
+  resetToken: string | null;
+  resetTokenExpiry: Date | null;
   createdAt: Date
 }
 
@@ -23,6 +25,12 @@ const UserSchema: Schema<User> = new Schema({
   password: {
     type: String,
     required: [true, "Password is required"],
+  },
+  resetToken: {
+    type: String
+  },
+  resetTokenExpiry: {
+    type: Date
   },
   createdAt: {
     type: Date,

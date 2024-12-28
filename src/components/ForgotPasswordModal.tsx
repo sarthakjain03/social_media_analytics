@@ -10,13 +10,14 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { MUITextFieldSx } from "@/styles/muiCustomStyles";
+import { handleForgotPassword } from "@/actions/authActions";
 
-type ModalProps = {
+type ForgotModalProps = {
   open: boolean;
   onClose: () => void;
 };
 
-const ForgotPasswordModal = ({ open, onClose }: ModalProps) => {
+const ForgotPasswordModal = ({ open, onClose }: ForgotModalProps) => {
   const [submitting, setSubmitting] = useState(false);
 
   const formik = useFormik({
@@ -29,10 +30,10 @@ const ForgotPasswordModal = ({ open, onClose }: ModalProps) => {
         .email("Enter a valid email address")
         .required("Required"),
     }),
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       setSubmitting(true);
-
-      onClose();
+      await handleForgotPassword(values.email, onClose);
+      
       setSubmitting(false);
     },
   });
@@ -43,7 +44,7 @@ const ForgotPasswordModal = ({ open, onClose }: ModalProps) => {
       onClose={onClose}
       PaperProps={{
         style: {
-          width: 380,
+          width: 370,
           borderRadius: 15,
           background: "linear-gradient(180deg, #d7f3fe 0%, #f3eaff 100%)",
         },

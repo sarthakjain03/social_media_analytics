@@ -211,7 +211,7 @@ table, td { color: #000000; } @media (max-width: 480px) { #u_content_heading_1 .
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:30px 10px 5px;font-family:'Raleway',sans-serif;" align="left">
         
   <!--[if mso]><table width="100%"><tr><td><![endif]-->
-    <h2 style="margin: 0px; color: #18097c; line-height: 140%; text-align: center; word-wrap: break-word; font-family: 'Playfair Display',serif; font-size: 20px; font-weight: 400;"><span><strong>${otp}</strong></span></h2>
+    <h2 style="margin: 0px; color: #18097c; line-height: 140%; text-align: center; word-wrap: break-word; font-family: 'Playfair Display',serif; font-size: 28px; font-weight: 400;"><span><strong>${otp}</strong></span></h2>
   <!--[if mso]></td></tr></table><![endif]-->
 
       </td>

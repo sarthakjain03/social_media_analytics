@@ -47,7 +47,7 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
 
   const credentialsSignIn = async (email: string, password: string) => {
     const results = await signIn("credentials", {
-      redirect: false,
+      //redirect: false,
       identifier: email,
       password: password,
     });
@@ -57,8 +57,8 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
     }
 
     if (results?.url) {
-      router.replace("/dashboard");
       onClose();
+      //router.replace("/dashboard");
     }
   };
 
@@ -71,9 +71,8 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
   };
 
   const onSignUpSuccess = async () => {
-    await credentialsSignIn(formik.values.email, formik.values.password);
     setOpenOtpModal(false);
-    onClose();
+    await credentialsSignIn(formik.values.email, formik.values.password);
   };
 
   const formik = useFormik({

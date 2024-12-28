@@ -8,7 +8,7 @@ export const signUpOtp = async (
   setOpenOtpModal?: Dispatch<SetStateAction<boolean>>
 ) => {
   try {
-    const response = await axios.post<ApiResponse>(`/api/otp`, { email: email });
+    const response = await axios.post<ApiResponse>(`/api/auth/otp`, { email: email });
 
     if (response?.data?.success) {
       if (setOpenOtpModal) {
@@ -29,7 +29,7 @@ export const signUpOtp = async (
 
 export const verifyOtpAndSignUp = async (name: string, email: string, attemptedOtp: number, password: string, onSignUpSuccess: () => void) => {
   try {
-    const response = await axios.post<ApiResponse>(`/api/sign-up`, { name: name, email: email, attemptedOtp: attemptedOtp, password: password });
+    const response = await axios.post<ApiResponse>(`/api/auth/sign-up`, { name: name, email: email, attemptedOtp: attemptedOtp, password: password });
     
     if (response?.data?.success) {
       showToast("success", response?.data?.message);
@@ -49,13 +49,32 @@ export const verifyOtpAndSignUp = async (name: string, email: string, attemptedO
 
 export const checkGoogleUserInDatabase = async (name: string, email: string) => {
   try {
-    const response = await axios.post<ApiResponse>(`/api/check-google-user`, { name: name, email: email });
-    
+    const response = await axios.post<ApiResponse>(`/api/auth/check-google-user`, { name: name, email: email });
     
   } catch (error) {
     const axiosError = error as AxiosError<ApiResponse>;
     const message =
       axiosError.response?.data.message ?? "Error occurred while checking google user in database";
+    showToast("error", message);
+  }
+}
+
+export const handleForgotPassword = async (email: string, closeModal: () => void) => {
+  try {
+    const response = await axios.post<ApiResponse>(`/api/auth/forgot-password`, { email: email });
+
+    if (response?.data?.success) {
+      showToast("success", response?.data?.message);
+      closeModal();
+
+    } else {
+      showToast("error", response?.data?.message);
+    }
+    
+  } catch (error) {
+    const axiosError = error as AxiosError<ApiResponse>;
+    const message =
+      axiosError.response?.data.message ?? "Error occurred during forgot password";
     showToast("error", message);
   }
 }
