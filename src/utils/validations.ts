@@ -8,7 +8,6 @@ export const signInValidation = yup.object({
     .required("Required"),
 });
 
-
 export const signUpValidation = yup.object({
   name: yup
     .string()
@@ -19,13 +18,15 @@ export const signUpValidation = yup.object({
     .string()
     .email("Please enter a valid email address")
     .required("Required"),
-  password: yup.string().min(8, "Password must be at least 8 characters").required("Required"),
+  password: yup
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .required("Required"),
   confirmPassword: yup
     .string()
     .oneOf([yup.ref("password")], "Passwords must match")
     .required("Required"),
 });
-
 
 export const otpValidation = yup
   .number()
@@ -34,3 +35,13 @@ export const otpValidation = yup
   .typeError("OTP must contain only digits")
   .required("Required");
 
+export const resetPasswordValidation = yup.object({
+  password: yup
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .required("Required"),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password")], "Passwords must match")
+    .required("Required"),
+});

@@ -31,8 +31,6 @@ export async function POST(request: Request) {
             $set: { resetToken: newResetToken, resetTokenExpiry: newResetTokenExpiry }
         });
 
-        console.log("Update results: ", results) // TODO: remove this console log
-
         const resetUrl = `${process.env.NEXTAUTH_URL}/reset-password?token=${newResetToken}`;
         
         await sendEmail({ email, forgotPasswordUrl: resetUrl, type: 'RESET' });

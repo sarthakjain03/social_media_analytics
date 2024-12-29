@@ -79,3 +79,42 @@ export const handleForgotPassword = async (email: string, closeModal: () => void
   }
 }
 
+export const handleResetLinkValidation = async (token: string) => {
+  try {
+    const response = await axios.post<ApiResponse>(`/api/auth/validate-reset-link`, { resetToken: token });
+
+    if (response?.data?.success === false) {
+      showToast("error", response?.data?.message);
+    }
+
+    return response?.data?.success ?? false;   
+    
+  } catch (error) {
+    const axiosError = error as AxiosError<ApiResponse>;
+    const message =
+      axiosError.response?.data.message ?? "Error occurred during reset password link validation";
+    showToast("error", message);
+  }
+}
+
+export const handleResetPassword = async (token: string, password: string) => {
+  try {
+    const response = await axios.post<ApiResponse>(`/api/auth/reset-password`, { resetToken: token, newPassword: password });
+
+    if (response?.data?.success) {
+      showToast("success", response?.data?.message);
+
+    } else {
+      showToast("error", response?.data?.message);
+    }
+
+    return response?.data ?? { success: false, message: "Some error occurred. Please try again later" };
+    
+  } catch (error) {
+    const axiosError = error as AxiosError<ApiResponse>;
+    const message =
+      axiosError.response?.data.message ?? "Error occurred during reset password";
+    showToast("error", message);
+  }
+}
+

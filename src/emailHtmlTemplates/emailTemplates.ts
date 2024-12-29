@@ -414,7 +414,7 @@ table, td { color: #000000; } @media (max-width: 480px) { #u_content_heading_1 .
         
   <div style="font-size: 14px; line-height: 140%; text-align: center; word-wrap: break-word;">
     <div>
-<div>You can reset your password by clicking on the link below which is valid for 30 minutes only.</div>
+<div>You can reset your password once by clicking on the link below which is valid for 30 minutes only.</div>
 </div>
   </div>
 
@@ -449,10 +449,12 @@ table, td { color: #000000; } @media (max-width: 480px) { #u_content_heading_1 .
 <table id="u_content_heading_2" style="font-family:'Raleway',sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
   <tbody>
     <tr>
-      <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:30px 10px 5px;font-family:'Raleway',sans-serif;" align="left">
+      <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:30px 10px 5px;font-family:'Raleway',sans-serif;" align="center">
         
   <!--[if mso]><table width="100%"><tr><td><![endif]-->
-    <a href="${url}" style="margin: 0px; color: #18097c; line-height: 140%; text-align: center; word-wrap: break-word; font-family: 'Playfair Display',serif; font-size: 18px; font-weight: 400; text-decoration: none;">${url}</a>
+    <a href="${url}" target="_blank" style="display: inline-block; padding: 12px 16px; background-color: #18097c; color: white; font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 500; text-align: center; text-decoration: none; border-radius: 8px; line-height: 140%; cursor: pointer;">
+  Reset Password
+</a>
   <!--[if mso]></td></tr></table><![endif]-->
 
       </td>
