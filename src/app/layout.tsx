@@ -31,12 +31,14 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white font-poppins">
+          <div className="min-h-screen flex flex-col bg-gradient-to-b from-purple-50 to-white font-poppins w-full">
             <Header />
-            {children}
+            <main className="flex-grow">
+              {children}
+            </main>
             <footer className="bg-gray-100 py-6 w-full">
               <div className="container mx-auto px-4 text-center text-gray-600">
-                <p>Copyright &copy; 2025 Socialytics. All rights reserved.</p>
+                <p>&copy; 2025 Socialytics. All rights reserved.</p>
               </div>
             </footer>
           </div>
