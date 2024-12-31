@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import AuthProvider from "@/context/AuthProvider";
 import { ToastContainer, Bounce } from "react-toastify";
+import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,9 +34,11 @@ export default function RootLayout({
         >
           <div className="min-h-screen flex flex-col bg-gradient-to-b from-purple-50 to-white font-poppins w-full">
             <Header />
-            <main className="flex-grow">
-              {children}
-            </main>
+            <Suspense>
+              <main className="flex-grow">
+                {children}
+              </main>
+            </Suspense>
             <footer className="bg-gray-100 py-6 w-full">
               <div className="container mx-auto px-4 text-center text-gray-600">
                 <p>&copy; 2025 Socialytics. All rights reserved.</p>
