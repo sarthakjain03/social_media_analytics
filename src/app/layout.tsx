@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import AuthProvider from "@/context/AuthProvider";
 import { ToastContainer, Bounce } from "react-toastify";
 import { Suspense } from "react";
+import { Analytics } from "@vercel/analytics/react"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +38,7 @@ export default function RootLayout({
             <Suspense>
               <main className="flex-grow">
                 {children}
+                <Analytics />
               </main>
             </Suspense>
             <footer className="bg-gray-100 py-6 w-full">
