@@ -7,7 +7,8 @@ export const getAccessToken = async (
   code: string,
   email: string
 ) => {
-  if (state !== process.env.TWITTER_AUTH_STATE) { // TODO: secure state somehow using bcrypt or something
+    const originalState = process.env.TWITTER_AUTH_STATE as string;
+  if (state !== originalState) { // TODO: secure state somehow using bcrypt or something
     showToast("error", "Invalid state for X token generation");
     return;
   }
