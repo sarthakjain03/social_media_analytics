@@ -22,35 +22,6 @@ export const getTwitterAuthUrl = () => {
   return url;
 }
 
-// export const getXUser = async (accessToken: string) => {
-//   const client = new Client(accessToken);
-  
-//   try {
-//     const userDetails = await client.users.findMyUser();
-    
-//   } catch (error) {
-//     console.error("Error getting user from X: ", error);
-//     return null;
-//   }
-// }
-
-// const twitterClient = new Client(authClient);
-
-// const tempClient = new Client(process.env.TWITTER_AUTH_BEARER_TOKEN as string);
-
-
-// const getByUsername = async () => {
-
-//   const response2 = await tempClient.tweets.usersIdTweets("1070700898484150272", {
-//     "max_results": 5,
-//     "tweet.fields": [
-//         "public_metrics"
-//     ]
-//   });
-  
-//   console.log("response2: ", JSON.stringify(response2, null, 2));
-// }
-
 
 // 1. Get code from authURL when user authorizes
 // 2. Use that code to get a access token or bearer token (refresh token also?)
