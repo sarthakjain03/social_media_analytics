@@ -16,8 +16,11 @@ export async function POST(request: Request) {
             }, { status: 400 });
         }
 
-        const tokenInfo = await authClient.requestAccessToken(code);
-
+        console.log("Before requesting access token.");
+        
+        const tokenInfo = await authClient.requestAccessToken(code as string);
+        console.log("After requesting access token.", tokenInfo);
+        
         const newTwitterData = new TwitterDataModel({
             userEmail: email,
             lastUpdated: null,
@@ -27,7 +30,8 @@ export async function POST(request: Request) {
             data: null
         });
         await newTwitterData.save();
-
+        console.log("After saving access token.");
+        
         const update = await UserModel.updateOne({ email }, {
             $set: { isXConnected: true }
         });
