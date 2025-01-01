@@ -7,7 +7,14 @@ export async function POST(request: Request) {
     await dbConnect();
 
     try {
-        const { code, email } = await request.json();
+        const { state, code, email } = await request.json();
+        const originalState = process.env.TWITTER_AUTH_STATE as string;
+        if (state !== originalState) { // TODO: secure state somehow using bcrypt or something
+            return Response.json({
+                success: false,
+                message: "Invalid state for X token generation"
+            }, { status: 400 });
+        }
 
         const tokenInfo = await authClient.requestAccessToken(code);
 
