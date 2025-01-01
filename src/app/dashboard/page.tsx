@@ -36,7 +36,7 @@ export default function Dashboard() {
     if (tab) {
       setOpenTab(tab);
     }
-  }, [searchParams]);
+  }, [searchParams, session]);
 
   return (
     <motion.div
