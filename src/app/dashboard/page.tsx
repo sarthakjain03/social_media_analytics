@@ -3,7 +3,7 @@ import DashboardTabs from "@/components/DashboardTabs";
 import { useState } from "react";
 
 export default function Dashboard() {
-    const [openTab, setOpenTab] = useState("X (Twitter)")
+    const [openTab, setOpenTab] = useState("All")
 
     return (
         <div>

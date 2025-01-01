@@ -31,17 +31,18 @@ export default function DashboardTabs({ selected, setSelected }: TabProps) {
           textColor="secondary"
           indicatorColor="secondary"
         >
-          <Tab
-            label="Instagram"
-            icon={<Instagram />}
-            iconPosition="start"
-            value="Instagram"
-          />
+          <Tab label="All" value="All" />
           <Tab
             label="X (Twitter)"
             icon={<X />}
             iconPosition="start"
             value="X (Twitter)"
+          />
+          <Tab
+            label="Instagram"
+            icon={<Instagram />}
+            iconPosition="start"
+            value="Instagram"
           />
           <Tab
             label="LinkedIn"
