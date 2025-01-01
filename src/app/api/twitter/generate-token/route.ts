@@ -15,11 +15,8 @@ export async function POST(request: Request) {
                 message: "Invalid state for X token generation"
             }, { status: 400 });
         }
-
-        console.log("Before requesting access token.");
         
         const tokenInfo = await authClient.requestAccessToken(code as string);
-        console.log("After requesting access token.", tokenInfo);
         
         const newTwitterData = new TwitterDataModel({
             userEmail: email,
@@ -30,7 +27,6 @@ export async function POST(request: Request) {
             data: null
         });
         await newTwitterData.save();
-        console.log("After saving access token.");
         
         const update = await UserModel.updateOne({ email }, {
             $set: { isXConnected: true }
