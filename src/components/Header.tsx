@@ -14,11 +14,11 @@ export default function Header() {
   const router = useRouter();
 
   const userSignOut = async () => {
-    const results = await signOut({ redirect: false });
+    const results = await signOut();
     
-    if (results?.url) {
-      router.replace("/");
-    }
+    // if (results?.url) {
+    //   router.replace("/");
+    // }
   };
 
   useEffect(() => {

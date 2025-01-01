@@ -8,7 +8,7 @@ export async function middleware(request: NextRequest) {
   const url = request.nextUrl;
 
   if (token && !url.pathname.startsWith("/dashboard")) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+    return NextResponse.redirect(new URL("/dashboard?tab=all", request.url));
   }
 
   if (!token && url.pathname.startsWith("/dashboard")) {

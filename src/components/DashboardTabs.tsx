@@ -1,17 +1,14 @@
 "use client";
-import { Dispatch, SetStateAction } from "react";
 import { Box, Tab, Tabs } from "@mui/material";
 import { X, Instagram, YouTube, LinkedIn } from "@mui/icons-material";
 import { motion } from "motion/react";
+import { useRouter } from "next/navigation";
 
-type TabProps = {
-  selected: string;
-  setSelected: Dispatch<SetStateAction<string>>;
-};
+export default function DashboardTabs({ selected }: { selected: string }) {
+  const router = useRouter();
 
-export default function DashboardTabs({ selected, setSelected }: TabProps) {
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setSelected(newValue);
+    router.replace(`/dashboard?tab=${newValue}`);
   };
 
   return (
@@ -31,30 +28,30 @@ export default function DashboardTabs({ selected, setSelected }: TabProps) {
           textColor="secondary"
           indicatorColor="secondary"
         >
-          <Tab label="All" value="All" />
+          <Tab label="All" value="all" />
           <Tab
             label="X (Twitter)"
             icon={<X />}
             iconPosition="start"
-            value="X (Twitter)"
+            value="twitter"
           />
           <Tab
             label="Instagram"
             icon={<Instagram />}
             iconPosition="start"
-            value="Instagram"
+            value="instagram"
           />
           <Tab
             label="LinkedIn"
             icon={<LinkedIn />}
             iconPosition="start"
-            value="LinkedIn"
+            value="linkedin"
           />
           <Tab
             label="YouTube"
             icon={<YouTube />}
             iconPosition="start"
-            value="YouTube"
+            value="youtube"
           />
         </Tabs>
       </Box>
