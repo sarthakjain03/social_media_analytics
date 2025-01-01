@@ -6,7 +6,11 @@ export interface User extends Document {
   password: string;
   resetToken: string | null;
   resetTokenExpiry: Date | null;
-  createdAt: Date
+  createdAt: Date;
+  isXConnected: boolean;
+  isInstagramConnected: boolean;
+  isLinkedinConnected: boolean;
+  isYoutubeConnected: boolean;
 }
 
 const UserSchema: Schema<User> = new Schema({
@@ -35,7 +39,23 @@ const UserSchema: Schema<User> = new Schema({
   createdAt: {
     type: Date,
     default: Date.now()
-  }
+  },
+  isXConnected: {
+    type: Boolean,
+    default: false
+  },
+  isInstagramConnected: {
+    type: Boolean,
+    default: false
+  },
+  isLinkedinConnected: {
+    type: Boolean,
+    default: false
+  },
+  isYoutubeConnected: {
+    type: Boolean,
+    default: false
+  },
 });
 
 const UserModel =
