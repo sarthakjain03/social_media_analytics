@@ -22,8 +22,8 @@ export default function Dashboard() {
     }
   };
 
-  const getTwitterUrlAndRedirect = async () => {
-    await getAuthUrl();
+  const getTwitterUrlAndRedirect = () => {
+    window.location.href = '/api/twitter/get-auth-url';
   };
 
   useEffect(() => {
