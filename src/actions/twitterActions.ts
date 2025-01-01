@@ -27,3 +27,14 @@ export const getAccessToken = async (
     showToast("error", message);
   }
 };
+
+export const getAuthUrl = async () => {
+    try {
+        const response = await axios.get<ApiResponse>(`/api/twitter/get-auth-url`);
+    
+      } catch (error) {
+        const axiosError = error as AxiosError<ApiResponse>;
+        const message = axiosError.response?.data.message ?? "Error occurred during auth url generation for X account";
+        showToast("error", message);
+      }
+}

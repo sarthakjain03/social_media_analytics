@@ -3,8 +3,7 @@ import DashboardTabs from "@/components/DashboardTabs";
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { getAccessToken } from "@/actions/twitterActions";
-import { getTwitterAuthUrl } from "@/actions/twitterAuth";
+import { getAccessToken, getAuthUrl } from "@/actions/twitterActions";
 import { motion } from "motion/react";
 
 export default function Dashboard() {
@@ -23,9 +22,8 @@ export default function Dashboard() {
     }
   };
 
-  const getTwitterUrlAndRedirect = () => {
-    const url = getTwitterAuthUrl();
-    router.replace(url);
+  const getTwitterUrlAndRedirect = async () => {
+    await getAuthUrl();
   };
 
   useEffect(() => {

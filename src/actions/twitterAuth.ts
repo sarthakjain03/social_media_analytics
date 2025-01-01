@@ -14,12 +14,8 @@ export const getNewAuthClient = (accessToken: string) => {
   return client;
 }
 
-export const getTwitterAuthUrl = () => {
-  const url = authClient.generateAuthURL({
-    state: process.env.TWITTER_AUTH_STATE as string,
-    code_challenge_method: "s256"
-  });
-  return url;
+export const getTwitterAuthUrl = async () => {
+  
 }
 
 
