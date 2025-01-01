@@ -1,7 +1,5 @@
-"use client";
 import { Box, Tab, Tabs } from "@mui/material";
 import { X, Instagram, YouTube, LinkedIn } from "@mui/icons-material";
-import { motion } from "motion/react";
 import { useRouter } from "next/navigation";
 
 export default function DashboardTabs({ selected }: { selected: string }) {
@@ -12,13 +10,7 @@ export default function DashboardTabs({ selected }: { selected: string }) {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: -50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      viewport={{ once: true }}
-      className="px-20 py-4"
-    >
+    <div className="py-4">
       <Box sx={{ width: "100%" }}>
         <Tabs
           value={selected}
@@ -55,6 +47,6 @@ export default function DashboardTabs({ selected }: { selected: string }) {
           />
         </Tabs>
       </Box>
-    </motion.div>
+    </div>
   );
 }

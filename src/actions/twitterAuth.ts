@@ -14,6 +14,14 @@ export const getNewAuthClient = (accessToken: string) => {
   return client;
 }
 
+export const getTwitterAuthUrl = () => {
+  const url = authClient.generateAuthURL({
+    state: process.env.TWITTER_AUTH_STATE as string,
+    code_challenge_method: "s256"
+  });
+  return url;
+}
+
 // export const getXUser = async (accessToken: string) => {
 //   const client = new Client(accessToken);
   
@@ -41,17 +49,6 @@ export const getNewAuthClient = (accessToken: string) => {
 //   });
   
 //   console.log("response2: ", JSON.stringify(response2, null, 2));
-// }
-
-
-// async function getUrl() {
-//   getByUsername();
-//   const url = authClient.generateAuthURL({
-//     state: process.env.TWITTER_AUTH_STATE as string,
-//     code_challenge: "test",
-//     code_challenge_method: "plain"
-//   });
-//   console.log("X-Auth URL: ", url);
 // }
 
 
