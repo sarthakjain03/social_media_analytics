@@ -16,6 +16,8 @@ export default function Dashboard() {
     const state = searchParams.get("state");
     const code = searchParams.get("code");
 
+    console.log(state, code);
+
     if (state && code && session?.user) {
       await getAccessToken(state, code, session.user.email ?? "");
       router.replace("/dashboard?tab=all");
@@ -27,6 +29,7 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
+    console.log("Inside useEffect for search params");
     getTokenAndRedirect();
 
     const tab = searchParams.get("tab");
