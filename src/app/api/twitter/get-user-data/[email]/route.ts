@@ -20,13 +20,17 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
 
         if (Number(userData.tokenExpiry) - Date.now() <= 300000) { // 5 minutes gap
             // refresh the user's access token for X account
+            const clientID = process.env.TWITTER_CLIENT_ID as string;
+            const clientSecret = process.env.TWITTER_CLIENT_SECRET as string;
+            const encoded = Buffer.from(`${clientID}:${clientSecret}`).toString('base64');
             try {
                 const response = await axios.post(`https://api.x.com/2/oauth2/token`, {
                     refresh_token: userData.refreshToken,
                     grant_type: "refresh_token",
-                    client_id: process.env.TWITTER_CLIENT_ID as string
+                    client_id: clientID
                 }, {
                     headers: {
+                        'Authorization': `Basic ${encoded}`,
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 });
