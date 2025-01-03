@@ -17,6 +17,7 @@
     "axios": "^1.7.9",
     "bcryptjs": "^2.4.3",
     "formik": "^2.4.6",
+    "immer": "^10.1.1",
     "lucide-react": "^0.468.0",
     "mongoose": "^8.9.2",
     "motion": "^11.15.0",
@@ -27,7 +28,8 @@
     "react-dom": "^19.0.0",
     "react-toastify": "^11.0.2",
     "twitter-api-sdk": "^1.2.1",
-    "yup": "^1.6.1"
+    "yup": "^1.6.1",
+    "zustand": "^5.0.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
