@@ -1,13 +1,12 @@
 import dbConnect from "@/database/dbConnect";
 import TwitterDataModel from "@/models/TwitterData";
 import axios from "axios";
-import { NextApiRequest } from "next";
 
-export async function GET(request: NextApiRequest) {
+export async function GET(_request: Request, { params }: { params: Promise<{ email: string }> }) {
     await dbConnect();
 
     try {
-        const { email } = request.query;
+        const email = (await params).email;
 
         const userData = await TwitterDataModel.findOne({ userEmail: email });
         if (!userData) {
