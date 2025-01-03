@@ -23,9 +23,15 @@ export const getAccessToken = async (
   }
 };
 
-export const getAuthUrl = async () => {
+export const getUserData = async (email: string) => {
     try {
-        const response = await axios.get<ApiResponse>(`/api/twitter/get-auth-url`);
+        const response = await axios.get<ApiResponse>(`/api/twitter/get-user-data/${email}`);
+
+        if (response?.data?.success) {
+          showToast("success", response?.data?.message);
+        } else {
+          showToast("error", response?.data?.message);
+        }
     
       } catch (error) {
         const axiosError = error as AxiosError<ApiResponse>;

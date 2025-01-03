@@ -1,6 +1,5 @@
 import { Client, auth } from "twitter-api-sdk";
 
-// Initialize auth client first
 export const authClient = new auth.OAuth2User({
   client_id: process.env.TWITTER_CLIENT_ID as string,
   client_secret: process.env.TWITTER_CLIENT_SECRET as string,
@@ -13,11 +12,6 @@ export const getNewAuthClient = (accessToken: string) => {
   
   return client;
 }
-
-export const getTwitterAuthUrl = async () => {
-  
-}
-
 
 // 1. Get code from authURL when user authorizes
 // 2. Use that code to get a access token or bearer token (refresh token also?)

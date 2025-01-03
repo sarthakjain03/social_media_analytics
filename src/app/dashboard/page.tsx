@@ -3,7 +3,7 @@ import DashboardTabs from "@/components/DashboardTabs";
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { getAccessToken, getAuthUrl } from "@/actions/twitterActions";
+import { getAccessToken, getUserData } from "@/actions/twitterActions";
 import { motion } from "motion/react";
 
 export default function Dashboard() {
@@ -16,8 +16,6 @@ export default function Dashboard() {
     const state = searchParams.get("state");
     const code = searchParams.get("code");
 
-    console.log(state, code);
-
     if (state && code && session?.user) {
       await getAccessToken(state, code, session.user.email ?? "");
       router.replace("/dashboard?tab=all");
@@ -29,8 +27,12 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    console.log("Inside useEffect for search params");
-    getTokenAndRedirect();
+    if (session?.user) {
+      getTokenAndRedirect();
+
+      // TODO: this implementation if for trial only
+      getUserData(session.user.email as string);
+    }
 
     const tab = searchParams.get("tab");
     if (tab) {
