@@ -6,15 +6,18 @@ import SignInModal from "./SignInModal";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { checkGoogleUserInDatabase } from "@/actions/authActions";
+import { useUserStore, defaultUser } from "@/store/user";
 
 export default function Header() {
   const { data: session } = useSession();
   const [openModal, setOpenModal] = useState(false);
+  const { email, setUser } = useUserStore();
 
   const router = useRouter();
 
   const userSignOut = async () => {
     const results = await signOut();
+    setUser(defaultUser);
     
     // if (results?.url) {
     //   router.replace("/");
@@ -26,8 +29,11 @@ export default function Header() {
       await checkGoogleUserInDatabase(name, email);
     }
 
-    if (session?.user) {
-      checkAndAddGoogleUser(session.user.name ?? "", session.user.email ?? "");
+    if (email === null) {
+      if (session?.user) {
+        checkAndAddGoogleUser(session.user.name ?? "", session.user.email ?? "");
+        setUser({ email: session.user.email });
+      }
     }
   }, [session]);
 
