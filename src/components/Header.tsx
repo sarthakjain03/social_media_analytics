@@ -6,7 +6,7 @@ import SignInModal from "./SignInModal";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { checkGoogleUserInDatabase } from "@/actions/authActions";
-import { useUserStore, defaultUser } from "@/store/user";
+import { defaultUser, useUserStore } from "@/store/user";
 
 export default function Header() {
   const { data: session } = useSession();
@@ -16,9 +16,8 @@ export default function Header() {
   const router = useRouter();
 
   const userSignOut = async () => {
-    const results = await signOut();
-    console.log("Logging out");
     setUser({...defaultUser});
+    const results = await signOut();
     
     // if (results?.url) {
     //   router.replace("/");
@@ -29,8 +28,6 @@ export default function Header() {
     const checkAndAddGoogleUser = async (name: string, email: string) => {
       const user = await checkGoogleUserInDatabase(name, email);
       if (user) {
-        console.log("Inside header useEffect google user check: ", user);
-
         setUser({ ...user });
       }
     }

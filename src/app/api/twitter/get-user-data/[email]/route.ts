@@ -124,7 +124,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
         }, { status: 429 });
         
     } catch (error) {
-        console.log("Error getting data from X: ", error);
+        console.error("Error getting data from X: ", error);
         return Response.json({
             success: false,
             message: "Error getting data from X"

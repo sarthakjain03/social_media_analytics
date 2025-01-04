@@ -35,12 +35,10 @@ export default function Dashboard() {
   };
 
   const updateXUserData = async () => {
-    if (Date.now() - Number(lastUpdateOfX) >= 900000) { // 15 mins gap
+    if (lastUpdateOfX === null || Date.now() - Number(lastUpdateOfX) >= 900000) { // 15 mins gap
       setLoading(true);
       const newUpdateOfX = await getXUserData(session?.user?.email as string);
       if (newUpdateOfX) {
-        console.log("Inside update X User data func: ", newUpdateOfX);
-        
         setUser({ lastUpdateOfX: newUpdateOfX });
       }
       setLoading(false);
