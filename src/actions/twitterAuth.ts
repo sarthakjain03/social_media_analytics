@@ -7,12 +7,6 @@ export const authClient = new auth.OAuth2User({
   scopes: ["tweet.read", "users.read", "offline.access"]
 });
 
-export const getNewAuthClient = (accessToken: string) => {
-  const client = new Client(accessToken);
-  
-  return client;
-}
-
 // 1. Get code from authURL when user authorizes
 // 2. Use that code to get a access token or bearer token (refresh token also?)
 // 3. Use this bearer token inside tempClient = new Client(bearer token)
