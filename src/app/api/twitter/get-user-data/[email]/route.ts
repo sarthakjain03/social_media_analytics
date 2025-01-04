@@ -47,7 +47,10 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                 console.error("Error refreshing token for X: ", err);
                 return Response.json({
                     success: false,
-                    message: "Failed to refresh access token for user's X account"
+                    message: "Failed to refresh access token for user's X account",
+                    data: {
+                        lastUpdate: refreshResponse.last_updated
+                    }
                 }, { status: 500 });
             }
         }
@@ -110,7 +113,10 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                 console.error("Error retrieving user data from X using access token: ", err);
                 return Response.json({
                     success: false,
-                    message: "Error retrieving user data from X using access token"
+                    message: "Error retrieving user data from X using access token",
+                    data: {
+                        lastUpdate: refreshResponse.last_updated
+                    }
                 }, { status: 401 });
             }
         }

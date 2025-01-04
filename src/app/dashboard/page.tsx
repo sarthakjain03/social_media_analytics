@@ -38,10 +38,10 @@ export default function Dashboard() {
     if (lastUpdateOfX === null || Date.now() - Number(lastUpdateOfX) >= 900000) { // 15 mins gap
       setLoading(true);
       const newUpdateOfX = await getXUserData(session?.user?.email as string);
-      console.log("New update of X: ", newUpdateOfX);
+
+      // TODO: Recheck below code in the production whether the value is updating or not. Already
+      // If newUpdateOfX is undefined then lastUpdateOfX variable will vanish from the store state after below code has executed.
       setUser({ lastUpdateOfX: newUpdateOfX });
-      // if (newUpdateOfX) {
-      // }
       setLoading(false);
     }
   }
