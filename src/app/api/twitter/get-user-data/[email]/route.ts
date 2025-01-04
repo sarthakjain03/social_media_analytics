@@ -41,7 +41,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                     }
                 });
 
-                refreshResponse = response.data;
+                refreshResponse = {...response.data, last_updated: Number(userData.lastUpdated)};
                 
             } catch (err) {
                 console.error("Error refreshing token for X: ", err);
@@ -57,32 +57,26 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
             const twitterClient = new Client(refreshResponse.access_token);
             try {
                 const user = await twitterClient.users.findMyUser({
-                    "user.fields": ["id", "public_metrics", "username"]
+                    "user.fields": ["id", "public_metrics", "username", "name"]
                 });
 
                 let tweets = null;
 
                 if (user?.data?.id) {
                     const res = await twitterClient.tweets.usersIdTweets(user.data.id, {
-                        "max_results": 15,
+                        //"max_results": 15,
                         "tweet.fields": [
-                            "created_at",
+                            //"author_id",
+                            "context_annotations",
                             "id",
                             "non_public_metrics",
-                            "organic_metrics",
                             "public_metrics",
                             "text"
                         ],
                         "media.fields": [
                             "non_public_metrics",
-                            "organic_metrics",
                             "public_metrics",
                             "type"
-                        ],
-                        "user.fields": [
-                            "id",
-                            "public_metrics",
-                            "username"
                         ]
                     });
 
@@ -97,9 +91,20 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                         refreshToken: refreshResponse.refresh_token,
                         tokenExpiry: refreshResponse.expires_at,
                         lastUpdated: refreshResponse.last_updated,
-                        data: tweets
+                        data: {
+                            userData: user?.data ?? null,
+                            tweetsData: tweets
+                        }
                     }
                 });
+
+                return Response.json({
+                    success: true,
+                    message: "Data retrieval from X successfull",
+                    data: {
+                        lastUpdate: refreshResponse.last_updated
+                    }
+                }, { status: 200 });
                 
             } catch (err) {
                 console.error("Error retrieving user data from X using access token: ", err);
@@ -111,9 +116,9 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
         }
 
         return Response.json({
-            success: true,
-            message: "Data retrieval from X successfull"
-        }, { status: 200 });
+            success: false,
+            message: "Not enough time has passed to retrieve the data from X again"
+        }, { status: 429 });
         
     } catch (error) {
         console.log("Error getting data from X: ", error);

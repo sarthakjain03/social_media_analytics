@@ -9,6 +9,10 @@ interface UserStore {
   isInstagramConnected: boolean;
   isLinkedinConnected: boolean;
   isYoutubeConnected: boolean;
+  lastUpdateOfX: Date | null;
+  lastUpdateOfInstagram: Date | null;
+  lastUpdateOfLinkedin: Date | null;
+  lastUpdateOfYoutube: Date | null;
   hydrated: boolean;
 
   setHydrated: () => void;
@@ -22,7 +26,11 @@ export const defaultUser: Partial<UserStore> = {
   isXConnected: false,
   isInstagramConnected: false,
   isLinkedinConnected: false,
-  isYoutubeConnected: false
+  isYoutubeConnected: false,
+  lastUpdateOfX: null,
+  lastUpdateOfInstagram: null,
+  lastUpdateOfLinkedin: null,
+  lastUpdateOfYoutube: null
 };
 
 export const useUserStore = create<UserStore>()(
@@ -35,6 +43,10 @@ export const useUserStore = create<UserStore>()(
       isInstagramConnected: false,
       isLinkedinConnected: false,
       isYoutubeConnected: false,
+      lastUpdateOfX: null,
+      lastUpdateOfInstagram: null,
+      lastUpdateOfLinkedin: null,
+      lastUpdateOfYoutube: null,
       setHydrated: () => {
         set((state) => {
           state.hydrated = true;

@@ -22,18 +22,23 @@ export const getXAccessToken = async (
   } catch (error) {
     const axiosError = error as AxiosError<ApiResponse>;
     const message = axiosError.response?.data.message ?? "Error occurred during token generation for X account";
-    showToast("error", message);
+    //showToast("error", message);
   }
 };
 
-export const getXUserData = async (email: string) => {
+export const getXUserData = async (email: string): Promise<Date | null | undefined> => {
     try {
-        const response = await axios.get<ApiResponse>(`/api/twitter/get-user-data/${email}`);
-        
+        const response = await axios.get(`/api/twitter/get-user-data/${email}`);
+
+        if (response?.data?.success) {
+          return response.data.data?.lastUpdate
+        }
+
+        return null;
     
       } catch (error) {
         const axiosError = error as AxiosError<ApiResponse>;
         const message = axiosError.response?.data.message ?? "Error occurred during auth url generation for X account";
-        showToast("error", message);
+        //showToast("error", message);
       }
 }

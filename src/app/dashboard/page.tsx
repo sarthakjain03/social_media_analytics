@@ -6,13 +6,15 @@ import { useSession } from "next-auth/react";
 import { getXAccessToken, getXUserData } from "@/actions/twitterActions";
 import { motion } from "motion/react";
 import { useUserStore } from "@/store/user";
+import { CircularProgress } from "@mui/material";
 
 export default function Dashboard() {
   const [openTab, setOpenTab] = useState("all");
+  const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
   const router = useRouter();
   const { data: session } = useSession();
-  const { setUser } = useUserStore();
+  const { setUser, isXConnected, lastUpdateOfX } = useUserStore();
 
   // Function for getting code for X account linking from url
   const getXTokenAndRedirect = async () => {
@@ -32,12 +34,24 @@ export default function Dashboard() {
     window.location.href = '/api/twitter/get-auth-url';
   };
 
+  const updateXUserData = async () => {
+    if (Date.now() - Number(lastUpdateOfX) >= 900000) { // 15 mins gap
+      setLoading(true);
+      const newUpdateOfX = await getXUserData(session?.user?.email as string);
+      if (newUpdateOfX) {
+        setUser({ lastUpdateOfX: newUpdateOfX });
+      }
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
     if (session?.user) {
-      getXTokenAndRedirect();
+      if (!isXConnected) {
+        getXTokenAndRedirect();
+      }
 
-      // TODO: this function is called here for trial only
-      getXUserData(session.user.email as string);
+      updateXUserData();
     }
 
     const tab = searchParams.get("tab");
@@ -55,9 +69,15 @@ export default function Dashboard() {
       className="px-20"
     >
       <DashboardTabs selected={openTab} />
-      <button onClick={getXUrlAndRedirect}>
-        Add X (Formerly Twitter)
-      </button>
+      {loading ? (
+        <div className="flex justify-center items-center w-full">
+          <CircularProgress color="secondary" />
+        </div>
+      ) : (
+        <button onClick={getXUrlAndRedirect}>
+          Add X (Formerly Twitter)
+        </button>
+      )}
     </motion.div>
   );
 }
