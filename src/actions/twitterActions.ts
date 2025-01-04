@@ -2,7 +2,7 @@ import axios, { AxiosError } from "axios";
 import showToast from "../utils/toast";
 import { ApiResponse } from "@/types/ApiResponse";
 
-export const getAccessToken = async (
+export const getXAccessToken = async (
   state: string,
   code: string,
   email: string
@@ -11,10 +11,13 @@ export const getAccessToken = async (
     const response = await axios.post<ApiResponse>(`/api/twitter/generate-token`, { state: state, code: code, email: email });
 
     if (response?.data?.success) {
-      showToast("success", response?.data?.message);
+      return true;
+      
     } else {
       showToast("error", response?.data?.message);
     }
+
+    return false;
 
   } catch (error) {
     const axiosError = error as AxiosError<ApiResponse>;
@@ -23,15 +26,10 @@ export const getAccessToken = async (
   }
 };
 
-export const getUserData = async (email: string) => {
+export const getXUserData = async (email: string) => {
     try {
         const response = await axios.get<ApiResponse>(`/api/twitter/get-user-data/${email}`);
-
-        if (response?.data?.success) {
-          showToast("success", response?.data?.message);
-        } else {
-          showToast("error", response?.data?.message);
-        }
+        
     
       } catch (error) {
         const axiosError = error as AxiosError<ApiResponse>;

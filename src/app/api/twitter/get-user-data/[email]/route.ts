@@ -1,6 +1,7 @@
 import dbConnect from "@/database/dbConnect";
 import TwitterDataModel from "@/models/TwitterData";
 import axios from "axios";
+import { Client } from "twitter-api-sdk";
 
 export async function GET(_request: Request, { params }: { params: Promise<{ email: string }> }) {
     await dbConnect();
@@ -16,7 +17,12 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
             }, { status: 404 });
         }
 
-        let refreshResponse;
+        let refreshResponse = {
+            access_token: userData.accessToken,
+            refresh_token: userData.refreshToken,
+            expires_at: userData.tokenExpiry,
+            last_updated: Number(userData.lastUpdated)
+        };
 
         if (Number(userData.tokenExpiry) - Date.now() <= 300000) { // 5 minutes gap
             // refresh the user's access token for X account
@@ -36,7 +42,6 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                 });
 
                 refreshResponse = response.data;
-                console.log(response.data);
                 
             } catch (err) {
                 console.error("Error refreshing token for X: ", err);
@@ -47,13 +52,67 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
             }
         }
 
-        // TODO: check if lastUpdated is atleast 15 mins old then only get the user data using the access token as api call limit is 1 request per 15 mins. Update the user's twitter data with the new access token and expiry and other data.
+        if (Date.now() - Number(userData.lastUpdated) >= 900000) { // 15 minutes gap
+            // getting user data and tweets from X.
+            const twitterClient = new Client(refreshResponse.access_token);
+            try {
+                const user = await twitterClient.users.findMyUser({
+                    "user.fields": ["id", "public_metrics", "username"]
+                });
+
+                let tweets = null;
+
+                if (user?.data?.id) {
+                    const res = await twitterClient.tweets.usersIdTweets(user.data.id, {
+                        "max_results": 15,
+                        "tweet.fields": [
+                            "created_at",
+                            "id",
+                            "non_public_metrics",
+                            "organic_metrics",
+                            "public_metrics",
+                            "text"
+                        ],
+                        "media.fields": [
+                            "non_public_metrics",
+                            "organic_metrics",
+                            "public_metrics",
+                            "type"
+                        ],
+                        "user.fields": [
+                            "id",
+                            "public_metrics",
+                            "username"
+                        ]
+                    });
+
+                    tweets = res;
+                }
+
+                refreshResponse.last_updated = Date.now();
+
+                const results = await TwitterDataModel.updateOne({ userEmail: email }, {
+                    $set: {
+                        accessToken: refreshResponse.access_token,
+                        refreshToken: refreshResponse.refresh_token,
+                        tokenExpiry: refreshResponse.expires_at,
+                        lastUpdated: refreshResponse.last_updated,
+                        data: tweets
+                    }
+                });
+                
+            } catch (err) {
+                console.error("Error retrieving user data from X using access token: ", err);
+                return Response.json({
+                    success: false,
+                    message: "Error retrieving user data from X using access token"
+                }, { status: 401 });
+            }
+        }
 
         return Response.json({
             success: true,
-            message: "Data retrieval from X successfull",
-            refreshResponse,
-            data: {}
+            message: "Data retrieval from X successfull"
         }, { status: 200 });
         
     } catch (error) {
