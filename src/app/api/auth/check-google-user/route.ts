@@ -20,11 +20,25 @@ export async function POST(request: Request) {
                 password: hashedDefaultPassword
             });
             newUser.save();
+
+            return Response.json({
+                success: true,
+                message: "User registered",
+                data: { name, email }
+            }, { status: 200 });
         }
 
         return Response.json({
             success: true,
-            message: "User registered"
+            message: "User data retrieved from db successfully",
+            data: {
+                name,
+                email,
+                isXConnected: userRegistered.isXConnected,
+                isLinkedinConnected: userRegistered.isLinkedinConnected,
+                isInstagramConnected: userRegistered.isInstagramConnected,
+                isYoutubeConnected: userRegistered.isYoutubeConnected
+            }
         }, { status: 200 });
 
         

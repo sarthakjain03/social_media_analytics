@@ -11,7 +11,7 @@ import { useUserStore, defaultUser } from "@/store/user";
 export default function Header() {
   const { data: session } = useSession();
   const [openModal, setOpenModal] = useState(false);
-  const { email, setUser } = useUserStore();
+  const { email, setUser, hydrated } = useUserStore();
 
   const router = useRouter();
 
@@ -26,13 +26,16 @@ export default function Header() {
 
   useEffect(() => {
     const checkAndAddGoogleUser = async (name: string, email: string) => {
-      await checkGoogleUserInDatabase(name, email);
+      const user = await checkGoogleUserInDatabase(name, email);
+      if (user) {
+        setUser({ ...user });
+      }
     }
 
-    if (email === null) {
+    if (hydrated && email === null) {
       if (session?.user) {
+        setUser({ email: session.user.email, name: session.user.name });
         checkAndAddGoogleUser(session.user.name ?? "", session.user.email ?? "");
-        setUser({ email: session.user.email });
       }
     }
   }, [session]);

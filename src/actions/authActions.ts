@@ -50,6 +50,12 @@ export const verifyOtpAndSignUp = async (name: string, email: string, attemptedO
 export const checkGoogleUserInDatabase = async (name: string, email: string) => {
   try {
     const response = await axios.post<ApiResponse>(`/api/auth/check-google-user`, { name: name, email: email });
+
+    if (response?.data?.success) {
+      return response.data.data;
+    }
+
+    return null;
     
   } catch (error) {
     const axiosError = error as AxiosError<ApiResponse>;
