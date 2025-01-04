@@ -26,15 +26,11 @@ export const getXAccessToken = async (
   }
 };
 
-export const getXUserData = async (email: string): Promise<Date | null | undefined> => {
+export const getXUserData = async (email: string): Promise<Date | undefined> => {
     try {
         const response = await axios.get(`/api/twitter/get-user-data/${email}`);
 
-        if (response?.data?.success) {
-          return response.data.data?.lastUpdate
-        }
-
-        return null;
+        return response.data.data?.lastUpdate
     
       } catch (error) {
         const axiosError = error as AxiosError<ApiResponse>;

@@ -117,7 +117,10 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
 
         return Response.json({
             success: false,
-            message: "Not enough time has passed to retrieve the data from X again"
+            message: "Not enough time has passed to retrieve the data from X again",
+            data: {
+                lastUpdate: refreshResponse.last_updated
+            }
         }, { status: 429 });
         
     } catch (error) {
