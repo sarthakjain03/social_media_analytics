@@ -24,7 +24,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
             last_updated: Number(userData.lastUpdated)
         };
 
-        if (Number(userData.tokenExpiry) - Date.now() <= 300000) { // 5 minutes gap
+        if (Number(userData.tokenExpiry) - Date.now() <= 120000) { // 2 minutes gap
             // refresh the user's access token for X account
             const clientID = process.env.TWITTER_CLIENT_ID as string;
             const clientSecret = process.env.TWITTER_CLIENT_SECRET as string;

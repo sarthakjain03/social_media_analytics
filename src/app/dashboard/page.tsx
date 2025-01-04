@@ -38,9 +38,10 @@ export default function Dashboard() {
     if (lastUpdateOfX === null || Date.now() - Number(lastUpdateOfX) >= 900000) { // 15 mins gap
       setLoading(true);
       const newUpdateOfX = await getXUserData(session?.user?.email as string);
-      if (newUpdateOfX) {
-        setUser({ lastUpdateOfX: newUpdateOfX });
-      }
+      console.log("New update of X: ", newUpdateOfX);
+      setUser({ lastUpdateOfX: newUpdateOfX });
+      // if (newUpdateOfX) {
+      // }
       setLoading(false);
     }
   }
