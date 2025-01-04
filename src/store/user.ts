@@ -55,7 +55,7 @@ export const useUserStore = create<UserStore>()(
       setUser: (updates: Partial<UserStore>) => {
         set((state) => {
           Object.entries(updates).forEach(([key, value]) => {
-            (state as any)[key] = value ?? (state as any)[key];
+            (state as any)[key] = value;
           });
         });
       },
