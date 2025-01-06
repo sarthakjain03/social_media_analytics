@@ -7,6 +7,7 @@ import { getXAccessToken, getXUserData } from "@/actions/twitterActions";
 import { motion } from "motion/react";
 import { useUserStore } from "@/store/user";
 import { CircularProgress } from "@mui/material";
+import AccountLinkButtons from "@/components/AccountLinkButtons";
 
 export default function Dashboard() {
   const [openTab, setOpenTab] = useState("all");
@@ -28,10 +29,6 @@ export default function Dashboard() {
       }
       router.replace("/dashboard?tab=all");
     }
-  };
-
-  const getXUrlAndRedirect = () => {
-    window.location.href = '/api/twitter/get-auth-url';
   };
 
   const updateXUserData = async () => {
@@ -75,9 +72,7 @@ export default function Dashboard() {
           <CircularProgress color="secondary" />
         </div>
       ) : (
-        <button onClick={getXUrlAndRedirect}>
-          Add X (Formerly Twitter)
-        </button>
+        <AccountLinkButtons />
       )}
     </motion.div>
   );

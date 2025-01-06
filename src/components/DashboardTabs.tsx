@@ -28,16 +28,16 @@ export default function DashboardTabs({ selected }: { selected: string }) {
             value="twitter"
           />
           <Tab
-            label="Instagram"
-            icon={<Instagram />}
-            iconPosition="start"
-            value="instagram"
-          />
-          <Tab
             label="LinkedIn"
             icon={<LinkedIn />}
             iconPosition="start"
             value="linkedin"
+          />
+          <Tab
+            label="Instagram"
+            icon={<Instagram />}
+            iconPosition="start"
+            value="instagram"
           />
           <Tab
             label="YouTube"

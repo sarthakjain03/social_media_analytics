@@ -67,7 +67,8 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
 
                 if (user?.data?.id) {
                     const res = await twitterClient.tweets.usersIdTweets(user.data.id, {
-                        //"max_results": 15,
+                        // "since_id": "",
+                        "start_time": new Date("2024-12-24").toISOString(), // since_id takes priority
                         "tweet.fields": [
                             //"author_id",
                             "context_annotations",
