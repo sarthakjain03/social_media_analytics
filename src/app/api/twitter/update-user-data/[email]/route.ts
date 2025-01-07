@@ -155,7 +155,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
 
             const formattedUserData = formatUserData(user.data);
             console.log("User data formatted successfully.");
-            const metricTotals = getMetricTotals(tweets);
+            const metricTotals = getMetricTotals(tweets?.data);
             console.log("Metrics totals calculated successfully.");
             const updatedChartsData = formatChartData({ ...metricTotals, prevChartsData: userData.chartsData });
             console.log("Charts data formatted successfully.");
