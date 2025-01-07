@@ -63,20 +63,20 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                 "user.fields": ["id", "public_metrics", "username", "name"]
             });
     
-            if (user?.errors) {
-                let statusCode = 400;
-                const messages = user.errors.map((err) => {
-                    if (err.status) statusCode = err.status;
-                    return err.detail;
-                });
-                return Response.json({
-                    success: false,
-                    message: messages.join(", "),
-                    data: {
-                        lastUpdate: refreshResponse.last_updated
-                    }
-                }, { status: statusCode });
-            }
+            // if (user?.errors) {
+            //     let statusCode = 400;
+            //     const messages = user.errors.map((err) => {
+            //         if (err.status) statusCode = err.status;
+            //         return err.detail;
+            //     });
+            //     return Response.json({
+            //         success: false,
+            //         message: messages.join(", "),
+            //         data: {
+            //             lastUpdate: refreshResponse.last_updated
+            //         }
+            //     }, { status: statusCode });
+            // }
     
             let posts = null;
             const post_ids = [...userData.post_ids];
@@ -100,20 +100,20 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                 }
     
                 const res = await twitterClient.tweets.usersIdTweets(user.data.id, params);
-                if (res?.errors) {
-                    let statusCode = 400;
-                    const messages = res.errors.map((err) => {
-                        if (err.status) statusCode = err.status;
-                        return err.detail;
-                    });
-                    return Response.json({
-                        success: false,
-                        message: messages.join(", "),
-                        data: {
-                            lastUpdate: refreshResponse.last_updated
-                        }
-                    }, { status: statusCode });
-                }
+                // if (res?.errors) {
+                //     let statusCode = 400;
+                //     const messages = res.errors.map((err) => {
+                //         if (err.status) statusCode = err.status;
+                //         return err.detail;
+                //     });
+                //     return Response.json({
+                //         success: false,
+                //         message: messages.join(", "),
+                //         data: {
+                //             lastUpdate: refreshResponse.last_updated
+                //         }
+                //     }, { status: statusCode });
+                // }
     
                 posts = res;
             }
@@ -132,20 +132,20 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                     "public_metrics"
                 ]
             });
-            if (tweets?.errors) {
-                let statusCode = 400;
-                const messages = tweets.errors.map((err) => {
-                    if (err.status) statusCode = err.status;
-                    return err.detail;
-                });
-                return Response.json({
-                    success: false,
-                    message: messages.join(", "),
-                    data: {
-                        lastUpdate: refreshResponse.last_updated
-                    }
-                }, { status: statusCode });
-            }
+            // if (tweets?.errors) {
+            //     let statusCode = 400;
+            //     const messages = tweets.errors.map((err) => {
+            //         if (err.status) statusCode = err.status;
+            //         return err.detail;
+            //     });
+            //     return Response.json({
+            //         success: false,
+            //         message: messages.join(", "),
+            //         data: {
+            //             lastUpdate: refreshResponse.last_updated
+            //         }
+            //     }, { status: statusCode });
+            // }
 
             const formattedUserData = formatUserData(user.data);
             const metricTotals = getMetricTotals(tweets);
