@@ -158,7 +158,8 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                     tokenExpiry: refreshResponse.expires_at,
                     userData: formattedUserData,
                     post_ids: post_ids,
-                    chartsData: updatedChartsData
+                    chartsData: updatedChartsData,
+                    lastUpdated: Date.now()
                 }
             });
 
@@ -166,7 +167,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                 success: true,
                 message: "User data updated successfully",
                 data: {
-                    lastUpdate: refreshResponse.last_updated
+                    lastUpdate: Date.now()
                 }
             }, { status: 200 });
         }
