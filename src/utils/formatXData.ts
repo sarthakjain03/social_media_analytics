@@ -69,16 +69,29 @@ export const formatChartData = (metricTotals: {
         }
     };
 
-    const updatedChartData: TwitterChartData = {
-        likes: [...metricTotals.prevChartsData.likes, obj.likes],
-        replies: [...metricTotals.prevChartsData.replies, obj.replies],
-        retweets: [...metricTotals.prevChartsData.retweets, obj.retweets],
-        engagements: [...metricTotals.prevChartsData.engagements, obj.engagements],
-        impressions: [...metricTotals.prevChartsData.impressions, obj.impressions],
-        bookmarks: [...metricTotals.prevChartsData.bookmarks, obj.bookmarks]
+    if (metricTotals.prevChartsData) {
+        const updatedChartData: TwitterChartData = {
+            likes: [...metricTotals.prevChartsData.likes, obj.likes],
+            replies: [...metricTotals.prevChartsData.replies, obj.replies],
+            retweets: [...metricTotals.prevChartsData.retweets, obj.retweets],
+            engagements: [...metricTotals.prevChartsData.engagements, obj.engagements],
+            impressions: [...metricTotals.prevChartsData.impressions, obj.impressions],
+            bookmarks: [...metricTotals.prevChartsData.bookmarks, obj.bookmarks]
+        };
+    
+        return updatedChartData;
+    }
+
+    const updatedData: TwitterChartData = {
+        likes: [obj.likes],
+        replies: [obj.replies],
+        retweets: [obj.retweets],
+        engagements: [obj.engagements],
+        impressions: [obj.impressions],
+        bookmarks: [obj.bookmarks]
     };
 
-    return updatedChartData;
+    return updatedData;
 };
 
 // TODO:

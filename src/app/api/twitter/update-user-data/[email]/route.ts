@@ -63,20 +63,20 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                 "user.fields": ["id", "public_metrics", "username", "name"]
             });
     
-            // if (user?.errors) {
-            //     let statusCode = 400;
-            //     const messages = user.errors.map((err) => {
-            //         if (err.status) statusCode = err.status;
-            //         return err.detail;
-            //     });
-            //     return Response.json({
-            //         success: false,
-            //         message: messages.join(", "),
-            //         data: {
-            //             lastUpdate: refreshResponse.last_updated
-            //         }
-            //     }, { status: statusCode });
-            // }
+            if (user?.errors && Array.isArray(user.errors)) {
+                let statusCode = 400;
+                const messages = user.errors.map((err) => {
+                    if (err.status) statusCode = err.status;
+                    return err.detail;
+                });
+                return Response.json({
+                    success: false,
+                    message: messages.join(", "),
+                    data: {
+                        lastUpdate: refreshResponse.last_updated
+                    }
+                }, { status: statusCode });
+            }
     
             let posts = null;
             const post_ids = [...userData.post_ids];
@@ -100,33 +100,29 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                 }
     
                 const res = await twitterClient.tweets.usersIdTweets(user.data.id, params);
-                // if (res?.errors) {
-                //     let statusCode = 400;
-                //     const messages = res.errors.map((err) => {
-                //         if (err.status) statusCode = err.status;
-                //         return err.detail;
-                //     });
-                //     return Response.json({
-                //         success: false,
-                //         message: messages.join(", "),
-                //         data: {
-                //             lastUpdate: refreshResponse.last_updated
-                //         }
-                //     }, { status: statusCode });
-                // }
+                if (res?.errors && Array.isArray(res.errors)) {
+                    let statusCode = 400;
+                    const messages = res.errors.map((err) => {
+                        if (err.status) statusCode = err.status;
+                        return err.detail;
+                    });
+                    return Response.json({
+                        success: false,
+                        message: messages.join(", "),
+                        data: {
+                            lastUpdate: refreshResponse.last_updated
+                        }
+                    }, { status: statusCode });
+                }
     
                 posts = res;
             }
-
-            console.log("Posts after usersIdTweets api call: ", posts);
     
             if (posts?.data) {
                 posts.data.map((post) => {
                     post_ids.push(post.id);
                 });
             }
-
-            console.log("Log after posts mapping.");
     
             const tweets = await twitterClient.tweets.findTweetsById({
                 "ids": [...post_ids],
@@ -136,30 +132,24 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                     "public_metrics"
                 ]
             });
-            // if (tweets?.errors) {
-            //     let statusCode = 400;
-            //     const messages = tweets.errors.map((err) => {
-            //         if (err.status) statusCode = err.status;
-            //         return err.detail;
-            //     });
-            //     return Response.json({
-            //         success: false,
-            //         message: messages.join(", "),
-            //         data: {
-            //             lastUpdate: refreshResponse.last_updated
-            //         }
-            //     }, { status: statusCode });
-            // }
-
-            console.log("Tweets retrieved by ids: ", tweets);
+            if (tweets?.errors && Array.isArray(tweets.errors)) {
+                let statusCode = 400;
+                const messages = tweets.errors.map((err) => {
+                    if (err.status) statusCode = err.status;
+                    return err.detail;
+                });
+                return Response.json({
+                    success: false,
+                    message: messages.join(", "),
+                    data: {
+                        lastUpdate: refreshResponse.last_updated
+                    }
+                }, { status: statusCode });
+            }
 
             const formattedUserData = formatUserData(user.data);
-            console.log("User data formatted successfully.");
             const metricTotals = getMetricTotals(tweets?.data);
-            console.log("Metrics totals calculated successfully.");
             const updatedChartsData = formatChartData({ ...metricTotals, prevChartsData: userData.chartsData });
-            console.log("Charts data formatted successfully.");
-
 
             const results = await TwitterDataModel.updateOne({ userEmail: email }, {
                 $set: {
