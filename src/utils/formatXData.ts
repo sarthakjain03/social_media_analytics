@@ -90,5 +90,4 @@ export const formatChartData = (metricTotals: {
 // TODO: BIG PROBLEM: to execute an api when user is not viewing the application which required user's email.
 // try setting up a cron job that updates data of all users in the db with a 15-min delay between each user's api call
 
-// TODO: Just call the api and get the metrics for the latest 10 posts (will return 4 most probably though) and update these metrics in the db.
-// Store the post ids of the latest posts returned by the api request and update those posts data.
+// Currently doing: Just call the api and get the metrics for the latest 10 posts (will return 4 most probably though) and get the new post ids. Store the post ids of the latest posts returned by the api request and update those posts data.

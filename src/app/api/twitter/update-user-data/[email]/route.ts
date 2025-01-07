@@ -117,12 +117,16 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
     
                 posts = res;
             }
+
+            console.log("Posts after usersIdTweets api call: ", posts);
     
             if (posts?.data) {
                 posts.data.map((post) => {
                     post_ids.push(post.id);
                 });
             }
+
+            console.log("Log after posts mapping.");
     
             const tweets = await twitterClient.tweets.findTweetsById({
                 "ids": [...post_ids],
@@ -147,9 +151,15 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
             //     }, { status: statusCode });
             // }
 
+            console.log("Tweets retrieved by ids: ", tweets);
+
             const formattedUserData = formatUserData(user.data);
+            console.log("User data formatted successfully.");
             const metricTotals = getMetricTotals(tweets);
+            console.log("Metrics totals calculated successfully.");
             const updatedChartsData = formatChartData({ ...metricTotals, prevChartsData: userData.chartsData });
+            console.log("Charts data formatted successfully.");
+
 
             const results = await TwitterDataModel.updateOne({ userEmail: email }, {
                 $set: {
