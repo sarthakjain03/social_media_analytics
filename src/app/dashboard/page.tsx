@@ -3,7 +3,7 @@ import DashboardTabs from "@/components/DashboardTabs";
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { getXAccessToken, getXUserData } from "@/actions/twitterActions";
+import { getXAccessToken, updateXUserData } from "@/actions/twitterActions";
 import { motion } from "motion/react";
 import { useUserStore } from "@/store/user";
 import { CircularProgress } from "@mui/material";
@@ -31,10 +31,10 @@ export default function Dashboard() {
     }
   };
 
-  const updateXUserData = async () => {
+  const updateTwitterUserData = async () => {
     if (lastUpdateOfX === null || Date.now() - Number(lastUpdateOfX) >= 900000) { // 15 mins gap
       setLoading(true);
-      const newUpdateOfX = await getXUserData(session?.user?.email as string);
+      const newUpdateOfX = await updateXUserData(session?.user?.email as string);
 
       // TODO: Recheck below code in the production whether the value is updating or not. Already
       // If newUpdateOfX is undefined then lastUpdateOfX variable will vanish from the store state after below code has executed.
@@ -49,7 +49,7 @@ export default function Dashboard() {
         getXTokenAndRedirect();
       }
 
-      updateXUserData();
+      updateTwitterUserData();
     }
 
     const tab = searchParams.get("tab");

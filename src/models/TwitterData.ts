@@ -1,21 +1,35 @@
+import { TwitterChartData, TwitterPost, TwitterUserData } from "@/types/TwitterData";
 import mongoose, { Schema, Document } from "mongoose";
 
-export interface Twitter extends Document {
+export interface TwitterData extends Document {
   userEmail: string;
-  lastUpdated: Date | null;
+  userData: TwitterUserData;
+  post_ids: Array<string>;
+  //posts: Array<TwitterPost>;
+  chartsData: TwitterChartData;
   accessToken: string;
   refreshToken: string;
   tokenExpiry: Date;
-  data: object | null;
+  lastUpdated: Date | null;
 }
 
-const TwitterSchema: Schema<Twitter> = new Schema({
+const TwitterSchema: Schema<TwitterData> = new Schema({
   userEmail: {
     type: String,
+    required: true,
     unique: true
   },
-  lastUpdated: {
-    type: Date
+  userData: {
+    type: Object
+  },
+  post_ids: {
+    type: [String]
+  },
+  // posts: {
+  //   type: [Object]
+  // },
+  chartsData: {
+    type: Object
   },
   accessToken: {
     type: String
@@ -26,13 +40,13 @@ const TwitterSchema: Schema<Twitter> = new Schema({
   tokenExpiry: {
     type: Date
   },
-  data: {
-    type: Object
+  lastUpdated: {
+    type: Date
   }
 });
 
 const TwitterDataModel =
-  (mongoose.models.Twitter as mongoose.Model<Twitter>) ||
-  mongoose.model<Twitter>("Twitter_Data", TwitterSchema);
+  (mongoose.models.Twitter as mongoose.Model<TwitterData>) ||
+  mongoose.model<TwitterData>("Twitter_User", TwitterSchema);
 
 export default TwitterDataModel;

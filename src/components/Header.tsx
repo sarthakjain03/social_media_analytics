@@ -16,8 +16,8 @@ export default function Header() {
   const router = useRouter();
 
   const userSignOut = async () => {
-    setUser({...defaultUser});
     const results = await signOut();
+    setUser({...defaultUser});
     
     // if (results?.url) {
     //   router.replace("/");
