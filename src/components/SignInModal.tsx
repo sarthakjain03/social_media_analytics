@@ -47,7 +47,7 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
 
   const credentialsSignIn = async (email: string, password: string) => {
     const results = await signIn("credentials", {
-      //redirect: false,
+      redirect: false,
       identifier: email,
       password: password,
     });
@@ -58,7 +58,7 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
 
     if (results?.url) {
       onClose();
-      //router.replace("/dashboard");
+      router.replace("/dashboard?tab=all");
     }
   };
 

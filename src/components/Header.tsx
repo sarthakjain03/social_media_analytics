@@ -16,12 +16,9 @@ export default function Header() {
   const router = useRouter();
 
   const userSignOut = async () => {
-    const results = await signOut();
+    const results = await signOut({ redirect: false });
+    router.replace("/");
     setUser({...defaultUser});
-    
-    // if (results?.url) {
-    //   router.replace("/");
-    // }
   };
 
   useEffect(() => {

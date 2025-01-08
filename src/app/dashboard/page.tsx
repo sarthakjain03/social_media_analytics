@@ -1,5 +1,6 @@
 "use client";
 import DashboardTabs from "@/components/dashboard/DashboardTabs";
+import XTabContent from "@/components/dashboard/XTabContent";
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -72,7 +73,14 @@ export default function Dashboard() {
           <CircularProgress color="secondary" />
         </div>
       ) : (
-        <AccountLinkButtons />
+        <>
+          {openTab === "all" && (
+            <AccountLinkButtons />
+          )}
+          {openTab === "twitter" && (
+            <XTabContent />
+          )}
+        </>
       )}
     </motion.div>
   );

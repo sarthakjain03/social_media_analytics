@@ -9,7 +9,7 @@ interface SeriesData {
 }
 
 interface AreaChartProps {
-  height: number;
+  height?: number;
   yaxisTitle?: string;
   xaxisLabels: string[];
   showYaxisLabels?: boolean;

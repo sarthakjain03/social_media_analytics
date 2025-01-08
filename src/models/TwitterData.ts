@@ -46,7 +46,7 @@ const TwitterSchema: Schema<TwitterData> = new Schema({
 });
 
 const TwitterDataModel =
-  (mongoose.models.Twitter as mongoose.Model<TwitterData>) ||
+  (mongoose.models.Twitter_User as mongoose.Model<TwitterData>) ||
   mongoose.model<TwitterData>("Twitter_User", TwitterSchema);
 
 export default TwitterDataModel;
