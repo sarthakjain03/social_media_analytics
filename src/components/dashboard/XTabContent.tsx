@@ -10,7 +10,7 @@ import { ChartObject, TwitterChartData } from "@/types/TwitterData";
 import { formatToDayMonthYear } from "@/utils/dateFormatters";
 import { useSession } from "next-auth/react";
 
-const XTabContent = () => {
+const XTabContent = ({ getXUrlAndRedirect }: { getXUrlAndRedirect: () => void }) => {
     const { data: session } = useSession();
   const { isXConnected, email } = useUserStore();
     const [loading, setLoading] = useState(false);
@@ -55,10 +55,6 @@ const XTabContent = () => {
         }
         setLoading(false);
     }
-
-  const getXUrlAndRedirect = () => {
-    window.location.href = "/api/twitter/get-auth-url";
-  };
 
   useEffect(() => {
     if (session?.user && isXConnected && email === session.user.email) {
