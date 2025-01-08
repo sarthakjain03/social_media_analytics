@@ -106,7 +106,7 @@ const XTabContent = () => {
   }
 
   return (
-    <div className="flex gap-4 items-center justify-center mt-12 mb-16 w-full">
+    <div className="flex gap-4 items-center justify-center mt-12 mb-18 w-full">
       {loading ? (
         <div className="flex justify-center items-center w-full">
           <CircularProgress color="secondary" />

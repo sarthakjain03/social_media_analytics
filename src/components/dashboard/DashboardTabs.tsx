@@ -15,7 +15,8 @@ export default function DashboardTabs({ selected }: { selected: string }) {
         <Tabs
           value={selected}
           onChange={handleChange}
-          variant="fullWidth"
+          variant="scrollable"
+          scrollButtons="auto"
           centered
           textColor="secondary"
           indicatorColor="secondary"

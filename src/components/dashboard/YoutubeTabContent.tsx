@@ -50,7 +50,7 @@ const LinkedinTabContent = () => {
 //   }
 
   return (
-    <div className="font-poppins font-medium text-6xl flex items-center justify-center text-gray-500/20 min-h-[350px]">
+    <div className="font-poppins font-medium text-6xl flex items-center justify-center text-gray-500/20 min-h-[250px]">
         Coming Soon...
     </div>
   );
