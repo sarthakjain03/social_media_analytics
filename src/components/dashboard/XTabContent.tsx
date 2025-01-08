@@ -60,9 +60,7 @@ const XTabContent = () => {
     }
 
     const getXUrlAndRedirect = () => {
-        // if (typeof window !== "undefined") {
-        //     window.location.href = "/api/twitter/get-auth-url";
-        // }
+        
         router.push("/api/twitter/get-auth-url");
     };
 
