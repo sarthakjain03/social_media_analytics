@@ -1,5 +1,5 @@
 "use client";
-import DashboardTabs from "@/components/DashboardTabs";
+import DashboardTabs from "@/components/dashboard/DashboardTabs";
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -10,12 +10,12 @@ import { CircularProgress } from "@mui/material";
 import dynamic from "next/dynamic";
 
 const AccountButtonsWithNoSSR = dynamic( // as I am using 'window' i.e. browser API in these components 
-  () => import('@/components/AccountLinkButtons'),
+  () => import('@/components/dashboard/AccountLinkButtons'),
   { ssr: false }
 )
 
 const XTabContentWithNoSSR = dynamic( // as I am using 'window' i.e. browser API in these components
-  () => import('@/components/XTabContent'),
+  () => import('@/components/dashboard/XTabContent'),
   { ssr: false }
 )
 
@@ -45,9 +45,7 @@ export default function Dashboard() {
     if (lastUpdateOfX === null || Date.now() - Number(lastUpdateOfX) >= 900000) { // 15 mins gap
       setLoading(true);
       const newUpdateOfX = await updateXUserData(session?.user?.email as string);
-
-      // TODO: Recheck below code in the production whether the value is updating or not. Already
-      // If newUpdateOfX is undefined then lastUpdateOfX variable will vanish from the store state after below code has executed.
+      
       setUser({ lastUpdateOfX: newUpdateOfX });
       setLoading(false);
     }
