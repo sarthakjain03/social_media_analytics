@@ -4,7 +4,7 @@ import LineChart from "./LineChart";
 import { useUserStore } from "@/store/user";
 import { useState, useEffect } from "react";
 import { X } from "@mui/icons-material";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Box, Grid2 } from "@mui/material";
 import { getXUserData } from "@/actions/twitterActions";
 import { ChartObject, TwitterChartData } from "@/types/TwitterData";
 import { formatToDayMonthYear } from "@/utils/dateFormatters";
@@ -71,7 +71,7 @@ const XTabContent = () => {
 
   const getXUrlAndRedirect = () => {
     if (typeof window !== "undefined") {
-        window.location.href = "/api/twitter/get-auth-url";
+      window.location.href = "/api/twitter/get-auth-url";
     }
   };
 
@@ -105,17 +105,20 @@ const XTabContent = () => {
           <CircularProgress color="secondary" />
         </div>
       ) : (
-        <div className="w-full flex gap-3 flex-wrap items-center justify-center">
-          {chartData?.data?.map((data, index) => (
-            <AreaChart
-              key={data.name}
-              title={data.name}
-              colors={[chartColors[index]]}
-              xaxisLabels={chartData?.xaxisLabels ?? []}
-              data={[data]}
-            />
-          ))}
-        </div>
+        <Box sx={{ flexGrow: 1, width: '100%' }}>
+          <Grid2 container spacing={2}>
+            {chartData?.data?.map((data, index) => (
+              <Grid2 key={data.name} size={{ xs: 12, md: 6, lg: 3 }}>
+                <AreaChart
+                  title={data.name}
+                  colors={[chartColors[index]]}
+                  xaxisLabels={chartData?.xaxisLabels ?? []}
+                  data={[data]}
+                />
+              </Grid2>
+            ))}
+          </Grid2>
+        </Box>
       )}
     </div>
   );
