@@ -10,6 +10,9 @@ import { CircularProgress } from "@mui/material";
 import dynamic from "next/dynamic";
 
 const AllTabContent = dynamic(() => import('@/components/dashboard/AllTabContent'), { ssr: false });
+const InstagramTabContent = dynamic(() => import('@/components/dashboard/InstagramTabContent'), { ssr: false });
+const LinkedinTabContent = dynamic(() => import('@/components/dashboard/LinkedinTabContent'), { ssr: false });
+const YoutubeTabContent = dynamic(() => import('@/components/dashboard/YoutubeTabContent'), { ssr: false });
 const XTabContent = dynamic(() => import('@/components/dashboard/XTabContent'), { ssr: false }); // ssr = server side render, as here I am using 'window' i.e. browser-only API in this component which cannot be pre-rendered on the server as these apis don't exist on the server side.
 
 export default function Dashboard() {
@@ -79,6 +82,15 @@ export default function Dashboard() {
           )}
           {openTab === "twitter" && (
             <XTabContent />
+          )}
+          {openTab === "instagram" && (
+            <InstagramTabContent />
+          )}
+          {openTab === "linkedin" && (
+            <LinkedinTabContent />
+          )}
+          {openTab === "youtube" && (
+            <YoutubeTabContent />
           )}
         </>
       )}
