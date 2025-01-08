@@ -9,7 +9,6 @@ import { getXUserData } from "@/actions/twitterActions";
 import { ChartObject, TwitterChartData } from "@/types/TwitterData";
 import { formatToDayMonthYear } from "@/utils/dateFormatters";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 
 const XTabContent = () => {
   const { data: session } = useSession();
@@ -22,8 +21,6 @@ const XTabContent = () => {
     xaxisLabels: [],
     data: [],
   });
-
-  const router = useRouter();
 
   const formatChartData = (data: TwitterChartData) => {
     const dataObj = {
@@ -63,7 +60,6 @@ const XTabContent = () => {
     if (typeof window !== "undefined") {
         window.location.href = "/api/twitter/get-auth-url";
     }
-    //router.push("/api/twitter/get-auth-url");
   };
 
   useEffect(() => {
@@ -99,6 +95,7 @@ const XTabContent = () => {
         <div className="w-full">
           <AreaChart
             height={400}
+            title="X Data"
             colors={[
               "#1f77b4",
               "#2ca02c",

@@ -1,6 +1,5 @@
 "use client";
 import DashboardTabs from "@/components/DashboardTabs";
-//import XTabContent from "@/components/XTabContent";
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -8,15 +7,14 @@ import { getXAccessToken, updateXUserData } from "@/actions/twitterActions";
 import { motion } from "motion/react";
 import { useUserStore } from "@/store/user";
 import { CircularProgress } from "@mui/material";
-//import AccountLinkButtons from "@/components/AccountLinkButtons";
 import dynamic from "next/dynamic";
 
-const AccountButtonsWithNoSSR = dynamic(
+const AccountButtonsWithNoSSR = dynamic( // as I am using 'window' i.e. browser API in these components 
   () => import('@/components/AccountLinkButtons'),
   { ssr: false }
 )
 
-const XTabContentWithNoSSR = dynamic(
+const XTabContentWithNoSSR = dynamic( // as I am using 'window' i.e. browser API in these components
   () => import('@/components/XTabContent'),
   { ssr: false }
 )

@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { ApexOptions } from 'apexcharts';
+import { Card, CardHeader, CardContent, Typography } from '@mui/material';
 
 interface SeriesData {
   name: string;
@@ -15,6 +16,7 @@ interface AreaChartProps {
   showYaxisLabels?: boolean;
   colors?: string[];
   data: SeriesData[];
+  title: string;
 }
 
 const chartOptions: ApexOptions = {
@@ -42,7 +44,8 @@ const AreaChart: React.FC<AreaChartProps> = ({
   showYaxisLabels = true,
   height = 350,
   xaxisLabels = [],
-  yaxisTitle = ''
+  yaxisTitle = '',
+  title
 }) => {
   const [series, setSeries] = useState<SeriesData[]>([]);
   const [options, setOptions] = useState<ApexOptions>(chartOptions);
@@ -73,12 +76,21 @@ const AreaChart: React.FC<AreaChartProps> = ({
   }, [data, colors, showYaxisLabels, xaxisLabels, yaxisTitle]);
 
   return (
-    <ReactApexChart 
-      options={options} 
-      series={series} 
-      type="area" 
-      height={height} 
-    />
+    <Card sx={{ borderRadius: 12 }}>
+      <CardHeader>
+        <Typography variant='h5' fontWeight={500}>
+          {title}
+        </Typography>
+      </CardHeader>
+      <CardContent>
+        <ReactApexChart 
+          options={options} 
+          series={series} 
+          type="area" 
+          height={height} 
+        />
+      </CardContent>
+    </Card>
   );
 };
 
