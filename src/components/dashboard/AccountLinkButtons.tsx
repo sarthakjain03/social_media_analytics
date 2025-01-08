@@ -1,13 +1,18 @@
 "use client"
 import { X, Instagram, YouTube, LinkedIn } from "@mui/icons-material";
 import { useUserStore } from "@/store/user"
+import { useRouter } from "next/navigation";
 
 const AccountLinkButtons = () => {
     const { isInstagramConnected, isLinkedinConnected, isXConnected, isYoutubeConnected } = useUserStore();
+    const router = useRouter();
 
     const getXUrlAndRedirect = () => {
-        window.location.href = '/api/twitter/get-auth-url';
-      };
+        // if (typeof window !== "undefined") {
+        //     window.location.href = "/api/twitter/get-auth-url";
+        // }
+        router.push("/api/twitter/get-auth-url");
+    };
 
   return (
     <div className="flex gap-4 items-center justify-center flex-wrap my-3">
