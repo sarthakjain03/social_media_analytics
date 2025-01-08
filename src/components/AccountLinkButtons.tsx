@@ -8,10 +8,10 @@ const AccountLinkButtons = () => {
     const router = useRouter();
 
     const getXUrlAndRedirect = () => {
-        // if (typeof window !== "undefined") {
-        //     window.location.href = "/api/twitter/get-auth-url";
-        // }
-        router.push("/api/twitter/get-auth-url");
+        if (typeof window !== "undefined") {
+            window.location.href = "/api/twitter/get-auth-url";
+        }
+        //router.push("/api/twitter/get-auth-url");
     };
 
   return (
