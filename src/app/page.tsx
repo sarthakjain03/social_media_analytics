@@ -73,7 +73,7 @@ export default function LandingPage() {
               variants={fadeInUp}
               className="flex justify-center space-x-4"
             >
-              <Button variant="contained" size="large" onClick={() => setOpenModal(false)}>
+              <Button variant="contained" size="large" onClick={() => setOpenModal(true)}>
                 Start Analysing
               </Button>
               <Button variant="outlined" size="large">
