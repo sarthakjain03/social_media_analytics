@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { ApexOptions } from 'apexcharts';
-import { Card, CardHeader, CardContent, Typography } from '@mui/material';
+import { Card, CardHeader, CardContent, Divider } from '@mui/material';
 
 interface SeriesData {
   name: string;
@@ -36,6 +36,12 @@ const chartOptions: ApexOptions = {
       fontSize: '16px'
     }
   }
+};
+
+const headerSX = {
+  paddingY: 1.5,
+  paddingX: 2.5,
+  '& .MuiCardHeader-action': { m: '0px auto', alignSelf: 'center' }
 };
 
 const AreaChart: React.FC<AreaChartProps> = ({
@@ -76,12 +82,9 @@ const AreaChart: React.FC<AreaChartProps> = ({
   }, [data, colors, showYaxisLabels, xaxisLabels, yaxisTitle]);
 
   return (
-    <Card sx={{ borderRadius: 12 }}>
-      <CardHeader>
-        <Typography variant='h5' fontWeight={500}>
-          {title}
-        </Typography>
-      </CardHeader>
+    <Card sx={{ borderRadius: 10 }}>
+      <CardHeader sx={headerSX} titleTypographyProps={{ variant: 'h5' }} title={title} />
+      <Divider />
       <CardContent>
         <ReactApexChart 
           options={options} 
