@@ -18,7 +18,6 @@ export default function Header() {
   const userSignOut = async () => {
     const results = await signOut({ redirect: false });
     router.replace("/");
-    setUser({...defaultUser});
   };
 
   useEffect(() => {
@@ -29,10 +28,10 @@ export default function Header() {
       }
     }
 
-    if (hydrated && email === null) {
-      if (session?.user) {
-        checkAndAddGoogleUser(session.user.name ?? "", session.user.email ?? "");
-      }
+    if (!session?.user) {
+      setUser({...defaultUser});
+    } else if (hydrated && email === null) {
+      checkAndAddGoogleUser(session.user.name ?? "", session.user.email ?? "");
     }
   }, [session]);
 
