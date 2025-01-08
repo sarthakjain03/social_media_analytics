@@ -25,6 +25,10 @@ const chartOptions: ApexOptions = {
       show: true
     }
   },
+  legend: {
+    show: true,
+    showForSingleSeries: false
+  },
   dataLabels: {
     enabled: false
   },
@@ -82,7 +86,7 @@ const AreaChart: React.FC<AreaChartProps> = ({
   }, [data, colors, showYaxisLabels, xaxisLabels, yaxisTitle]);
 
   return (
-    <Card sx={{ borderRadius: 5, border: '1px solid', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)' }}>
+    <Card sx={{ borderRadius: 5, boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)' }}>
       <CardHeader sx={headerSX} titleTypographyProps={{ variant: 'h5' }} title={title} />
       <Divider />
       <CardContent>

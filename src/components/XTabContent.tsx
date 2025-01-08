@@ -10,6 +10,19 @@ import { ChartObject, TwitterChartData } from "@/types/TwitterData";
 import { formatToDayMonthYear } from "@/utils/dateFormatters";
 import { useSession } from "next-auth/react";
 
+const chartColors = [
+  "#1f77b4",
+  "#2ca02c",
+  "#d62728",
+  "#ff7f0e",
+  "#8c564b",
+  "#9467bd",
+  "#e377c2",
+  "#7f7f7f",
+  "#bcbd22",
+  "#17becf",
+];
+
 const XTabContent = () => {
   const { data: session } = useSession();
   const { isXConnected, email } = useUserStore();
@@ -92,25 +105,16 @@ const XTabContent = () => {
           <CircularProgress color="secondary" />
         </div>
       ) : (
-        <div className="w-full">
-          <AreaChart
-            height={400}
-            title="X Data"
-            colors={[
-              "#1f77b4",
-              "#2ca02c",
-              "#d62728",
-              "#ff7f0e",
-              "#8c564b",
-              "#9467bd",
-              "#e377c2",
-              "#7f7f7f",
-              "#bcbd22",
-              "#17becf",
-            ]}
-            xaxisLabels={chartData?.xaxisLabels ?? []}
-            data={chartData?.data ?? []}
-          />
+        <div className="w-full flex gap-3 flex-wrap items-center justify-center">
+          {chartData?.data?.map((data, index) => (
+            <AreaChart
+              key={data.name}
+              title={data.name}
+              colors={[chartColors[index]]}
+              xaxisLabels={chartData?.xaxisLabels ?? []}
+              data={[data]}
+            />
+          ))}
         </div>
       )}
     </div>
