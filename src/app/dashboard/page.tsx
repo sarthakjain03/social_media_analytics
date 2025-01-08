@@ -68,7 +68,7 @@ export default function Dashboard() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       viewport={{ once: true }}
-      className="px-20"
+      className="px-20 flex flex-col flex-grow"
     >
       <DashboardTabs selected={openTab} />
       {loading ? (
