@@ -1,5 +1,5 @@
 "use client";
-import DashboardTabs from "@/components/DashboardTabs";
+import DashboardTabs from "@/components/dashboard/DashboardTabs";
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -7,7 +7,7 @@ import { getXAccessToken, updateXUserData } from "@/actions/twitterActions";
 import { motion } from "motion/react";
 import { useUserStore } from "@/store/user";
 import { CircularProgress } from "@mui/material";
-import AccountLinkButtons from "@/components/AccountLinkButtons";
+import AccountLinkButtons from "@/components/dashboard/AccountLinkButtons";
 
 export default function Dashboard() {
   const [openTab, setOpenTab] = useState("all");
