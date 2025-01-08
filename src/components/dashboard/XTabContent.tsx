@@ -106,16 +106,16 @@ const XTabContent = () => {
   }
 
   return (
-    <div className="flex gap-4 items-center justify-center my-16 w-full">
+    <div className="flex gap-4 items-center justify-center mt-12 mb-16 w-full">
       {loading ? (
         <div className="flex justify-center items-center w-full">
           <CircularProgress color="secondary" />
         </div>
       ) : (
         <Box sx={{ flexGrow: 1, width: '100%' }}>
-          <Grid2 container spacing={2}>
+          <Grid2 container spacing={3}>
             {chartData?.data?.map((data, index) => (
-              <Grid2 key={data.name} size={{ xs: 12, md: 6, lg: 4 }}>
+              <Grid2 key={data.name} size={{ xs: 12, md: 6, xl: 4 }}>
                 <AreaChart
                   title={data.name}
                   colors={[chartColors[index]]}

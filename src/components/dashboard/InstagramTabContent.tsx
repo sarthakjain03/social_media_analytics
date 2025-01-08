@@ -50,7 +50,7 @@ const InstagramTabContent = () => {
 //   }
 
   return (
-    <div className="font-poppins font-medium text-6xl flex items-center justify-center text-gray-500/20 mt-16 flex-grow">
+    <div className="font-poppins font-medium text-6xl flex items-center justify-center text-gray-500/20 min-h-[350px]">
         Coming Soon...
     </div>
   );
