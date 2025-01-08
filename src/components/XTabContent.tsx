@@ -53,8 +53,8 @@ const XTabContent = () => {
     const getChartsData = async () => {
         setLoading(true);
         const data = await getXUserData(email as string);
-        if (data) {
-            formatChartData(data);
+        if (data?.chartsData) {
+            formatChartData(data?.chartsData);
         }
         setLoading(false);
     }
@@ -90,15 +90,15 @@ const XTabContent = () => {
   }
 
   return (
-    <div className="flex gap-4 items-center justify-center my-3">
+    <div className="flex gap-4 items-center justify-center my-3 w-full">
       {loading ? (
         <div className="flex justify-center items-center w-full">
             <CircularProgress color="secondary" />
         </div>
       ) : (
-        <>
-            <AreaChart height={450} xaxisLabels={chartData?.xaxisLabels ?? []} data={chartData?.data ?? []} />
-        </>
+        <div className="w-full">
+          <AreaChart height={400} xaxisLabels={chartData?.xaxisLabels ?? []} data={chartData?.data ?? []} />
+        </div>
       )}
     </div>
   );
