@@ -1,6 +1,6 @@
 "use client";
-import AreaChart from "../charts/AreaChart";
-import LineChart from "../charts/LineChart";
+import AreaChart from "../(charts)/AreaChart";
+import LineChart from "../(charts)/LineChart";
 import { useUserStore } from "@/store/user";
 import { useState, useEffect } from "react";
 import { X } from "@mui/icons-material";
