@@ -3,8 +3,12 @@ import { motion } from "motion/react";
 import { Globe, BarChart2, Users } from "lucide-react";
 import { Button } from "@/components/Button";
 import Image from "next/image";
+import SignInModal from "@/components/SignInModal";
+import { useState } from "react";
 
 export default function LandingPage() {
+  const [openModal, setOpenModal] = useState(false);
+
   const features = [
     {
       icon: <Globe className="size-10 text-purple-600" />,
@@ -69,7 +73,7 @@ export default function LandingPage() {
               variants={fadeInUp}
               className="flex justify-center space-x-4"
             >
-              <Button variant="contained" size="large">
+              <Button variant="contained" size="large" onClick={() => setOpenModal(false)}>
                 Start Analysing
               </Button>
               <Button variant="outlined" size="large">
@@ -192,14 +196,15 @@ export default function LandingPage() {
               viewport={{ once: true }}
               className="flex justify-center space-x-4"
             >
-              <input
+              {/* <input
                 placeholder="Enter your email"
                 className="flex h-10 border rounded-md px-3 py-1 text-gray-900 w-64 bg-white"
-              />
+              /> */}
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.9 }}
                 className={`hover:shadow font-medium font-poppins px-4 py-2 rounded-md text-base bg-yellow-500 hover:bg-yellow-600 text-black`}
+                onClick={() => setOpenModal(true)}
               >
                 Get Started for Free
               </motion.button>
@@ -208,6 +213,9 @@ export default function LandingPage() {
           </motion.div>
         </section>
       </main>
+      {openModal && (
+        <SignInModal open={openModal} onClose={() => setOpenModal(false)} />
+      )}
     </div>
   );
 }

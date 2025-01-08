@@ -5,6 +5,7 @@ type ButtonProps = {
   children: React.ReactNode;
   variant?: "contained" | "outlined" | "default";
   size?: "small" | "medium" | "large";
+  onClick?: () => void;
 };
 
 const Variants = {
@@ -19,7 +20,7 @@ const Sizes = {
     large: "px-5 py-2 rounded-lg text-lg"
 }
 
-export const Button = ({ children, variant = "default", size = "medium" }: ButtonProps) => {
+export const Button = ({ children, variant = "default", size = "medium", onClick }: ButtonProps) => {
     const selectedVariant = Variants[variant];
     const buttonSize = Sizes[size];
 
@@ -28,6 +29,7 @@ export const Button = ({ children, variant = "default", size = "medium" }: Butto
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.9 }}
       className={`hover:shadow font-medium font-poppins ${selectedVariant} ${buttonSize}`}
+      onClick={onClick}
     >
       {children}
     </motion.button>
