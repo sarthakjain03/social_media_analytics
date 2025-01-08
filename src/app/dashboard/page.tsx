@@ -44,10 +44,6 @@ export default function Dashboard() {
     }
   }
 
-  const getXUrlAndRedirect = () => {
-    window.location.href = "/api/twitter/get-auth-url";
-  };
-
   useEffect(() => {
     if (session?.user) {
       if (!isXConnected) {
@@ -82,7 +78,7 @@ export default function Dashboard() {
             <AccountLinkButtons />
           )}
           {openTab === "twitter" && (
-            <XTabContent getXUrlAndRedirect={getXUrlAndRedirect} />
+            <XTabContent />
           )}
         </>
       )}

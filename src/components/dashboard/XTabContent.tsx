@@ -9,8 +9,9 @@ import { getXUserData } from "@/actions/twitterActions";
 import { ChartObject, TwitterChartData } from "@/types/TwitterData";
 import { formatToDayMonthYear } from "@/utils/dateFormatters";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
-const XTabContent = ({ getXUrlAndRedirect }: { getXUrlAndRedirect: () => void }) => {
+const XTabContent = () => {
     const { data: session } = useSession();
   const { isXConnected, email } = useUserStore();
     const [loading, setLoading] = useState(false);
@@ -21,6 +22,8 @@ const XTabContent = ({ getXUrlAndRedirect }: { getXUrlAndRedirect: () => void })
         xaxisLabels: [],
         data: []
     });
+
+    const router = useRouter();
 
     const formatChartData = (data: TwitterChartData) => {
         const dataObj = {
@@ -55,6 +58,13 @@ const XTabContent = ({ getXUrlAndRedirect }: { getXUrlAndRedirect: () => void })
         }
         setLoading(false);
     }
+
+    const getXUrlAndRedirect = () => {
+        // if (typeof window !== "undefined") {
+        //     window.location.href = "/api/twitter/get-auth-url";
+        // }
+        router.push("/api/twitter/get-auth-url");
+    };
 
   useEffect(() => {
     if (session?.user && isXConnected && email === session.user.email) {
