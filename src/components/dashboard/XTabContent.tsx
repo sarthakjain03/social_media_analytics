@@ -22,6 +22,10 @@ const chartColors = [
   "#17becf",
 ];
 
+function delay(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 const XTabContent = () => {
   const { data: session } = useSession();
   const { isXConnected, email } = useUserStore();
@@ -33,6 +37,7 @@ const XTabContent = () => {
     xaxisLabels: [],
     data: [],
   });
+  const [delayExecuting, setDelayExecuting] = useState(false);
 
   const formatChartData = (data: TwitterChartData) => {
     const dataObj = {
@@ -60,12 +65,15 @@ const XTabContent = () => {
   };
 
   const getChartsData = async () => {
+    setDelayExecuting(true);
     setLoading(true);
     const data = await getXUserData(email as string);
     if (data?.chartsData) {
       formatChartData(data?.chartsData);
     }
     setLoading(false);
+    await delay(16 * 60 * 1000); // atleast 16 mins gap between api calls.
+    setDelayExecuting(false);
   };
 
   const getXUrlAndRedirect = () => {
@@ -75,10 +83,10 @@ const XTabContent = () => {
   };
 
   useEffect(() => {
-    if (session?.user && isXConnected && email === session.user.email) {
+    if (session?.user && isXConnected && email === session.user.email && !delayExecuting) {
       getChartsData();
     }
-  }, [email, isXConnected, session]);
+  }, [email, isXConnected, session, delayExecuting]);
 
   if (!isXConnected) {
     return (
@@ -98,7 +106,7 @@ const XTabContent = () => {
   }
 
   return (
-    <div className="flex gap-4 items-center justify-center mt-3 mb-6 w-full">
+    <div className="flex gap-4 items-center justify-center mt-3 mb-16 w-full">
       {loading ? (
         <div className="flex justify-center items-center w-full">
           <CircularProgress color="secondary" />
