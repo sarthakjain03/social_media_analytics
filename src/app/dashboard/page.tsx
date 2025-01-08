@@ -9,15 +9,8 @@ import { useUserStore } from "@/store/user";
 import { CircularProgress } from "@mui/material";
 import dynamic from "next/dynamic";
 
-const AccountButtonsWithNoSSR = dynamic( // as I am using 'window' i.e. browser API in these components 
-  () => import('@/components/dashboard/AccountLinkButtons'),
-  { ssr: false }
-)
-
-const XTabContentWithNoSSR = dynamic( // as I am using 'window' i.e. browser API in these components
-  () => import('@/components/dashboard/XTabContent'),
-  { ssr: false }
-)
+const AllTabContent = dynamic(() => import('@/components/dashboard/AllTabContent'), { ssr: false });
+const XTabContent = dynamic(() => import('@/components/dashboard/XTabContent'), { ssr: false }); // ssr = server side render, as here I am using 'window' i.e. browser-only API in this component which cannot be pre-rendered on the server as these apis don't exist on the server side.
 
 export default function Dashboard() {
   const [openTab, setOpenTab] = useState("all");
@@ -82,10 +75,10 @@ export default function Dashboard() {
       ) : (
         <>
           {openTab === "all" && (
-            <AccountButtonsWithNoSSR />
+            <AllTabContent />
           )}
           {openTab === "twitter" && (
-            <XTabContentWithNoSSR />
+            <XTabContent />
           )}
         </>
       )}
