@@ -1,9 +1,11 @@
 import { Box, Tab, Tabs } from "@mui/material";
 import { X, Instagram, YouTube, LinkedIn } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
+import { useResponsive } from "@/hooks/useResponsive";
 
 export default function DashboardTabs({ selected }: { selected: string }) {
   const router = useRouter();
+  const isSmall = useResponsive('down', 'md');
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     router.replace(`/dashboard?tab=${newValue}`);
@@ -11,11 +13,11 @@ export default function DashboardTabs({ selected }: { selected: string }) {
 
   return (
     <div className="py-4">
-      <Box sx={{ width: "100%" }}>
+      <Box sx={{ width: "100%", borderBottom: 1, borderColor: 'divider' }}>
         <Tabs
           value={selected}
           onChange={handleChange}
-          variant="scrollable"
+          variant={isSmall ? "scrollable" : "fullWidth"}
           scrollButtons="auto"
           centered
           textColor="secondary"
