@@ -7,12 +7,12 @@ import { getXAccessToken } from "@/actions/twitterActions";
 import { motion } from "motion/react";
 import { useUserStore } from "@/store/user";
 import dynamic from "next/dynamic";
-import AllTabContent from "@/components/dashboard/AllTabContent";
+// import AllTabContent from "@/components/dashboard/AllTabContent";
 
-// const AllTabContent = dynamic(
-//   () => import("@/components/dashboard/AllTabContent"),
-//   { ssr: false }
-// );
+const AllTabContent = dynamic(
+  () => import("@/components/dashboard/AllTabContent"),
+  { ssr: false }
+);
 const InstagramTabContent = dynamic(
   () => import("@/components/dashboard/InstagramTabContent"),
   { ssr: false }
