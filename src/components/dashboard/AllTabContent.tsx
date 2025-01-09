@@ -9,12 +9,13 @@ import { useSession } from "next-auth/react";
 import { useUserStore } from "@/store/user";
 import { ChartObject, ChartSeriesObject } from "@/types/Charts";
 import { updateXUserData } from "@/actions/twitterActions";
+import AccountLinkButtons from "./AccountLinkButtons";
 
-const AccountLinkButtonsWithNoSSR = dynamic(
-  // as I am using 'window' i.e. browser API in these components
-  () => import("@/components/dashboard/AccountLinkButtons"),
-  { ssr: false }
-);
+// const AccountLinkButtons = dynamic(
+//   // as I am using 'window' i.e. browser API in these components
+//   () => import("@/components/dashboard/AccountLinkButtons"),
+//   { ssr: false }
+// );
 
 const AllTabContent = () => {
   const { data: session } = useSession();
@@ -54,7 +55,7 @@ const AllTabContent = () => {
 
   return (
     <>
-      <AccountLinkButtonsWithNoSSR />
+      <AccountLinkButtons />
       {loading ? (
         <Box sx={{ flexGrow: 1, width: "100%" }}>
           <Grid2 container spacing={3}>
