@@ -65,6 +65,7 @@ export const useUserStore = create<UserStore>()(
       onRehydrateStorage() {
         return (state, error) => {
           if (!error) state?.setHydrated();
+          else console.error("Error occurred while hydrating user state: ", error);
         };
       },
     }
