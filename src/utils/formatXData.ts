@@ -21,7 +21,7 @@ export const getMetricTotals = (dataArray: any) => {
         totalEngagements: 0
     };
 
-    dataArray.map((data: any) => {
+    dataArray?.map((data: any) => {
         totals.totalLikes = totals.totalLikes + data.public_metrics.like_count;
         totals.totalBookmarks = totals.totalBookmarks + data.public_metrics.bookmark_count;
         totals.totalEngagements = totals.totalEngagements + data.non_public_metrics.engagements;
@@ -40,6 +40,7 @@ export const formatChartData = (metricTotals: {
     totalBookmarks: number;
     totalReplies: number;
     totalEngagements: number;
+    totalFollowers: number;
     prevChartsData: TwitterChartData;
 }) => {
     const dbDate = formatToDatabaseDate(new Date());
@@ -67,6 +68,10 @@ export const formatChartData = (metricTotals: {
         impressions: {
             date: dbDate,
             value: metricTotals.totalImpressions
+        },
+        followers: {
+            date: dbDate,
+            value: metricTotals.totalFollowers
         }
     };
 
@@ -77,7 +82,8 @@ export const formatChartData = (metricTotals: {
             retweets: [...metricTotals.prevChartsData.retweets, obj.retweets],
             engagements: [...metricTotals.prevChartsData.engagements, obj.engagements],
             impressions: [...metricTotals.prevChartsData.impressions, obj.impressions],
-            bookmarks: [...metricTotals.prevChartsData.bookmarks, obj.bookmarks]
+            bookmarks: [...metricTotals.prevChartsData.bookmarks, obj.bookmarks],
+            followers: [...metricTotals.prevChartsData.followers, obj.followers]
         };
     
         return updatedChartData;
@@ -89,7 +95,8 @@ export const formatChartData = (metricTotals: {
         retweets: [obj.retweets],
         engagements: [obj.engagements],
         impressions: [obj.impressions],
-        bookmarks: [obj.bookmarks]
+        bookmarks: [obj.bookmarks],
+        followers: [obj.followers]
     };
 
     return updatedData;

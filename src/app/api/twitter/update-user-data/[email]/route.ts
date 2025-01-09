@@ -134,7 +134,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                     "public_metrics"
                 ]
             });
-            
+
             // TODO: remove the below console.log
             console.log(tweets);
 
@@ -155,7 +155,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
 
             const formattedUserData = formatUserData(user.data);
             const metricTotals = getMetricTotals(tweets?.data);
-            const updatedChartsData = formatChartData({ ...metricTotals, prevChartsData: userData.chartsData });
+            const updatedChartsData = formatChartData({ ...metricTotals, totalFollowers: formattedUserData?.followers, prevChartsData: userData.chartsData });
 
             const results = await TwitterDataModel.updateOne({ userEmail: email }, {
                 $set: {

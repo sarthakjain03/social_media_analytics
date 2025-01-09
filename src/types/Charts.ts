@@ -15,4 +15,5 @@ export interface TwitterChartData {
     replies: Array<ChartObject>;
     engagements: Array<ChartObject>;
     bookmarks: Array<ChartObject>;
+    followers: Array<ChartObject>;
 }

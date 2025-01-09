@@ -41,12 +41,13 @@ const XTabContent = () => {
 
   const formatChartData = (data: TwitterChartData) => {
     const dataObj = {
+      followers: { name: "Followers", data: [] },
       likes: { name: "Likes", data: [] },
       impressions: { name: "Impressions", data: [] },
       bookmarks: { name: "Bookmarks", data: [] },
       replies: { name: "Replies", data: [] },
       retweets: { name: "Retweets", data: [] },
-      engagements: { name: "Engagements", data: [] },
+      engagements: { name: "Engagements", data: [] }
     };
     const labels: string[] = [];
     Object.keys(data)?.map((metric) => {
@@ -110,7 +111,7 @@ const XTabContent = () => {
       {loading ? (
         <Box sx={{ flexGrow: 1, width: '100%' }}>
           <Grid2 container spacing={3}>
-            {[1, 2, 3, 4, 5, 6]?.map((data) => (
+            {[1, 2, 3, 4, 5, 6, 7]?.map((data) => (
               <Grid2 key={`${data}-skeleton`} size={{ xs: 12, md: 6, xl: 4 }}>
                 <Skeleton variant="rounded" height={461} width={"100%"} />
               </Grid2>
