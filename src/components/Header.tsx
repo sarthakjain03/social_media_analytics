@@ -33,7 +33,7 @@ export default function Header() {
     } else if (hydrated && email === null) {
       checkAndAddGoogleUser(session.user.name ?? "", session.user.email ?? "");
     }
-  }, [session]);
+  }, [session, email, hydrated]);
 
   return (
     <>
