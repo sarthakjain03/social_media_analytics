@@ -46,7 +46,9 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
 
                 refreshResponse = {...response.data, last_updated: Number(userData.lastUpdated)};
                 
-            } catch (err) {
+            } catch (err: any) {
+                console.log(err?.message);
+                console.log(err?.response?.data);
                 console.error("Error refreshing token for X: ", err);
                 return Response.json({
                     success: false,
