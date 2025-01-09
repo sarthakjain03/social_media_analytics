@@ -30,24 +30,27 @@ const AllTabContent = () => {
   const [loading, setLoading] = useState(false);
 
   const updateTwitterUserData = async () => {
-    if (
-      lastUpdateOfX === null ||
-      Date.now() - Number(lastUpdateOfX) >= 900000
-    ) {
-      // 15 mins gap
-      setLoading(true);
-      const newUpdateOfX = await updateXUserData(
-        session?.user?.email as string
-      );
+    if (lastUpdateOfX === null || Date.now() - Number(lastUpdateOfX) >= 900000) { // 15 mins gap
+      const newUpdateOfX = await updateXUserData(session?.user?.email as string);
 
       setUser({ lastUpdateOfX: newUpdateOfX });
-      setLoading(false);
     }
   };
 
   useEffect(() => {
-    updateTwitterUserData();
-  }, []);
+    // update all social media's data
+    const updateAllData = async () => {
+      setLoading(true);
+      if (isXConnected) {
+        await updateTwitterUserData();
+      }
+      setLoading(false);
+    }
+
+    if (session?.user && email === session.user.email) {
+      updateAllData();
+    }
+  }, [isXConnected, session, email]);
 
   return (
     <>
@@ -55,7 +58,7 @@ const AllTabContent = () => {
       {loading ? (
         <Box sx={{ flexGrow: 1, width: "100%" }}>
           <Grid2 container spacing={3}>
-            {[1, 2, 3, 4, 5, 6]?.map((data) => (
+            {[1, 2, 3, 4]?.map((data) => (
               <Grid2 key={`${data}-skeleton`} size={{ xs: 12, md: 6, xl: 4 }}>
                 <Skeleton variant="rounded" height={461} width={"100%"} />
               </Grid2>
