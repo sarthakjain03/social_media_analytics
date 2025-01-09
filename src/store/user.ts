@@ -67,7 +67,8 @@ export const useUserStore = create<UserStore>()(
         return (state, error) => {
           if (!error) {
             console.log("No error Returning Rehydration: ", state);
-            state?.setHydrated();
+            if (state) state.hydrated = true;
+            state?.setHydrated(); // not working right now for some reason
           }
           else console.error("Error occurred while hydrating user state: ", error);
         };
