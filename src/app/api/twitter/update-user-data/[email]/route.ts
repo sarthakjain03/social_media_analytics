@@ -32,9 +32,11 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
             const encoded = Buffer.from(`${clientID}:${clientSecret}`).toString('base64');
 
             const params = new URLSearchParams();
-            params.append('refresh_token', userData.refreshToken);
+            params.append('refresh_token', refreshResponse.refresh_token);
             params.append('grant_type', 'refresh_token');
             params.append('client_id', clientID);
+
+            console.log(refreshResponse); // for if invalid request error that value of token is wrong.
 
             try {
                 const response = await axios.post(`https://api.x.com/2/oauth2/token`, params, {
