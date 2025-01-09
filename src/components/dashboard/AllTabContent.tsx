@@ -9,13 +9,13 @@ import { useSession } from "next-auth/react";
 import { useUserStore } from "@/store/user";
 import { ChartObject, ChartSeriesObject } from "@/types/Charts";
 import { updateXUserData } from "@/actions/twitterActions";
-import AccountLinkButtons from "./AccountLinkButtons";
+// import AccountLinkButtons from "./AccountLinkButtons";
 
-// const AccountLinkButtons = dynamic(
-//   // as I am using 'window' i.e. browser API in these components
-//   () => import("@/components/dashboard/AccountLinkButtons"),
-//   { ssr: false }
-// );
+const AccountLinkButtons = dynamic(
+  // as I am using 'window' i.e. browser API in these components
+  () => import("@/components/dashboard/AccountLinkButtons"),
+  { ssr: false }
+);
 
 const AllTabContent = () => {
   const { data: session } = useSession();

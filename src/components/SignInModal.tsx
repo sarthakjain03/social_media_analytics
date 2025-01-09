@@ -47,7 +47,7 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
 
   const credentialsSignIn = async (email: string, password: string) => {
     const results = await signIn("credentials", {
-      redirect: false,
+      //redirect: false,
       identifier: email,
       password: password,
     });
@@ -56,10 +56,10 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
       showToast("error", "Incorrect Email or Password");
     }
 
-    if (results?.url) {
-      onClose();
-      router.replace("/dashboard?tab=all");
-    }
+    // if (results?.url) {
+    //   onClose();
+    //   router.replace("/dashboard?tab=all");
+    // }
   };
 
   const googleSignIn = async () => {
