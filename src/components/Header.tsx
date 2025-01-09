@@ -30,7 +30,7 @@ export default function Header() {
 
     if (!session?.user) {
       setUser({...defaultUser});
-    } else if (hydrated && email === null) {
+    } else if (email === null) {
       checkAndAddGoogleUser(session.user.name ?? "", session.user.email ?? "");
     }
   }, [session]);
