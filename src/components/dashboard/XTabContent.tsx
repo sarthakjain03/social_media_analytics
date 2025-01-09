@@ -3,9 +3,9 @@ import AreaChart from "../charts/AreaChart";
 import { useUserStore } from "@/store/user";
 import { useState, useEffect } from "react";
 import { X } from "@mui/icons-material";
-import { CircularProgress, Box, Grid2 } from "@mui/material";
+import { Box, Grid2, Skeleton } from "@mui/material";
 import { getXUserData } from "@/actions/twitterActions";
-import { ChartObject, TwitterChartData } from "@/types/TwitterData";
+import { ChartObject, TwitterChartData, ChartSeriesObject } from "@/types/Charts";
 import { formatToDayMonthYear } from "@/utils/dateFormatters";
 import { useSession } from "next-auth/react";
 
@@ -32,7 +32,7 @@ const XTabContent = () => {
   const [loading, setLoading] = useState(false);
   const [chartData, setChartData] = useState<{
     xaxisLabels: string[];
-    data: Array<{ name: string; data: Array<number> }>;
+    data: ChartSeriesObject[];
   }>({
     xaxisLabels: [],
     data: [],
@@ -108,9 +108,15 @@ const XTabContent = () => {
   return (
     <div className="flex gap-4 items-center justify-center mt-12 mb-20 w-full">
       {loading ? (
-        <div className="flex justify-center items-center w-full">
-          <CircularProgress color="secondary" />
-        </div>
+        <Box sx={{ flexGrow: 1, width: '100%' }}>
+          <Grid2 container spacing={3}>
+            {[1, 2, 3, 4, 5, 6]?.map((data) => (
+              <Grid2 key={`${data}-skeleton`} size={{ xs: 12, md: 6, xl: 4 }}>
+                <Skeleton variant="rounded" height={461} width={"100%"} />
+              </Grid2>
+            ))}
+          </Grid2>
+        </Box>
       ) : (
         <Box sx={{ flexGrow: 1, width: '100%' }}>
           <Grid2 container spacing={3}>

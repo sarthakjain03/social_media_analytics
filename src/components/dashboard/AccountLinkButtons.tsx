@@ -20,7 +20,7 @@ const AccountLinkButtons = () => {
                 <span>Account</span>
             </button>
         )}
-        {!isLinkedinConnected && (
+        {/* {!isLinkedinConnected && (
             <button onClick={() => {}} className="rounded-lg bg-blue-500 text-white font-poppins font-medium flex gap-2 py-2 px-3 items-center">
                 <span>Link</span>
                 <span><LinkedIn /></span>
@@ -40,7 +40,7 @@ const AccountLinkButtons = () => {
                 <span><YouTube /></span>
                 <span>Account</span>
             </button>
-        )}
+        )} */}
     </div>
   )
 }

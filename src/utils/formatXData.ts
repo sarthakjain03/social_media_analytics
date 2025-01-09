@@ -1,4 +1,5 @@
-import { TwitterUserData, TwitterPost, TwitterChartData, ChartObject } from "@/types/TwitterData";
+import { TwitterUserData, TwitterPost } from "@/types/TwitterData";
+import { ChartObject, TwitterChartData } from "@/types/Charts";
 import { formatToDatabaseDate } from "./dateFormatters";
 
 export const formatUserData = (data: any) => {

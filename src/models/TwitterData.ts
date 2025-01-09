@@ -1,4 +1,5 @@
-import { TwitterChartData, TwitterPost, TwitterUserData } from "@/types/TwitterData";
+import { TwitterPost, TwitterUserData } from "@/types/TwitterData";
+import { TwitterChartData } from "@/types/Charts";
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface TwitterData extends Document {

@@ -17,20 +17,6 @@ interface PopularityObject {
     popularity: number; // likes + retweets + replies + impressions + engagements = popularity
 }
 
-export interface ChartObject {
-    date: string;
-    value: number;
-}
-
-export interface TwitterChartData {
-    likes: Array<ChartObject>;
-    impressions: Array<ChartObject>;
-    retweets: Array<ChartObject>;
-    replies: Array<ChartObject>;
-    engagements: Array<ChartObject>;
-    bookmarks: Array<ChartObject>;
-}
-
 export interface TwitterUserData {
     followers: number;
     x_id: string;
