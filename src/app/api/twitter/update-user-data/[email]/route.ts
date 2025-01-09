@@ -30,12 +30,14 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
             const clientID = process.env.TWITTER_CLIENT_ID as string;
             const clientSecret = process.env.TWITTER_CLIENT_SECRET as string;
             const encoded = Buffer.from(`${clientID}:${clientSecret}`).toString('base64');
+
+            const params = new URLSearchParams();
+            params.append('refresh_token', userData.refreshToken);
+            params.append('grant_type', 'refresh_token');
+            params.append('client_id', clientID);
+
             try {
-                const response = await axios.post(`https://api.x.com/2/oauth2/token`, {
-                    refresh_token: userData.refreshToken,
-                    grant_type: "refresh_token",
-                    client_id: clientID
-                }, {
+                const response = await axios.post(`https://api.x.com/2/oauth2/token`, params, {
                     headers: {
                         'Authorization': `Basic ${encoded}`,
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -132,6 +134,10 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                     "public_metrics"
                 ]
             });
+            
+            // TODO: remove the below console.log
+            console.log(tweets);
+
             if (tweets?.errors && Array.isArray(tweets.errors)) {
                 let statusCode = 400;
                 const messages = tweets.errors.map((err) => {
