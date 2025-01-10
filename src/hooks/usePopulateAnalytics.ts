@@ -1,5 +1,4 @@
-import { AnalyticsStore, UserStore } from "@/types/Stores";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { getXUserData } from "@/actions/twitterActions";
 import { TwitterChartData } from "@/types/Charts";
@@ -20,20 +19,24 @@ export function usePopulateAnalytics() {
   const { setAnalytics, xData, lastUpdateOfX } = useAnalyticsStore();
 
   const populateXData = async () => {
-    setLoading(true);
-    let currentXData: TwitterChartData | null = xData ? xData : null;
     if (isXConnected) {
+      let currentXData: TwitterChartData | null = xData ? xData : null;
+      if (currentXData) {
+        if (lastUpdateOfX?.getDay() === new Date().getDay()) {
+          return;
+        }
+      }
+      setLoading(true);
       const xDataFromDB = await getXUserData(email as string);
       if (xDataFromDB?.chartsData) {
         currentXData = xDataFromDB.chartsData;
       }
+      setXChartData(currentXData);
+      if (setAnalytics) {
+        setAnalytics({ xData: currentXData });
+      }
+      setLoading(false);
     }
-    
-    setXChartData(currentXData);
-    if (setAnalytics) {
-      setAnalytics({ xData: currentXData });
-    }
-    setLoading(false);
   }
 
   const populateAllAnalytics = async () => {
