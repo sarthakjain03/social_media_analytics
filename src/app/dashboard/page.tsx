@@ -44,7 +44,7 @@ export default function Dashboard() {
     isYoutubeConnected,
     setUser
   } = useUserStore();
-  const { lastUpdate, setAnalytics } = useAnalyticsStore();
+  const { lastUpdateOfX, setAnalytics } = useAnalyticsStore();
   const [loading, setLoading] = useState(false);
 
   // Function for getting code for X account linking from url
@@ -69,12 +69,17 @@ export default function Dashboard() {
     // update all social media's analytics data
     const updateAllAnalyticsData = async () => {
       setLoading(true);
-      if (lastUpdate === null || Date.now() - Number(lastUpdate) >= 86400000) { // 24 hrs gap
+      let hasXDataUpdated = false;
+
+      if (lastUpdateOfX === null || Date.now() - Number(lastUpdateOfX) >= 86400000) { // 24 hrs gap
         if (isXConnected) {
-          await updateXUserData(session?.user?.email as string);
+          hasXDataUpdated = await updateXUserData(session?.user?.email as string);
         }
       }
-      setAnalytics({ lastUpdate: new Date() });
+
+      if (hasXDataUpdated) {
+        setAnalytics({ lastUpdateOfX: new Date() });
+      }
       setLoading(false);
     }
 

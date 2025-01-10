@@ -1,7 +1,7 @@
 import { TwitterChartData } from "./Charts";
 
 export interface AnalyticsStore {
-  lastUpdate: Date | null;
+  lastUpdateOfX: Date | null;
   isHydrated: boolean;
   xData: TwitterChartData | null;
 

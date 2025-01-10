@@ -17,32 +17,42 @@ export function usePopulateAnalytics() {
     isYoutubeConnected,
     email,
   } = useUserStore();
-  const { setAnalytics, xData } = useAnalyticsStore();
+  const { setAnalytics, xData, lastUpdateOfX } = useAnalyticsStore();
 
-  const populateAnalytics = async () => {
+  const populateXData = async () => {
     setLoading(true);
     let currentXData: TwitterChartData | null = xData ? xData : null;
-
-    if (isXConnected && currentXData === null) {
+    if (isXConnected) {
       const xDataFromDB = await getXUserData(email as string);
       if (xDataFromDB?.chartsData) {
         currentXData = xDataFromDB.chartsData;
       }
     }
-
+    
     setXChartData(currentXData);
-
     if (setAnalytics) {
-      setAnalytics({ xData: currentXData, lastUpdate: new Date() });
+      setAnalytics({ xData: currentXData });
     }
+    setLoading(false);
+  }
+
+  const populateAllAnalytics = async () => {
+    setLoading(true);
+    await populateXData();
     setLoading(false);
   };
 
+  // useEffect(() => {
+  //   if (session?.user && email === session.user.email) {
+  //     populateAllAnalytics();
+  //   }
+  // }, [session, email]);
+
   useEffect(() => {
-    if (session?.user && email === session.user.email) {
-      populateAnalytics();
+    if (session?.user && email === session.user.email && lastUpdateOfX) {
+      populateXData();
     }
-  }, [session, email]);
+  }, [lastUpdateOfX]);
 
   return { loading, xChartData };
 }

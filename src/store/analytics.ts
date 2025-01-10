@@ -4,7 +4,7 @@ import { persist } from "zustand/middleware";
 import { AnalyticsStore } from "@/types/Stores";
 
 export const defaultAnalytics: Partial<AnalyticsStore> = {
-  lastUpdate: null,
+  lastUpdateOfX: null,
   isHydrated: false,
   xData: null,
 };
@@ -12,7 +12,7 @@ export const defaultAnalytics: Partial<AnalyticsStore> = {
 export const useAnalyticsStore = create<AnalyticsStore>()(
   persist(
     immer((set) => ({
-      lastUpdate: null,
+      lastUpdateOfX: null,
       isHydrated: false,
       xData: null,
       setIsHydrated: () => {
