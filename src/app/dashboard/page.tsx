@@ -69,7 +69,7 @@ export default function Dashboard() {
     // update all social media's analytics data
     const updateAllAnalyticsData = async () => {
       setLoading(true);
-      let newXUpdateDate;
+      let newXUpdateDate = null;
 
       if (lastUpdateOfX === null || Date.now() - Number(lastUpdateOfX) >= 86400000) { // 24 hrs gap
         if (isXConnected) {
