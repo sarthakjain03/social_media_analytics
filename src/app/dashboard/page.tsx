@@ -3,11 +3,12 @@ import DashboardTabs from "@/components/dashboard/DashboardTabs";
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { getXAccessToken } from "@/actions/twitterActions";
+import { getXAccessToken, updateXUserData } from "@/actions/twitterActions";
 import { motion } from "motion/react";
 import { useUserStore } from "@/store/user";
+import { useAnalyticsStore } from "@/store/analytics";
 import dynamic from "next/dynamic";
-// import AllTabContent from "@/components/dashboard/AllTabContent";
+import { Skeleton, Box, Grid2 } from "@mui/material";
 
 const AllTabContent = dynamic(
   () => import("@/components/dashboard/AllTabContent"),
@@ -35,7 +36,16 @@ export default function Dashboard() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { data: session } = useSession();
-  const { setUser, isXConnected } = useUserStore();
+  const {
+    isXConnected,
+    email,
+    isInstagramConnected,
+    isLinkedinConnected,
+    isYoutubeConnected,
+    setUser
+  } = useUserStore();
+  const { lastUpdate, setAnalytics } = useAnalyticsStore();
+  const [loading, setLoading] = useState(false);
 
   // Function for getting code for X account linking from url
   const getXTokenAndRedirect = async () => {
@@ -54,6 +64,24 @@ export default function Dashboard() {
       router.replace("/dashboard?tab=all");
     }
   };
+
+  useEffect(() => {
+    // update all social media's analytics data
+    const updateAllAnalyticsData = async () => {
+      setLoading(true);
+      if (lastUpdate === null || Date.now() - Number(lastUpdate) >= 960000) { // 16 mins gap
+        if (isXConnected) {
+          await updateXUserData(session?.user?.email as string);
+        }
+      }
+      setAnalytics({ lastUpdate: new Date() });
+      setLoading(false);
+    }
+
+    if (session?.user && email === session.user.email) {
+      updateAllAnalyticsData();
+    }
+  }, [isXConnected, session, email]);
 
   useEffect(() => {
     if (session?.user) {
@@ -76,12 +104,31 @@ export default function Dashboard() {
       viewport={{ once: true }}
       className="px-20"
     >
-      <DashboardTabs selected={openTab} />
-      {openTab === "all" && <AllTabContent />}
-      {openTab === "twitter" && <XTabContent />}
-      {openTab === "instagram" && <InstagramTabContent />}
-      {openTab === "linkedin" && <LinkedinTabContent />}
-      {openTab === "youtube" && <YoutubeTabContent />}
+      {loading ? (
+        <Box sx={{ flexGrow: 1, width: "100%" }}>
+          <Grid2 container spacing={5}>
+            <Grid2 size={{ xs: 12 }}>
+              <Skeleton variant="rounded" width={"100%"} height={105} />
+            </Grid2>
+            <Grid2 container spacing={3}>
+              {[1, 2, 3, 4, 5, 6]?.map((data) => (
+                <Grid2 key={`${data}-dashboard-skeleton`} size={{ xs: 12, md: 6, xl: 4 }}>
+                  <Skeleton variant="rounded" width={"100%"} height={461} />
+                </Grid2>
+              ))}
+            </Grid2>
+          </Grid2>
+        </Box>
+      ) : (
+        <>
+          <DashboardTabs selected={openTab} />
+          {openTab === "all" && <AllTabContent />}
+          {openTab === "twitter" && <XTabContent />}
+          {openTab === "instagram" && <InstagramTabContent />}
+          {openTab === "linkedin" && <LinkedinTabContent />}
+          {openTab === "youtube" && <YoutubeTabContent />}
+        </>
+      )}
     </motion.div>
   );
 }
