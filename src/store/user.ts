@@ -1,19 +1,7 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import { persist } from "zustand/middleware";
-
-interface UserStore {
-  name: string | null;
-  email: string | null;
-  isXConnected: boolean;
-  isInstagramConnected: boolean;
-  isLinkedinConnected: boolean;
-  isYoutubeConnected: boolean;
-  hydrated: boolean;
-
-  setHydrated: () => void;
-  setUser: (updates: Partial<UserStore>) => void;
-}
+import { UserStore } from "@/types/Stores";
 
 export const defaultUser: Partial<UserStore> = {
   name: null,

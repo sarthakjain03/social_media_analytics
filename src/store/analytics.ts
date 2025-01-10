@@ -1,24 +1,15 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import { persist } from "zustand/middleware";
-import { TwitterChartData } from "@/types/Charts";
+import { AnalyticsStore } from "@/types/Stores";
 
-interface Analytics {
-  lastUpdate: Date | null;
-  isHydrated: boolean;
-  xData: TwitterChartData | null;
-
-  setIsHydrated: () => void;
-  setAnalytics: (updatedData: Partial<Analytics>) => void;
-}
-
-export const defaultAnalytics: Partial<Analytics> = {
+export const defaultAnalytics: Partial<AnalyticsStore> = {
   lastUpdate: null,
   isHydrated: false,
   xData: null,
 };
 
-export const useAnalyticsStore = create<Analytics>()(
+export const useAnalyticsStore = create<AnalyticsStore>()(
   persist(
     immer((set) => ({
       lastUpdate: null,
@@ -29,7 +20,7 @@ export const useAnalyticsStore = create<Analytics>()(
           state.isHydrated = true;
         });
       },
-      setAnalytics: (updatedData: Partial<Analytics>) => {
+      setAnalytics: (updatedData: Partial<AnalyticsStore>) => {
         set((state) => {
           Object.entries(updatedData).forEach(([key, value]) => {
             (state as any)[key] = value;
