@@ -58,7 +58,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
             }
         }
 
-        if (Date.now() - Number(userData.lastUpdated) > 900000) { // min 15 minutes gap between api calls
+        if (Date.now() - Number(userData.lastUpdated) > 86400000) { // min 24 hrs gap between api calls
             // getting user data and tweets from X.
             const twitterClient = new Client(refreshResponse.access_token);
             const user = await twitterClient.users.findMyUser({
