@@ -35,7 +35,7 @@ export const updateXUserData = async (email: string) => {
       } catch (error) {
         const axiosError = error as AxiosError<ApiResponse>;
         const message = axiosError.response?.data.message ?? "Error updating user's X account data";
-        //showToast("error", message);
+        showToast("error", message);
         return axiosError.response?.data?.data?.lastUpdate;
       }
 }

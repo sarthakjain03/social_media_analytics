@@ -102,26 +102,28 @@ const XTabContent = () => {
         </Box>
       ) : (
         <Box sx={{ flexGrow: 1, width: '100%' }}>
-          <Grid2 container spacing={3}>
-            <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
-              <AreaChart
-                title={"All Metrics"}
-                colors={chartColors}
-                xaxisLabels={chartData?.xaxisLabels ?? []}
-                data={chartData?.data ?? []}
-              />
-            </Grid2>
-            {chartData?.data?.map((data, index) => (
-              <Grid2 key={data.name} size={{ xs: 12, md: 6, xl: 4 }}>
+          {chartData?.data?.length > 0 && (
+            <Grid2 container spacing={3}>
+              <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
                 <AreaChart
-                  title={data.name}
-                  colors={[chartColors[index]]}
+                  title={"All Metrics"}
+                  colors={chartColors}
                   xaxisLabels={chartData?.xaxisLabels ?? []}
-                  data={[data]}
+                  data={chartData?.data ?? []}
                 />
               </Grid2>
-            ))}
-          </Grid2>
+              {chartData?.data?.map((data, index) => (
+                <Grid2 key={data.name} size={{ xs: 12, md: 6, xl: 4 }}>
+                  <AreaChart
+                    title={data.name}
+                    colors={[chartColors[index]]}
+                    xaxisLabels={chartData?.xaxisLabels ?? []}
+                    data={[data]}
+                  />
+                </Grid2>
+              ))}
+            </Grid2>
+          )}
         </Box>
       )}
     </div>

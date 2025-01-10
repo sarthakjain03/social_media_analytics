@@ -8,7 +8,7 @@ import { useAnalyticsStore } from "@/store/analytics";
 
 export function usePopulateAnalytics() {
   const { data: session } = useSession();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [xChartData, setXChartData] = useState<TwitterChartData | null>(null);
   const {
     isXConnected,
