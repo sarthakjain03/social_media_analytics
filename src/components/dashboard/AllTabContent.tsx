@@ -7,9 +7,9 @@ import { Box, Grid2, Skeleton } from "@mui/material";
 import { formatToDayMonthYear } from "@/utils/dateFormatters";
 import { useSession } from "next-auth/react";
 import { useUserStore } from "@/store/user";
+import { useAnalyticsStore } from "@/store/analytics";
+import { usePopulateAnalytics } from "@/hooks/usePopulateAnalytics";
 import { ChartObject, ChartSeriesObject } from "@/types/Charts";
-import { updateXUserData } from "@/actions/twitterActions";
-// import AccountLinkButtons from "./AccountLinkButtons";
 
 const AccountLinkButtons = dynamic(
   // as I am using 'window' i.e. browser API in these components

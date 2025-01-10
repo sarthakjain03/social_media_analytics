@@ -13,7 +13,7 @@ export function usePopulateAnalytics() {
     const { isXConnected, isInstagramConnected, isLinkedinConnected, isYoutubeConnected, email } = useUserStore();
     const { setAnalytics, lastUpdate, xData } = useAnalyticsStore();
 
-    const populateAnalytics = useCallback(async () => {
+    const populateAnalytics = async () => {
         if (lastUpdate === null || Date.now() - Number(lastUpdate) >= 86400000) {
             setLoading(true);
             let currentXData: TwitterChartData | null = xData ? xData : null;
@@ -32,7 +32,7 @@ export function usePopulateAnalytics() {
             }
         }
         setLoading(false);
-    }, [lastUpdate, email, isXConnected, xData]);
+    };
 
     useEffect(() => {
         if (session?.user && email === session.user.email) {
