@@ -66,8 +66,6 @@ const XTabContent = () => {
   };
 
   useEffect(() => {
-    console.log("loading: ", loading);
-    console.log("X Chart Data: ", xChartData);
     if (!loading && xChartData) {
       formatChartData(xChartData);
     }
