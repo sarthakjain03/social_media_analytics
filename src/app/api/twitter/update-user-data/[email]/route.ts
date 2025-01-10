@@ -22,7 +22,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
             access_token: userData.accessToken,
             refresh_token: userData.refreshToken,
             expires_at: userData.tokenExpiry,
-            last_update: userData.lastUpdated
+            last_update: Number(userData.lastUpdated)
         };
 
         // refresh the user's access token for X account if <= 2 mins left for expiration.
@@ -166,7 +166,10 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
 
             return Response.json({
                 success: true,
-                message: "User data updated successfully"
+                message: "User data updated successfully",
+                data: {
+                    lastUpdate: Date.now()
+                }
             }, { status: 200 });
         }
 

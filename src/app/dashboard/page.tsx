@@ -77,6 +77,8 @@ export default function Dashboard() {
         }
       }
 
+      console.log(newXUpdateDate);
+
       if (newXUpdateDate) {
         setAnalytics({ lastUpdateOfX: newXUpdateDate });
       }
