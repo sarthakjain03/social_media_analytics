@@ -69,16 +69,16 @@ export default function Dashboard() {
     // update all social media's analytics data
     const updateAllAnalyticsData = async () => {
       setLoading(true);
-      let hasXDataUpdated = false;
+      let newXUpdateDate;
 
       if (lastUpdateOfX === null || Date.now() - Number(lastUpdateOfX) >= 86400000) { // 24 hrs gap
         if (isXConnected) {
-          hasXDataUpdated = await updateXUserData(session?.user?.email as string);
+          newXUpdateDate = await updateXUserData(session?.user?.email as string);
         }
       }
 
-      if (hasXDataUpdated) {
-        setAnalytics({ lastUpdateOfX: new Date() });
+      if (newXUpdateDate) {
+        setAnalytics({ lastUpdateOfX: newXUpdateDate });
       }
       setLoading(false);
     }

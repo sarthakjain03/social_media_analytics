@@ -30,7 +30,11 @@ export const updateXUserData = async (email: string) => {
     try {
         const response = await axios.get(`/api/twitter/update-user-data/${email}`);
 
-        return response?.data?.success;
+        if (response?.data?.success) {
+          return new Date();
+        }
+
+        return response?.data?.data?.lastUpdate;
     
       } catch (error) {
         const axiosError = error as AxiosError<ApiResponse>;

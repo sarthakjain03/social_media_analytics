@@ -21,7 +21,8 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
         let refreshResponse = {
             access_token: userData.accessToken,
             refresh_token: userData.refreshToken,
-            expires_at: userData.tokenExpiry
+            expires_at: userData.tokenExpiry,
+            last_update: userData.lastUpdated
         };
 
         // refresh the user's access token for X account if <= 2 mins left for expiration.
@@ -45,7 +46,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                     }
                 });
 
-                refreshResponse = {...response.data};
+                refreshResponse = {...response.data, last_update: Number(userData.lastUpdated)};
                 
             } catch (err: any) {
                 console.log(err?.message);
@@ -53,7 +54,10 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                 console.error("Error refreshing token for X: ", err);
                 return Response.json({
                     success: false,
-                    message: "Failed to refresh access token for user's X account"
+                    message: "Failed to refresh access token for user's X account",
+                    data: {
+                        lastUpdate: refreshResponse.last_update
+                    }
                 }, { status: 500 });
             }
         }
@@ -168,7 +172,10 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
 
         return Response.json({
             success: false,
-            message: "Data will be updated only once a day"
+            message: "Data will be updated only once a day",
+            data: {
+                lastUpdate: refreshResponse.last_update
+            }
         }, { status: 429 });
         
     } catch (error) {
