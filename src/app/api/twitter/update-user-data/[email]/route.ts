@@ -168,7 +168,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
 
         return Response.json({
             success: false,
-            message: "Data will be updated in a few minutes"
+            message: "Data will be updated only once a day"
         }, { status: 429 });
         
     } catch (error) {
