@@ -7,11 +7,13 @@ import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { checkGoogleUserInDatabase } from "@/actions/authActions";
 import { defaultUser, useUserStore } from "@/store/user";
+import { defaultAnalytics, useAnalyticsStore } from "@/store/analytics";
 
 export default function Header() {
   const { data: session } = useSession();
   const [openModal, setOpenModal] = useState(false);
-  const { email, setUser, hydrated } = useUserStore();
+  const { email, setUser } = useUserStore();
+  const { setAnalytics } = useAnalyticsStore();
 
   const router = useRouter();
 
@@ -30,6 +32,7 @@ export default function Header() {
 
     if (!session?.user) {
       setUser({...defaultUser});
+      setAnalytics({...defaultAnalytics});
     } else if (email === null) {
       checkAndAddGoogleUser(session.user.name ?? "", session.user.email ?? "");
     }
