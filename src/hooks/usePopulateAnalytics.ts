@@ -23,6 +23,7 @@ export function usePopulateAnalytics() {
       let currentXData: TwitterChartData | null = xData ? xData : null;
       if (currentXData) {
         if (lastUpdateOfX?.getDay() === new Date().getDay()) {
+          setXChartData(currentXData);
           return;
         }
       }
