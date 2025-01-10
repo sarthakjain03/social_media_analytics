@@ -166,7 +166,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
 
             return Response.json({
                 success: true,
-                message: "User data updated successfully",
+                message: "X Analytics updated successfully",
                 data: {
                     lastUpdate: Date.now()
                 }
