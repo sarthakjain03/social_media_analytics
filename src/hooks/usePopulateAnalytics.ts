@@ -3,15 +3,15 @@ import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { getXUserData } from "@/actions/twitterActions";
 import { TwitterChartData } from "@/types/Charts";
+import { useUserStore } from "@/store/user";
+import { useAnalyticsStore } from "@/store/analytics";
 
-export function usePopulateAnalytics({ analyticsStore, userStore } : {
-    analyticsStore: Partial<AnalyticsStore>;
-    userStore: Partial<UserStore>
-}) {
+export function usePopulateAnalytics() {
     const { data: session } = useSession();
     const [loading, setLoading] = useState(true);
-    const { isXConnected, isInstagramConnected, isLinkedinConnected, isYoutubeConnected, email } = userStore;
-    const { setAnalytics, lastUpdate, xData } = analyticsStore;
+    const [xChartData, setXChartData] = useState<TwitterChartData | null>(null);
+    const { isXConnected, isInstagramConnected, isLinkedinConnected, isYoutubeConnected, email } = useUserStore();
+    const { setAnalytics, lastUpdate, xData } = useAnalyticsStore();
 
     const populateAnalytics = useCallback(async () => {
         if (lastUpdate === null || Date.now() - Number(lastUpdate) >= 86400000) {
@@ -24,6 +24,8 @@ export function usePopulateAnalytics({ analyticsStore, userStore } : {
                     currentXData = xDataFromDB.chartsData;
                 }
             }
+
+            setXChartData(currentXData);
 
             if (setAnalytics) {
                 setAnalytics({ xData: currentXData, lastUpdate: new Date() });
@@ -38,5 +40,5 @@ export function usePopulateAnalytics({ analyticsStore, userStore } : {
         }
     }, [session, email]);
 
-    return { loading };
+    return { loading, xChartData };
 }

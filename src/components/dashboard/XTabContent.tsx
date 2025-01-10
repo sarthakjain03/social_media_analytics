@@ -4,12 +4,9 @@ import { useUserStore } from "@/store/user";
 import { useState, useEffect } from "react";
 import { X } from "@mui/icons-material";
 import { Box, Grid2, Skeleton } from "@mui/material";
-import { getXUserData } from "@/actions/twitterActions";
 import { ChartObject, TwitterChartData, ChartSeriesObject } from "@/types/Charts";
 import { formatToDayMonthYear } from "@/utils/dateFormatters";
-import { useSession } from "next-auth/react";
 import { usePopulateAnalytics } from "@/hooks/usePopulateAnalytics";
-import { useAnalyticsStore } from "@/store/analytics";
 
 const chartColors = [
   "#1f77b4",
@@ -25,10 +22,8 @@ const chartColors = [
 ];
 
 const XTabContent = () => {
-  const { data: session } = useSession();
-  const userStore = useUserStore();
-  const analyticsStore = useAnalyticsStore();
-  const { loading } = usePopulateAnalytics({ analyticsStore, userStore });
+  const { isXConnected } = useUserStore();
+  const { loading, xChartData } = usePopulateAnalytics();
 
   const [chartData, setChartData] = useState<{
     xaxisLabels: string[];
@@ -71,12 +66,12 @@ const XTabContent = () => {
   };
 
   useEffect(() => {
-    if (!loading && analyticsStore?.xData) {
-      formatChartData(analyticsStore.xData);
+    if (!loading && xChartData) {
+      formatChartData(xChartData);
     }
-  }, [loading, analyticsStore]);
+  }, [loading, xChartData]);
 
-  if (!userStore?.isXConnected) {
+  if (!isXConnected) {
     return (
       <div className="flex gap-4 items-center justify-center my-3">
         <button
