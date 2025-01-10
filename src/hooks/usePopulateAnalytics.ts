@@ -20,14 +20,15 @@ export function usePopulateAnalytics() {
 
   const populateXData = async () => {
     if (isXConnected) {
+      setLoading(true);
       let currentXData: TwitterChartData | null = xData ? xData : null;
       if (currentXData) {
         if (lastUpdateOfX?.getDay() === new Date().getDay()) {
           setXChartData(currentXData);
+          setLoading(false);
           return;
         }
       }
-      setLoading(true);
       const xDataFromDB = await getXUserData(email as string);
       if (xDataFromDB?.chartsData) {
         currentXData = xDataFromDB.chartsData;
