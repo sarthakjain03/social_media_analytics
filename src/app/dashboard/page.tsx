@@ -110,7 +110,7 @@ export default function Dashboard() {
             <Grid2 size={{ xs: 12 }}>
               <Skeleton variant="rounded" width={"100%"} height={105} />
             </Grid2>
-            <Grid2 container spacing={3}>
+            <Grid2 container spacing={3} size={{ xs: 12 }} width={"100%"}>
               {[1, 2, 3, 4, 5, 6]?.map((data) => (
                 <Grid2 key={`${data}-dashboard-skeleton`} size={{ xs: 12, md: 6, xl: 4 }}>
                   <Skeleton variant="rounded" width={"100%"} height={461} />

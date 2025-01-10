@@ -8,6 +8,8 @@ import { getXUserData } from "@/actions/twitterActions";
 import { ChartObject, TwitterChartData, ChartSeriesObject } from "@/types/Charts";
 import { formatToDayMonthYear } from "@/utils/dateFormatters";
 import { useSession } from "next-auth/react";
+import { usePopulateAnalytics } from "@/hooks/usePopulateAnalytics";
+import { useAnalyticsStore } from "@/store/analytics";
 
 const chartColors = [
   "#1f77b4",
@@ -22,14 +24,12 @@ const chartColors = [
   "#17becf",
 ];
 
-function delay(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 const XTabContent = () => {
   const { data: session } = useSession();
-  const { isXConnected, email } = useUserStore();
-  const [loading, setLoading] = useState(false);
+  const userStore = useUserStore();
+  const analyticsStore = useAnalyticsStore();
+  const { loading } = usePopulateAnalytics({ analyticsStore, userStore });
+
   const [chartData, setChartData] = useState<{
     xaxisLabels: string[];
     data: ChartSeriesObject[];
@@ -37,7 +37,6 @@ const XTabContent = () => {
     xaxisLabels: [],
     data: [],
   });
-  const [delayExecuting, setDelayExecuting] = useState(false);
 
   const formatChartData = (data: TwitterChartData) => {
     const dataObj = {
@@ -65,18 +64,6 @@ const XTabContent = () => {
     });
   };
 
-  const getChartsData = async () => {
-    setDelayExecuting(true);
-    setLoading(true);
-    const data = await getXUserData(email as string);
-    if (data?.chartsData) {
-      formatChartData(data?.chartsData);
-    }
-    setLoading(false);
-    await delay(16 * 60 * 1000); // atleast 16 mins gap between api calls.
-    setDelayExecuting(false);
-  };
-
   const getXUrlAndRedirect = () => {
     if (typeof window !== "undefined") {
       window.location.href = "/api/twitter/get-auth-url";
@@ -84,12 +71,12 @@ const XTabContent = () => {
   };
 
   useEffect(() => {
-    if (session?.user && isXConnected && email === session.user.email && !delayExecuting) {
-      getChartsData();
+    if (!loading && analyticsStore?.xData) {
+      formatChartData(analyticsStore.xData);
     }
-  }, [email, isXConnected, session, delayExecuting]);
+  }, [loading, analyticsStore]);
 
-  if (!isXConnected) {
+  if (!userStore?.isXConnected) {
     return (
       <div className="flex gap-4 items-center justify-center my-3">
         <button
