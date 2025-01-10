@@ -77,8 +77,8 @@ export default function Dashboard() {
         }
       }
 
-      if (newXUpdateDate) {
-        setAnalytics({ lastUpdateOfX: newXUpdateDate });
+      if (newXUpdateDate?.success) {
+        setAnalytics({ lastUpdateOfX: newXUpdateDate?.newDate });
       }
       setLoading(false);
     }

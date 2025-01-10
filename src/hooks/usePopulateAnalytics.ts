@@ -22,14 +22,16 @@ export function usePopulateAnalytics() {
     if (isXConnected) {
       setLoading(true);
       let currentXData: TwitterChartData | null = xData ? xData : null;
-      const xDataFromDB = await getXUserData(email as string);
-      if (xDataFromDB?.chartsData) {
-        currentXData = xDataFromDB.chartsData;
+      if (currentXData === null) {
+        const xDataFromDB = await getXUserData(email as string);
+        if (xDataFromDB?.chartsData) {
+          currentXData = xDataFromDB.chartsData;
+        }
+        if (setAnalytics) {
+          setAnalytics({ xData: currentXData });
+        }
       }
       setXChartData(currentXData);
-      if (setAnalytics) {
-        setAnalytics({ xData: currentXData });
-      }
       setLoading(false);
     }
   }
