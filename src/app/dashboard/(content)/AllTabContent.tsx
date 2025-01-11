@@ -14,7 +14,6 @@ const chartColors = [
 ];
 
 interface AllChartsData {
-  xaxisLabels: string[];
   likes: Array<{ name: string; data: number[] }>;
   replies: Array<{ name: string; data: number[] }>;
   bookmarks: Array<{ name: string; data: number[] }>;
@@ -22,12 +21,6 @@ interface AllChartsData {
   followers: Array<{ name: string; data: number[] }>;
   impressions: Array<{ name: string; data: number[] }>;
 }
-
-const defaultChartData: Array<{ name: string; data: number[] }> = [
-  { name: "X (Twitter)", data: [] },
-  //{ name: "LinkedIn", data: [] },
-  //{ name: "Instagram", data: [] }
-];
 
 const AccountLinkButtons = dynamic(
   // as I am using 'window' i.e. browser API in these components
@@ -37,41 +30,52 @@ const AccountLinkButtons = dynamic(
 
 const AllTabContent = () => {
   const { loading, allChartsData } = usePopulateAnalytics();
-  const [allAnalyticsData, setAllAnalyticsData] = useState<AllChartsData>({
+  const [allAnalyticsData, setAllAnalyticsData] = useState<{
+    xaxisLabels: string[];
+    metricData: AllChartsData;
+  }>({
     xaxisLabels: [],
-    likes: defaultChartData,
-    replies: defaultChartData,
-    bookmarks: defaultChartData,
-    reposts: defaultChartData, // retweets for X (Twitter)
-    followers: defaultChartData,
-    impressions: defaultChartData,
+    metricData: {
+      likes: [{ name: "X (Twitter)", data: [] },],
+      replies: [{ name: "X (Twitter)", data: [] },],
+      bookmarks: [{ name: "X (Twitter)", data: [] },],
+      reposts: [{ name: "X (Twitter)", data: [] },], // retweets for X (Twitter)
+      followers: [{ name: "X (Twitter)", data: [] },],
+      impressions: [{ name: "X (Twitter)", data: [] },],
+    }
   });
 
   const formatAllChartData = () => {
     const { xChartData } = allChartsData;
-    const chartsData: AllChartsData = {
+    const chartsData: {
+      xaxisLabels: string[];
+      metricData: AllChartsData;
+    } = {
       xaxisLabels: [],
-      likes: defaultChartData,
-      replies: defaultChartData,
-      bookmarks: defaultChartData,
-      reposts: defaultChartData, // retweets for X (Twitter)
-      followers: defaultChartData,
-      impressions: defaultChartData,
+      metricData: {
+        likes: [{ name: "X (Twitter)", data: [] },],
+        replies: [{ name: "X (Twitter)", data: [] },],
+        bookmarks: [{ name: "X (Twitter)", data: [] },],
+        reposts: [{ name: "X (Twitter)", data: [] },], // retweets for X (Twitter)
+        followers: [{ name: "X (Twitter)", data: [] },],
+        impressions: [{ name: "X (Twitter)", data: [] },],
+      }
     };
 
     console.log("Before updating: ", chartsData);
     
     if (xChartData) {
-      Object.keys(xChartData)?.map((metric) => {
-        const arr = (xChartData as any)[metric];
-        arr?.map((obj: ChartObject) => {
+      Object.keys(xChartData)?.forEach((metric) => {
+        const arr: ChartObject[] = (xChartData as any)[metric];
+        arr?.forEach((obj: ChartObject) => {
           if (chartsData?.xaxisLabels?.length < arr.length) {
             chartsData.xaxisLabels.push(formatToDayMonthYear(obj.date));
           }
           if (metric === "retweets") {
-            chartsData.reposts[0].data.push(obj.value);
+            chartsData.metricData.reposts[0].data.push(obj.value);
           } else if (metric !== "engagements") {
-            (chartsData as any)[metric][0].data.push(obj.value);
+            const key = metric as keyof AllChartsData;
+            chartsData.metricData[key][0].data?.push(obj.value);
           }
         });
       });
@@ -107,7 +111,7 @@ const AllTabContent = () => {
                 xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
                 colors={chartColors}
                 showLegendForSingleSeries={true}
-                data={allAnalyticsData?.followers ?? []}
+                data={allAnalyticsData?.metricData?.followers ?? []}
               />
             </Grid2>
             <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
@@ -116,7 +120,7 @@ const AllTabContent = () => {
                 xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
                 colors={chartColors}
                 showLegendForSingleSeries={true}
-                data={allAnalyticsData?.likes ?? []}
+                data={allAnalyticsData?.metricData?.likes ?? []}
               />
             </Grid2>
             <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
@@ -125,7 +129,7 @@ const AllTabContent = () => {
                 xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
                 colors={chartColors}
                 showLegendForSingleSeries={true}
-                data={allAnalyticsData?.impressions ?? []}
+                data={allAnalyticsData?.metricData?.impressions ?? []}
               />
             </Grid2>
             <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
@@ -134,7 +138,7 @@ const AllTabContent = () => {
                 xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
                 colors={chartColors}
                 showLegendForSingleSeries={true}
-                data={allAnalyticsData?.replies ?? []}
+                data={allAnalyticsData?.metricData?.replies ?? []}
               />
             </Grid2>
             <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
@@ -143,7 +147,7 @@ const AllTabContent = () => {
                 xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
                 colors={chartColors}
                 showLegendForSingleSeries={true}
-                data={allAnalyticsData?.reposts ?? []}
+                data={allAnalyticsData?.metricData?.reposts ?? []}
               />
             </Grid2>
             <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
@@ -152,7 +156,7 @@ const AllTabContent = () => {
                 xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
                 colors={chartColors}
                 showLegendForSingleSeries={true}
-                data={allAnalyticsData?.bookmarks ?? []}
+                data={allAnalyticsData?.metricData?.bookmarks ?? []}
               />
             </Grid2>
           </Grid2>

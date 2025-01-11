@@ -25,6 +25,8 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
             last_update: userData.lastUpdated
         };
 
+        console.log("Access token expiry: ", userData.tokenExpiry);
+
         // refresh the user's access token for X account if <= 2 mins left for expiration.
         // if (Number(userData.tokenExpiry) - Date.now() <= 120000) { // 2 minutes gap
         //     const clientID = process.env.TWITTER_CLIENT_ID as string;
