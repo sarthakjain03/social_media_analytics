@@ -23,7 +23,7 @@ const chartColors = [
 
 const XTabContent = () => {
   const { isXConnected } = useUserStore();
-  const { loading, xChartData } = usePopulateAnalytics();
+  const { loading, allChartsData } = usePopulateAnalytics();
 
   const [chartData, setChartData] = useState<{
     xaxisLabels: string[];
@@ -38,10 +38,10 @@ const XTabContent = () => {
       followers: { name: "Followers", data: [] },
       likes: { name: "Likes", data: [] },
       impressions: { name: "Impressions", data: [] },
-      bookmarks: { name: "Bookmarks", data: [] },
       replies: { name: "Replies", data: [] },
+      engagements: { name: "Engagements", data: [] },
       retweets: { name: "Retweets", data: [] },
-      engagements: { name: "Engagements", data: [] }
+      bookmarks: { name: "Bookmarks", data: [] },
     };
     const labels: string[] = [];
     Object.keys(data)?.map((metric) => {
@@ -66,10 +66,10 @@ const XTabContent = () => {
   };
 
   useEffect(() => {
-    if (!loading && xChartData) {
-      formatChartData(xChartData);
+    if (allChartsData?.xChartData) {
+      formatChartData(allChartsData.xChartData);
     }
-  }, [loading, xChartData]);
+  }, [allChartsData]);
 
   if (!isXConnected) {
     return (

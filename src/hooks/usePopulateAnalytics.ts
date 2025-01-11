@@ -9,19 +9,26 @@ export function usePopulateAnalytics() {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
   const [xChartData, setXChartData] = useState<TwitterChartData | null>(null);
+  const [allChartsData, setAllChartsData] = useState<{
+    xChartData: TwitterChartData | null,
+    // linkedin and instagram to be added
+  }>({
+    xChartData: null,
+    //linkedinChartData: null,
+    //instagramChartData: null
+  });
   const {
     isXConnected,
     isInstagramConnected,
     isLinkedinConnected,
-    isYoutubeConnected,
     email,
   } = useUserStore();
   const { setAnalytics, xData, lastUpdateOfX } = useAnalyticsStore();
 
-  const populateXData = async () => {
+  const populateXData = async () : Promise<TwitterChartData | null> => {
+    let currentXData: TwitterChartData | null = xData ? xData : null;
     if (isXConnected) {
-      setLoading(true);
-      let currentXData: TwitterChartData | null = xData ? xData : null;
+      //setLoading(true);
       if (currentXData === null) {
         const xDataFromDB = await getXUserData(email as string);
         if (xDataFromDB?.chartsData) {
@@ -31,28 +38,28 @@ export function usePopulateAnalytics() {
           setAnalytics({ xData: currentXData });
         }
       }
-      setXChartData(currentXData);
-      setLoading(false);
+      //setXChartData(currentXData);
+      //setLoading(false);
     }
+    return currentXData;
   }
 
   const populateAllAnalytics = async () => {
     setLoading(true);
-    await populateXData();
+    const updatedXChartData = await populateXData();
+
+    setAllChartsData({
+      xChartData: updatedXChartData
+    });
     setLoading(false);
   };
 
-  // useEffect(() => {
-  //   if (session?.user && email === session.user.email) {
-  //     populateAllAnalytics();
-  //   }
-  // }, [session, email]);
-
   useEffect(() => {
     if (session?.user && email === session.user.email) {
-      populateXData();
+      //populateXData();
+      populateAllAnalytics();
     }
   }, [lastUpdateOfX]);
 
-  return { loading, xChartData };
+  return { loading, allChartsData };
 }

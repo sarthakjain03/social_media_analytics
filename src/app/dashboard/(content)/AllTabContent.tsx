@@ -1,15 +1,23 @@
 "use client";
 import dynamic from "next/dynamic";
 import AreaChart from "@/components/charts/AreaChart";
-import LineChart from "@/components/charts/LineChart";
 import { useState, useEffect } from "react";
 import { Box, Grid2, Skeleton } from "@mui/material";
 import { formatToDayMonthYear } from "@/utils/dateFormatters";
-import { useSession } from "next-auth/react";
-import { useUserStore } from "@/store/user";
-import { useAnalyticsStore } from "@/store/analytics";
 import { usePopulateAnalytics } from "@/hooks/usePopulateAnalytics";
-import { ChartObject, ChartSeriesObject } from "@/types/Charts";
+import { ChartObject } from "@/types/Charts";
+
+const chartColors = [
+  "#000000", // for X (Twitter)
+  "#1f77b4", // for LinkedIn
+  "#9467bd", // for Instagram
+];
+
+const defaultChartData: Array<{ name: string; data: number[] }> = [
+  { name: "X (Twitter)", data: [] },
+  //{ name: "LinkedIn", data: [] },
+  //{ name: "Instagram", data: [] }
+];
 
 const AccountLinkButtons = dynamic(
   // as I am using 'window' i.e. browser API in these components
@@ -18,8 +26,43 @@ const AccountLinkButtons = dynamic(
 );
 
 const AllTabContent = () => {
-  const { data: session } = useSession();
-  const [loading, setLoading] = useState(false);
+  const { loading, allChartsData } = usePopulateAnalytics();
+  const [allAnalyticsData, setAllAnalyticsData] = useState({
+    xaxisLabels: [""],
+    likes: defaultChartData,
+    replies: defaultChartData,
+    bookmarks: defaultChartData,
+    reposts: defaultChartData, // retweets for X (Twitter)
+    followers: defaultChartData,
+    impressions: defaultChartData,
+  });
+
+  const formatAllChartData = () => {
+    const { xChartData } = allChartsData;
+    const chartsData = { ...allAnalyticsData };
+
+    if (xChartData) {
+      Object.keys(xChartData)?.map((metric) => {
+        const arr = (xChartData as any)[metric];
+        arr?.map((obj: ChartObject) => {
+          if (chartsData?.xaxisLabels?.length < arr.length) {
+            chartsData?.xaxisLabels?.push(formatToDayMonthYear(obj.date));
+          }
+          if (metric === "retweets") {
+            chartsData.reposts[0].data.push(obj.value);
+          } else if (metric !== "engagements") {
+            (chartsData as any)[metric][0].data.push(obj.value);
+          }
+        });
+      });
+    }
+
+    setAllAnalyticsData(chartsData);
+  };
+
+  useEffect(() => {
+    formatAllChartData();
+  }, [allChartsData]);
 
   return (
     <>
@@ -29,7 +72,7 @@ const AllTabContent = () => {
           <Grid2 container spacing={3}>
             {[1, 2, 3, 4, 5, 6]?.map((data) => (
               <Grid2 key={`${data}-skeleton`} size={{ xs: 12, md: 6, xl: 4 }}>
-                <Skeleton variant="rounded" height={461} width={"100%"} />
+                <Skeleton variant="rounded" height={480} width={"100%"} />
               </Grid2>
             ))}
           </Grid2>
@@ -37,9 +80,44 @@ const AllTabContent = () => {
       ) : (
         <Box sx={{ flexGrow: 1, width: "100%" }}>
           <Grid2 container spacing={3}>
-            {/* <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
-              <Skeleton variant="rounded" height={461} width={"100%"} />
-            </Grid2> */}
+            <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
+              <AreaChart
+                title="Followers"
+                xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
+                colors={chartColors}
+                data={allAnalyticsData?.followers ?? []}
+              />
+              <AreaChart
+                title="Likes"
+                xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
+                colors={chartColors}
+                data={allAnalyticsData?.likes ?? []}
+              />
+              <AreaChart
+                title="Impressions"
+                xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
+                colors={chartColors}
+                data={allAnalyticsData?.impressions ?? []}
+              />
+              <AreaChart
+                title="Replies"
+                xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
+                colors={chartColors}
+                data={allAnalyticsData?.replies ?? []}
+              />
+              <AreaChart
+                title="Reposts"
+                xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
+                colors={chartColors}
+                data={allAnalyticsData?.reposts ?? []}
+              />
+              <AreaChart
+                title="Bookmarks"
+                xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
+                colors={chartColors}
+                data={allAnalyticsData?.bookmarks ?? []}
+              />
+            </Grid2>
           </Grid2>
         </Box>
       )}
