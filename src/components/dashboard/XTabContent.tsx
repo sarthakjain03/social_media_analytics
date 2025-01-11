@@ -95,7 +95,7 @@ const XTabContent = () => {
           <Grid2 container spacing={3}>
             {[1, 2, 3, 4, 5, 6, 7, 8]?.map((data) => (
               <Grid2 key={`${data}-skeleton`} size={{ xs: 12, md: 6, xl: 4 }}>
-                <Skeleton variant="rounded" height={461} width={"100%"} />
+                <Skeleton variant="rounded" height={480} width={"100%"} />
               </Grid2>
             ))}
           </Grid2>

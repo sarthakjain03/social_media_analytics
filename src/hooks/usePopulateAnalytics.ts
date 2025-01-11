@@ -50,11 +50,9 @@ export function usePopulateAnalytics() {
 
   useEffect(() => {
     if (session?.user && email === session.user.email) {
-      if (lastUpdateOfX || xData === null) {
-        populateXData();
-      }
+      populateXData();
     }
-  }, [lastUpdateOfX, xData]);
+  }, [lastUpdateOfX]);
 
   return { loading, xChartData };
 }
