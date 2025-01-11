@@ -49,10 +49,12 @@ export function usePopulateAnalytics() {
   // }, [session, email]);
 
   useEffect(() => {
-    if (session?.user && email === session.user.email && lastUpdateOfX) {
-      populateXData();
+    if (session?.user && email === session.user.email) {
+      if (lastUpdateOfX || xData === null) {
+        populateXData();
+      }
     }
-  }, [lastUpdateOfX]);
+  }, [lastUpdateOfX, xData]);
 
   return { loading, xChartData };
 }
