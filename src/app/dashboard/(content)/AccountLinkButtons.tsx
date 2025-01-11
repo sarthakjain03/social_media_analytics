@@ -1,9 +1,9 @@
 "use client"
-import { X, Instagram, YouTube, LinkedIn } from "@mui/icons-material";
+import { X, Instagram, LinkedIn } from "@mui/icons-material";
 import { useUserStore } from "@/store/user"
 
 const AccountLinkButtons = () => {
-    const { isInstagramConnected, isLinkedinConnected, isXConnected, isYoutubeConnected } = useUserStore();
+    const { isInstagramConnected, isLinkedinConnected, isXConnected } = useUserStore();
 
     const getXUrlAndRedirect = () => {
         if (typeof window !== "undefined") {
@@ -31,13 +31,6 @@ const AccountLinkButtons = () => {
             <button onClick={() => {}} className="rounded-lg bg-gradient-to-br from-yellow-400 via-pink-500 to-purple-600 text-white font-poppins font-medium flex gap-2 py-2 px-3 items-center">
                 <span>Link</span>
                 <span><Instagram /></span>
-                <span>Account</span>
-            </button>
-        )}
-        {!isYoutubeConnected && (
-            <button onClick={() => {}} className="rounded-lg bg-red-600 text-white font-poppins font-medium flex gap-2 py-2 px-3 items-center">
-                <span>Link</span>
-                <span><YouTube /></span>
                 <span>Account</span>
             </button>
         )} */}

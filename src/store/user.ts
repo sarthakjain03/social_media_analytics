@@ -9,8 +9,7 @@ export const defaultUser: Partial<UserStore> = {
   hydrated: false,
   isXConnected: false,
   isInstagramConnected: false,
-  isLinkedinConnected: false,
-  isYoutubeConnected: false
+  isLinkedinConnected: false
 };
 
 export const useUserStore = create<UserStore>()(
@@ -22,7 +21,6 @@ export const useUserStore = create<UserStore>()(
       isXConnected: false,
       isInstagramConnected: false,
       isLinkedinConnected: false,
-      isYoutubeConnected: false,
       setHydrated: () => {
         set((state) => {
           state.hydrated = true;

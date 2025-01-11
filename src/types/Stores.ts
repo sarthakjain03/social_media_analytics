@@ -15,7 +15,6 @@ export interface UserStore {
   isXConnected: boolean;
   isInstagramConnected: boolean;
   isLinkedinConnected: boolean;
-  isYoutubeConnected: boolean;
   hydrated: boolean;
 
   setHydrated: () => void;

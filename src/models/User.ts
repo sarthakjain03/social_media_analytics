@@ -10,7 +10,6 @@ export interface User extends Document {
   isXConnected: boolean;
   isInstagramConnected: boolean;
   isLinkedinConnected: boolean;
-  isYoutubeConnected: boolean;
 }
 
 const UserSchema: Schema<User> = new Schema({
@@ -51,11 +50,7 @@ const UserSchema: Schema<User> = new Schema({
   isLinkedinConnected: {
     type: Boolean,
     default: false
-  },
-  isYoutubeConnected: {
-    type: Boolean,
-    default: false
-  },
+  }
 });
 
 const UserModel =

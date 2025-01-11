@@ -146,12 +146,6 @@ export default function LandingPage() {
               </p>
               <div className="flex justify-center items-center gap-10 flex-wrap">
                 <Image
-                  src={"/youtube.webp"}
-                  width={120}
-                  height={100}
-                  alt="Youtube"
-                />
-                <Image
                   src={"/instagram.png"}
                   width={200}
                   height={150}

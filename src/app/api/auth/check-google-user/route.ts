@@ -36,8 +36,7 @@ export async function POST(request: Request) {
                 email,
                 isXConnected: userRegistered.isXConnected,
                 isLinkedinConnected: userRegistered.isLinkedinConnected,
-                isInstagramConnected: userRegistered.isInstagramConnected,
-                isYoutubeConnected: userRegistered.isYoutubeConnected
+                isInstagramConnected: userRegistered.isInstagramConnected
             }
         }, { status: 200 });
 

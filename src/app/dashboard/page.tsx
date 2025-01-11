@@ -22,10 +22,6 @@ const LinkedinTabContent = dynamic(
   () => import("@/app/dashboard/(content)/LinkedinTabContent"),
   { ssr: false }
 );
-const YoutubeTabContent = dynamic(
-  () => import("@/app/dashboard/(content)/YoutubeTabContent"),
-  { ssr: false }
-);
 const XTabContent = dynamic(
   () => import("@/app/dashboard/(content)/XTabContent"),
   { ssr: false }
@@ -41,7 +37,6 @@ export default function Dashboard() {
     email,
     isInstagramConnected,
     isLinkedinConnected,
-    isYoutubeConnected,
     setUser
   } = useUserStore();
   const { lastUpdateOfX, setAnalytics } = useAnalyticsStore();
@@ -131,7 +126,6 @@ export default function Dashboard() {
           {openTab === "twitter" && <XTabContent />}
           {openTab === "instagram" && <InstagramTabContent />}
           {openTab === "linkedin" && <LinkedinTabContent />}
-          {openTab === "youtube" && <YoutubeTabContent />}
         </>
       )}
     </motion.div>

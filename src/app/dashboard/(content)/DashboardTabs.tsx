@@ -1,5 +1,5 @@
 import { Box, Tab, Tabs } from "@mui/material";
-import { X, Instagram, YouTube, LinkedIn } from "@mui/icons-material";
+import { X, Instagram, LinkedIn } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import { useResponsive } from "@/hooks/useResponsive";
 
@@ -41,12 +41,6 @@ export default function DashboardTabs({ selected }: { selected: string }) {
             icon={<Instagram />}
             iconPosition="start"
             value="instagram"
-          />
-          <Tab
-            label="YouTube"
-            icon={<YouTube />}
-            iconPosition="start"
-            value="youtube"
           />
         </Tabs>
       </Box>
