@@ -1,8 +1,8 @@
 "use client";
-import AreaChart from "../charts/AreaChart";
+import AreaChart from "../../../components/charts/AreaChart";
 import { useUserStore } from "@/store/user";
 import { useState, useEffect } from "react";
-import { YouTube } from "@mui/icons-material";
+import { LinkedIn } from "@mui/icons-material";
 import { CircularProgress, Box, Grid2 } from "@mui/material";
 import { formatToDayMonthYear } from "@/utils/dateFormatters";
 import { useSession } from "next-auth/react";
@@ -22,7 +22,7 @@ const chartColors = [
 
 const LinkedinTabContent = () => {
   const { data: session } = useSession();
-  const { isYoutubeConnected, email } = useUserStore();
+  const { isLinkedinConnected, email } = useUserStore();
   const [loading, setLoading] = useState(false);
   const [chartData, setChartData] = useState<{
     xaxisLabels: string[];
@@ -32,7 +32,7 @@ const LinkedinTabContent = () => {
     data: [],
   });
 
-//   if (!isYoutubeConnected) {
+//   if (!isLinkedinConnected) {
 //     return (
 //       <div className="flex gap-4 items-center justify-center my-3">
 //         <button
@@ -41,7 +41,7 @@ const LinkedinTabContent = () => {
 //         >
 //           <span>Link</span>
 //           <span>
-//             <YouTube fontSize="small" />
+//             <LinkedIn fontSize="small" />
 //           </span>
 //           <span>Account</span>
 //         </button>

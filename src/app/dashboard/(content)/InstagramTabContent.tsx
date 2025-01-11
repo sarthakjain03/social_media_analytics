@@ -1,8 +1,8 @@
 "use client";
-import AreaChart from "../charts/AreaChart";
+import AreaChart from "../../../components/charts/AreaChart";
 import { useUserStore } from "@/store/user";
 import { useState, useEffect } from "react";
-import { LinkedIn } from "@mui/icons-material";
+import { Instagram } from "@mui/icons-material";
 import { CircularProgress, Box, Grid2 } from "@mui/material";
 import { formatToDayMonthYear } from "@/utils/dateFormatters";
 import { useSession } from "next-auth/react";
@@ -20,9 +20,9 @@ const chartColors = [
   "#17becf",
 ];
 
-const LinkedinTabContent = () => {
+const InstagramTabContent = () => {
   const { data: session } = useSession();
-  const { isLinkedinConnected, email } = useUserStore();
+  const { isInstagramConnected, email } = useUserStore();
   const [loading, setLoading] = useState(false);
   const [chartData, setChartData] = useState<{
     xaxisLabels: string[];
@@ -32,7 +32,7 @@ const LinkedinTabContent = () => {
     data: [],
   });
 
-//   if (!isLinkedinConnected) {
+//   if (!isInstagramConnected) {
 //     return (
 //       <div className="flex gap-4 items-center justify-center my-3">
 //         <button
@@ -41,7 +41,7 @@ const LinkedinTabContent = () => {
 //         >
 //           <span>Link</span>
 //           <span>
-//             <LinkedIn fontSize="small" />
+//             <Instagram fontSize="small" />
 //           </span>
 //           <span>Account</span>
 //         </button>
@@ -56,4 +56,4 @@ const LinkedinTabContent = () => {
   );
 };
 
-export default LinkedinTabContent;
+export default InstagramTabContent;

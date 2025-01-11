@@ -1,5 +1,5 @@
 "use client";
-import DashboardTabs from "@/components/dashboard/DashboardTabs";
+import DashboardTabs from "@/app/dashboard/(content)/DashboardTabs";
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -11,23 +11,23 @@ import dynamic from "next/dynamic";
 import { Skeleton, Box, Grid2 } from "@mui/material";
 
 const AllTabContent = dynamic(
-  () => import("@/components/dashboard/AllTabContent"),
+  () => import("@/app/dashboard/(content)/AllTabContent"),
   { ssr: false }
 );
 const InstagramTabContent = dynamic(
-  () => import("@/components/dashboard/InstagramTabContent"),
+  () => import("@/app/dashboard/(content)/InstagramTabContent"),
   { ssr: false }
 );
 const LinkedinTabContent = dynamic(
-  () => import("@/components/dashboard/LinkedinTabContent"),
+  () => import("@/app/dashboard/(content)/LinkedinTabContent"),
   { ssr: false }
 );
 const YoutubeTabContent = dynamic(
-  () => import("@/components/dashboard/YoutubeTabContent"),
+  () => import("@/app/dashboard/(content)/YoutubeTabContent"),
   { ssr: false }
 );
 const XTabContent = dynamic(
-  () => import("@/components/dashboard/XTabContent"),
+  () => import("@/app/dashboard/(content)/XTabContent"),
   { ssr: false }
 ); // ssr = server side render, as here I am using 'window' i.e. browser-only API in this component which cannot be pre-rendered on the server as these apis don't exist on the server side.
 
@@ -77,8 +77,8 @@ export default function Dashboard() {
         }
       }
 
-      if (newXUpdateDate?.success) {
-        setAnalytics({ lastUpdateOfX: newXUpdateDate?.newDate });
+      if (newXUpdateDate?.date) {
+        setAnalytics({ lastUpdateOfX: newXUpdateDate.date });
       }
       setLoading(false);
     }

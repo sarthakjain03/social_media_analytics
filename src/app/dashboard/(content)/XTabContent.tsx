@@ -1,5 +1,5 @@
 "use client";
-import AreaChart from "../charts/AreaChart";
+import AreaChart from "@/components/charts/AreaChart";
 import { useUserStore } from "@/store/user";
 import { useState, useEffect } from "react";
 import { X } from "@mui/icons-material";

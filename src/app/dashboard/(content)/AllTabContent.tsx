@@ -1,7 +1,7 @@
 "use client";
 import dynamic from "next/dynamic";
-import AreaChart from "../charts/AreaChart";
-import LineChart from "../charts/LineChart";
+import AreaChart from "@/components/charts/AreaChart";
+import LineChart from "@/components/charts/LineChart";
 import { useState, useEffect } from "react";
 import { Box, Grid2, Skeleton } from "@mui/material";
 import { formatToDayMonthYear } from "@/utils/dateFormatters";
@@ -13,7 +13,7 @@ import { ChartObject, ChartSeriesObject } from "@/types/Charts";
 
 const AccountLinkButtons = dynamic(
   // as I am using 'window' i.e. browser API in these components
-  () => import("@/components/dashboard/AccountLinkButtons"),
+  () => import("@/app/dashboard/(content)/AccountLinkButtons"),
   { ssr: false }
 );
 

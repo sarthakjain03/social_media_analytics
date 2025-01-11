@@ -32,7 +32,7 @@ export const updateXUserData = async (email: string) => {
 
         return {
           success: true,
-          newDate: response?.data?.data?.lastUpdate
+          date: response?.data?.data?.lastUpdate
         };
     
       } catch (error) {
@@ -41,7 +41,7 @@ export const updateXUserData = async (email: string) => {
         showToast("error", message);
         return {
           success: false,
-          newDate: axiosError.response?.data?.data?.lastUpdate
+          date: axiosError.response?.data?.data?.lastUpdate
         };
       }
 }
