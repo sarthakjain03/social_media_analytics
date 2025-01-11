@@ -13,6 +13,16 @@ const chartColors = [
   "#9467bd", // for Instagram
 ];
 
+interface AllChartsData {
+  xaxisLabels: string[];
+  likes: Array<{ name: string; data: number[] }>;
+  replies: Array<{ name: string; data: number[] }>;
+  bookmarks: Array<{ name: string; data: number[] }>;
+  reposts: Array<{ name: string; data: number[] }>; // retweets for X (Twitter)
+  followers: Array<{ name: string; data: number[] }>;
+  impressions: Array<{ name: string; data: number[] }>;
+}
+
 const defaultChartData: Array<{ name: string; data: number[] }> = [
   { name: "X (Twitter)", data: [] },
   //{ name: "LinkedIn", data: [] },
@@ -27,8 +37,8 @@ const AccountLinkButtons = dynamic(
 
 const AllTabContent = () => {
   const { loading, allChartsData } = usePopulateAnalytics();
-  const [allAnalyticsData, setAllAnalyticsData] = useState({
-    xaxisLabels: [""],
+  const [allAnalyticsData, setAllAnalyticsData] = useState<AllChartsData>({
+    xaxisLabels: [],
     likes: defaultChartData,
     replies: defaultChartData,
     bookmarks: defaultChartData,
@@ -39,7 +49,15 @@ const AllTabContent = () => {
 
   const formatAllChartData = () => {
     const { xChartData } = allChartsData;
-    const chartsData = { ...allAnalyticsData };
+    const chartsData: AllChartsData = {
+      xaxisLabels: [],
+      likes: defaultChartData,
+      replies: defaultChartData,
+      bookmarks: defaultChartData,
+      reposts: defaultChartData, // retweets for X (Twitter)
+      followers: defaultChartData,
+      impressions: defaultChartData,
+    };
 
     if (xChartData) {
       Object.keys(xChartData)?.map((metric) => {
