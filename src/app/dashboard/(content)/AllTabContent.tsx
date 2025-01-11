@@ -85,36 +85,52 @@ const AllTabContent = () => {
                 title="Followers"
                 xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
                 colors={chartColors}
+                showLegendForSingleSeries={true}
                 data={allAnalyticsData?.followers ?? []}
               />
+            </Grid2>
+            <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
               <AreaChart
                 title="Likes"
                 xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
                 colors={chartColors}
+                showLegendForSingleSeries={true}
                 data={allAnalyticsData?.likes ?? []}
               />
+            </Grid2>
+            <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
               <AreaChart
                 title="Impressions"
                 xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
                 colors={chartColors}
+                showLegendForSingleSeries={true}
                 data={allAnalyticsData?.impressions ?? []}
               />
+            </Grid2>
+            <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
               <AreaChart
                 title="Replies"
                 xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
                 colors={chartColors}
+                showLegendForSingleSeries={true}
                 data={allAnalyticsData?.replies ?? []}
               />
+            </Grid2>
+            <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
               <AreaChart
                 title="Reposts"
                 xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
                 colors={chartColors}
+                showLegendForSingleSeries={true}
                 data={allAnalyticsData?.reposts ?? []}
               />
+            </Grid2>
+            <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
               <AreaChart
                 title="Bookmarks"
                 xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
                 colors={chartColors}
+                showLegendForSingleSeries={true}
                 data={allAnalyticsData?.bookmarks ?? []}
               />
             </Grid2>

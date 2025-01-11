@@ -17,6 +17,7 @@ interface AreaChartProps {
   colors?: string[];
   data: SeriesData[];
   title: string;
+  showLegendForSingleSeries?: boolean;
 }
 
 const chartOptions: ApexOptions = {
@@ -24,10 +25,6 @@ const chartOptions: ApexOptions = {
     toolbar: {
       show: true
     }
-  },
-  legend: {
-    show: true,
-    showForSingleSeries: false
   },
   dataLabels: {
     enabled: false
@@ -55,7 +52,8 @@ const AreaChart: React.FC<AreaChartProps> = ({
   height = 350,
   xaxisLabels = [],
   yaxisTitle = '',
-  title
+  title,
+  showLegendForSingleSeries = false
 }) => {
   const [series, setSeries] = useState<SeriesData[]>([]);
   const [options, setOptions] = useState<ApexOptions>(chartOptions);
@@ -64,6 +62,10 @@ const AreaChart: React.FC<AreaChartProps> = ({
     setSeries(data);
     setOptions((prevState) => ({
       ...prevState,
+      legend: {
+        show: true,
+        showForSingleSeries: showLegendForSingleSeries
+      },
       yaxis: {
         labels: {
           show: showYaxisLabels
@@ -83,7 +85,7 @@ const AreaChart: React.FC<AreaChartProps> = ({
       },
       colors: colors || prevState.colors
     }));
-  }, [data, colors, showYaxisLabels, xaxisLabels, yaxisTitle]);
+  }, [data, colors, showYaxisLabels, xaxisLabels, yaxisTitle, showLegendForSingleSeries]);
 
   return (
     <Card sx={{ borderRadius: 5, boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)' }}>
