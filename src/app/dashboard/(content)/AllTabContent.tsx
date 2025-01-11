@@ -59,12 +59,14 @@ const AllTabContent = () => {
       impressions: defaultChartData,
     };
 
+    console.log("Before updating: ", chartsData);
+    
     if (xChartData) {
       Object.keys(xChartData)?.map((metric) => {
         const arr = (xChartData as any)[metric];
         arr?.map((obj: ChartObject) => {
           if (chartsData?.xaxisLabels?.length < arr.length) {
-            chartsData?.xaxisLabels?.push(formatToDayMonthYear(obj.date));
+            chartsData.xaxisLabels.push(formatToDayMonthYear(obj.date));
           }
           if (metric === "retweets") {
             chartsData.reposts[0].data.push(obj.value);
@@ -74,7 +76,8 @@ const AllTabContent = () => {
         });
       });
     }
-
+    
+    console.log("After updating: ", chartsData);
     setAllAnalyticsData(chartsData);
   };
 

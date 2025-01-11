@@ -64,11 +64,14 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
 
         if (Date.now() - Number(userData.lastUpdated) > 86400000) { // min 24 hrs gap between api calls
             // getting user data and tweets from X.
+            console.log("Before creating new Client");
             const twitterClient = new Client(refreshResponse.access_token);
+            console.log("After creating new Client and before findMyUser");
             const user = await twitterClient.users.findMyUser({
                 "user.fields": ["id", "public_metrics", "username", "name"]
             });
-    
+            console.log("After findMyUser");
+            
             if (user?.errors && Array.isArray(user.errors)) {
                 let statusCode = 400;
                 const messages = user.errors.map((err) => {
@@ -80,10 +83,10 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                     message: messages.join(", ")
                 }, { status: statusCode });
             }
-    
+            
             let posts = null;
             const post_ids = [...userData.post_ids];
-    
+            
             if (user?.data?.id) {
                 const params: any = {
                     "max_results": 10,
@@ -95,13 +98,14 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                         //"text"
                     ]
                 }
-    
+                
                 // TODO: first get new posts data then update old posts data.
-    
+                
                 if (userData.post_ids?.length > 0) {
                     params.since_id = userData.post_ids[userData.post_ids.length - 1];
                 }
-    
+                
+                console.log("Before usersIdTweets");
                 const res = await twitterClient.tweets.usersIdTweets(user.data.id, params);
                 if (res?.errors && Array.isArray(res.errors)) {
                     let statusCode = 400;
@@ -114,7 +118,8 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                         message: messages.join(", ")
                     }, { status: statusCode });
                 }
-    
+                console.log("After usersIdTweets");
+                
                 posts = res;
             }
     
