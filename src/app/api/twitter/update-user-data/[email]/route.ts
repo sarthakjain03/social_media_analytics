@@ -66,7 +66,6 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
 
         if (Date.now() - Number(userData.lastUpdated) > 86400000) { // min 24 hrs gap between api calls
             // getting user data and tweets from X.
-            console.log("Before creating new Client");
             const twitterClient = new Client(refreshResponse.access_token);
             console.log("After creating new Client and before findMyUser");
             const user = await twitterClient.users.findMyUser({
@@ -107,7 +106,6 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                     params.since_id = userData.post_ids[userData.post_ids.length - 1];
                 }
                 
-                console.log("Before usersIdTweets");
                 const res = await twitterClient.tweets.usersIdTweets(user.data.id, params);
                 if (res?.errors && Array.isArray(res.errors)) {
                     let statusCode = 400;

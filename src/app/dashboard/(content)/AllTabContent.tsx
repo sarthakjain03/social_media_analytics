@@ -61,8 +61,6 @@ const AllTabContent = () => {
         impressions: [{ name: "X (Twitter)", data: [] },],
       }
     };
-
-    console.log("Before updating: ", chartsData);
     
     if (xChartData) {
       Object.keys(xChartData)?.forEach((metric) => {
@@ -81,7 +79,6 @@ const AllTabContent = () => {
       });
     }
     
-    console.log("After updating: ", chartsData);
     setAllAnalyticsData(chartsData);
   };
 
