@@ -17,7 +17,7 @@ export async function GET(_request: Request) {
         const responseTokenExpirations: any[] = [];
 
         if (allUsers?.length > 0) {
-            allUsers.forEach(async (user) => {
+            for (const user of allUsers) {
                 const params = new URLSearchParams();
                 params.append('refresh_token', user.refreshToken);
                 params.append('grant_type', 'refresh_token');
@@ -47,13 +47,12 @@ export async function GET(_request: Request) {
                     });
                     
                 } catch (err: any) {
-                    console.log("Inside catch block for api call");
                     console.log(err?.message);
                     console.log(err?.response?.data);
                     console.error("Error refreshing token for X user: ", err);
                 }
                 console.log("Outside try-catch for api call");
-            })
+            }
         }
 
         return Response.json({
