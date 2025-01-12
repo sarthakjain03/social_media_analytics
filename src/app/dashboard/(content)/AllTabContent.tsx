@@ -33,17 +33,7 @@ const AllTabContent = () => {
   const [allAnalyticsData, setAllAnalyticsData] = useState<{
     xaxisLabels: string[];
     metricData: AllChartsData;
-  }>({
-    xaxisLabels: [],
-    metricData: {
-      likes: [{ name: "X (Twitter)", data: [] },],
-      replies: [{ name: "X (Twitter)", data: [] },],
-      bookmarks: [{ name: "X (Twitter)", data: [] },],
-      reposts: [{ name: "X (Twitter)", data: [] },], // retweets for X (Twitter)
-      followers: [{ name: "X (Twitter)", data: [] },],
-      impressions: [{ name: "X (Twitter)", data: [] },],
-    }
-  });
+  } | null>(null);
 
   const formatAllChartData = () => {
     const { xChartData } = allChartsData;
@@ -86,8 +76,6 @@ const AllTabContent = () => {
     formatAllChartData();
   }, [allChartsData]);
 
-  // TODO: If no social media is linked, show nothing here
-
   return (
     <div className="flex gap-4 items-center justify-center mt-12 mb-20 w-full">
       <AccountLinkButtons />
@@ -103,62 +91,64 @@ const AllTabContent = () => {
         </Box>
       ) : (
         <Box sx={{ flexGrow: 1, width: "100%" }}>
-          <Grid2 container spacing={3}>
-            <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
-              <AreaChart
-                title="Followers"
-                xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
-                colors={chartColors}
-                showLegendForSingleSeries={true}
-                data={allAnalyticsData?.metricData?.followers ?? []}
-              />
+          {allAnalyticsData && (
+            <Grid2 container spacing={3}>
+              <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
+                <AreaChart
+                  title="Followers"
+                  xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
+                  colors={chartColors}
+                  showLegendForSingleSeries={true}
+                  data={allAnalyticsData?.metricData?.followers ?? []}
+                />
+              </Grid2>
+              <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
+                <AreaChart
+                  title="Likes"
+                  xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
+                  colors={chartColors}
+                  showLegendForSingleSeries={true}
+                  data={allAnalyticsData?.metricData?.likes ?? []}
+                />
+              </Grid2>
+              <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
+                <AreaChart
+                  title="Impressions"
+                  xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
+                  colors={chartColors}
+                  showLegendForSingleSeries={true}
+                  data={allAnalyticsData?.metricData?.impressions ?? []}
+                />
+              </Grid2>
+              <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
+                <AreaChart
+                  title="Replies"
+                  xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
+                  colors={chartColors}
+                  showLegendForSingleSeries={true}
+                  data={allAnalyticsData?.metricData?.replies ?? []}
+                />
+              </Grid2>
+              <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
+                <AreaChart
+                  title="Reposts"
+                  xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
+                  colors={chartColors}
+                  showLegendForSingleSeries={true}
+                  data={allAnalyticsData?.metricData?.reposts ?? []}
+                />
+              </Grid2>
+              <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
+                <AreaChart
+                  title="Bookmarks"
+                  xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
+                  colors={chartColors}
+                  showLegendForSingleSeries={true}
+                  data={allAnalyticsData?.metricData?.bookmarks ?? []}
+                />
+              </Grid2>
             </Grid2>
-            <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
-              <AreaChart
-                title="Likes"
-                xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
-                colors={chartColors}
-                showLegendForSingleSeries={true}
-                data={allAnalyticsData?.metricData?.likes ?? []}
-              />
-            </Grid2>
-            <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
-              <AreaChart
-                title="Impressions"
-                xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
-                colors={chartColors}
-                showLegendForSingleSeries={true}
-                data={allAnalyticsData?.metricData?.impressions ?? []}
-              />
-            </Grid2>
-            <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
-              <AreaChart
-                title="Replies"
-                xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
-                colors={chartColors}
-                showLegendForSingleSeries={true}
-                data={allAnalyticsData?.metricData?.replies ?? []}
-              />
-            </Grid2>
-            <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
-              <AreaChart
-                title="Reposts"
-                xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
-                colors={chartColors}
-                showLegendForSingleSeries={true}
-                data={allAnalyticsData?.metricData?.reposts ?? []}
-              />
-            </Grid2>
-            <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
-              <AreaChart
-                title="Bookmarks"
-                xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
-                colors={chartColors}
-                showLegendForSingleSeries={true}
-                data={allAnalyticsData?.metricData?.bookmarks ?? []}
-              />
-            </Grid2>
-          </Grid2>
+          )}
         </Box>
       )}
     </div>

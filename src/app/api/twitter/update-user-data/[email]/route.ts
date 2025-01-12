@@ -128,9 +128,11 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                     post_ids.push(post.id);
                 });
             }
+
+            console.log("Post ids: ", post_ids);
     
             const tweets = await twitterClient.tweets.findTweetsById({
-                "ids": [...post_ids],
+                "ids": post_ids,
                 "tweet.fields": [
                     "id",
                     "non_public_metrics",
