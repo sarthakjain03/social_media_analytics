@@ -26,6 +26,7 @@ export async function GET(_request: Request) {
                 console.log("Inside allUsers forEach, params: ", params);
         
                 try {
+                    console.log("Inside try block before api call");
                     const response = await axios.post(`https://api.x.com/2/oauth2/token`, params, {
                         headers: {
                             'Authorization': `Basic ${encoded}`,
@@ -46,10 +47,12 @@ export async function GET(_request: Request) {
                     });
                     
                 } catch (err: any) {
+                    console.log("Inside catch block for api call");
                     console.log(err?.message);
                     console.log(err?.response?.data);
                     console.error("Error refreshing token for X user: ", err);
                 }
+                console.log("Outside try-catch for api call");
             })
         }
 
