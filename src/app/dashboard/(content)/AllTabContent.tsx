@@ -73,11 +73,13 @@ const AllTabContent = () => {
   };
 
   useEffect(() => {
-    formatAllChartData();
+    if (allChartsData?.xChartData) {
+      formatAllChartData();
+    }
   }, [allChartsData]);
 
   return (
-    <div className="flex flex-col gap-4 items-center justify-center mt-12 mb-20 w-full">
+    <div className="flex flex-col gap-8 items-center justify-center mt-6 mb-20 w-full">
       {!loading && <AccountLinkButtons />}
       {loading ? (
         <Box sx={{ flexGrow: 1, width: "100%" }}>
