@@ -77,8 +77,8 @@ const AllTabContent = () => {
   }, [allChartsData]);
 
   return (
-    <div className="flex gap-4 items-center justify-center mt-12 mb-20 w-full">
-      <AccountLinkButtons />
+    <div className="flex flex-col gap-4 items-center justify-center mt-12 mb-20 w-full">
+      {!loading && <AccountLinkButtons />}
       {loading ? (
         <Box sx={{ flexGrow: 1, width: "100%" }}>
           <Grid2 container spacing={3}>
