@@ -86,8 +86,10 @@ const AllTabContent = () => {
     formatAllChartData();
   }, [allChartsData]);
 
+  // TODO: If no social media is linked, show nothing here
+
   return (
-    <>
+    <div className="flex gap-4 items-center justify-center mt-12 mb-20 w-full">
       <AccountLinkButtons />
       {loading ? (
         <Box sx={{ flexGrow: 1, width: "100%" }}>
@@ -159,7 +161,7 @@ const AllTabContent = () => {
           </Grid2>
         </Box>
       )}
-    </>
+    </div>
   );
 };
 

@@ -14,6 +14,8 @@ export async function GET(_request: Request) {
         const clientSecret = process.env.TWITTER_CLIENT_SECRET as string;
         const encoded = Buffer.from(`${clientID}:${clientSecret}`).toString('base64');
 
+        const responseTokenExpirations: any[] = [];
+
         if (allUsers?.length > 0) {
             allUsers.forEach(async (user) => {
                 const params = new URLSearchParams();
@@ -28,6 +30,8 @@ export async function GET(_request: Request) {
                             'Content-Type': 'application/x-www-form-urlencoded'
                         }
                     });
+
+                    responseTokenExpirations.push(response.data.expires_at);
         
                     const results = await TwitterDataModel.updateOne({ userEmail: user.userEmail }, {
                         $set: {
@@ -47,7 +51,11 @@ export async function GET(_request: Request) {
 
         return Response.json({
             success: true,
-            message: "All access tokens refreshed successfully"
+            message: "All access tokens refreshed successfully",
+            data: {
+                users: allUsers,
+                tokenExpirations: responseTokenExpirations
+            }
         }, { status: 200 });
         
     } catch (error) {
