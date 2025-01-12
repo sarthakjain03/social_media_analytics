@@ -16,6 +16,9 @@ export async function GET(_request: Request) {
 
         if (allUsers?.length > 0) {
             for (const user of allUsers) {
+                if (user.userEmail === "dummy@example.com") {
+                    continue;
+                }
                 const params = new URLSearchParams();
                 params.append('refresh_token', user.refreshToken);
                 params.append('grant_type', 'refresh_token');
