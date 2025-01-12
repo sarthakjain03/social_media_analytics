@@ -19,3 +19,23 @@ export const formatToDatabaseDate = (date: Date): string => {
     
     return `${year}-${month}-${day}`;
 }
+
+export const getNextUpdateDateTime = (date: Date): string => {
+    // Add 24 hours (in milliseconds) to the given date
+    const temp = new Date(date);
+    const time = temp.getTime();
+    const updatedDate = new Date(time + 24 * 60 * 60 * 1000);
+
+    const day = updatedDate.getDate().toString().padStart(2, '0'); // Add leading zero if necessary
+    const month = updatedDate.toLocaleString('en-US', { month: 'short' }); // Short month name
+    const year = updatedDate.getFullYear();
+    const timeString = updatedDate.toLocaleString(undefined, {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true,
+    });
+
+    // Construct the formatted string
+    return `${day} ${month} ${year} around ${timeString}`;
+    // 'undefined' uses the user's current locale and timezone
+}

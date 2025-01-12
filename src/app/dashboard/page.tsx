@@ -8,7 +8,10 @@ import { motion } from "motion/react";
 import { useUserStore } from "@/store/user";
 import { useAnalyticsStore } from "@/store/analytics";
 import dynamic from "next/dynamic";
-import { Skeleton, Box, Grid2 } from "@mui/material";
+import { Skeleton, Box, Grid2, Alert } from "@mui/material";
+import { getNextUpdateDateTime } from "@/utils/dateFormatters";
+import { X } from "@mui/icons-material";
+import { common, grey } from "@mui/material/colors";
 
 const AllTabContent = dynamic(
   () => import("@/app/dashboard/(content)/AllTabContent"),
@@ -37,10 +40,15 @@ export default function Dashboard() {
     email,
     isInstagramConnected,
     isLinkedinConnected,
-    setUser
+    setUser,
   } = useUserStore();
   const { lastUpdateOfX, setAnalytics } = useAnalyticsStore();
   const [loading, setLoading] = useState(false);
+  const [nextUpdateTime, setNextUpdateTime] = useState({
+    twitter: "",
+    //linkedin: "",
+    //instagram: "",
+  });
 
   // Function for getting code for X account linking from url
   const getXTokenAndRedirect = async () => {
@@ -61,14 +69,29 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
+    if (lastUpdateOfX) {
+      setNextUpdateTime((prev) => ({
+        ...prev,
+        twitter: getNextUpdateDateTime(lastUpdateOfX),
+      }));
+    }
+  }, [lastUpdateOfX]);
+
+  useEffect(() => {
     // update all social media's analytics data
     const updateAllAnalyticsData = async () => {
       setLoading(true);
       let newXUpdateDate = null;
 
-      if (lastUpdateOfX === null || Date.now() - Number(lastUpdateOfX) >= 86400000) { // 24 hrs gap
+      if (
+        lastUpdateOfX === null ||
+        Date.now() - Number(lastUpdateOfX) >= 86400000
+      ) {
+        // 24 hrs gap
         if (isXConnected) {
-          newXUpdateDate = await updateXUserData(session?.user?.email as string);
+          newXUpdateDate = await updateXUserData(
+            session?.user?.email as string
+          );
         }
       }
 
@@ -76,7 +99,7 @@ export default function Dashboard() {
         setAnalytics({ lastUpdateOfX: newXUpdateDate.date });
       }
       setLoading(false);
-    }
+    };
 
     if (session?.user && email === session.user.email) {
       updateAllAnalyticsData();
@@ -112,7 +135,10 @@ export default function Dashboard() {
             </Grid2>
             <Grid2 container spacing={3} size={{ xs: 12 }} width={"100%"}>
               {[1, 2, 3, 4, 5, 6]?.map((data) => (
-                <Grid2 key={`${data}-dashboard-skeleton`} size={{ xs: 12, md: 6, xl: 4 }}>
+                <Grid2
+                  key={`${data}-dashboard-skeleton`}
+                  size={{ xs: 12, md: 6, xl: 4 }}
+                >
                   <Skeleton variant="rounded" width={"100%"} height={480} />
                 </Grid2>
               ))}
@@ -121,6 +147,24 @@ export default function Dashboard() {
         </Box>
       ) : (
         <>
+          {nextUpdateTime?.twitter && (
+            <Box sx={{ flexGrow: 1, width: "100%", marginBottom: "0.75rem", marginTop: "0.5rem" }}>
+              <Grid2 container spacing={5}>
+                <Grid2 size={{ xs: 12 }}>
+                  <Alert
+                    severity="info"
+                    onClose={() =>
+                      setNextUpdateTime((prev) => ({ ...prev, twitter: "" }))
+                    }
+                    icon={<X fontSize="inherit" style={{ color: 'black' }} />}
+                    sx={{ color: "black", borderColor: "black", backgroundColor: grey[200] }}
+                  >
+                    {`Analytics will be updated on ${nextUpdateTime?.twitter}`}
+                  </Alert>
+                </Grid2>
+              </Grid2>
+            </Box>
+          )}
           <DashboardTabs selected={openTab} />
           {openTab === "all" && <AllTabContent />}
           {openTab === "twitter" && <XTabContent />}
