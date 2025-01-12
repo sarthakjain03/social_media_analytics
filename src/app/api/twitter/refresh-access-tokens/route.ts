@@ -28,12 +28,14 @@ export async function GET(_request: Request) {
                             'Content-Type': 'application/x-www-form-urlencoded'
                         }
                     });
+
+                    const expirationTime = new Date(Date.now() + response.data.expires_in * 1000);
         
                     const results = await TwitterDataModel.updateOne({ userEmail: user.userEmail }, {
                         $set: {
                             accessToken: response.data.access_token,
                             refreshToken: response.data.refresh_token,
-                            tokenExpiry: response.data.expires_in
+                            tokenExpiry: expirationTime
                         }
                     });
                     
