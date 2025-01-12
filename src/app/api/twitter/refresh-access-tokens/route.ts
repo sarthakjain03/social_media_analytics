@@ -22,6 +22,8 @@ export async function GET(_request: Request) {
                 params.append('refresh_token', user.refreshToken);
                 params.append('grant_type', 'refresh_token');
                 params.append('client_id', clientID);
+
+                console.log("Inside allUsers forEach, params: ", params);
         
                 try {
                     const response = await axios.post(`https://api.x.com/2/oauth2/token`, params, {
@@ -30,6 +32,8 @@ export async function GET(_request: Request) {
                             'Content-Type': 'application/x-www-form-urlencoded'
                         }
                     });
+
+                    console.log("Token refresh response: ", response);
 
                     responseTokenExpirations.push(response.data.expires_at);
         
