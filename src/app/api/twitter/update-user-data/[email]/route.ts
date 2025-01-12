@@ -25,53 +25,12 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
             last_update: userData.lastUpdated
         };
 
-        console.log("Access token expiry: ", userData.tokenExpiry);
-
-        // refresh the user's access token for X account if <= 2 mins left for expiration.
-        // if (Number(userData.tokenExpiry) - Date.now() <= 120000) { // 2 minutes gap
-        //     const clientID = process.env.TWITTER_CLIENT_ID as string;
-        //     const clientSecret = process.env.TWITTER_CLIENT_SECRET as string;
-        //     const encoded = Buffer.from(`${clientID}:${clientSecret}`).toString('base64');
-
-        //     const params = new URLSearchParams();
-        //     params.append('refresh_token', refreshResponse.refresh_token);
-        //     params.append('grant_type', 'refresh_token');
-        //     params.append('client_id', clientID);
-
-        //     console.log(refreshResponse); // for if invalid request error that value of token is wrong.
-
-        //     try {
-        //         const response = await axios.post(`https://api.x.com/2/oauth2/token`, params, {
-        //             headers: {
-        //                 'Authorization': `Basic ${encoded}`,
-        //                 'Content-Type': 'application/x-www-form-urlencoded'
-        //             }
-        //         });
-
-        //         refreshResponse = {...response.data, last_update: userData.lastUpdated};
-                
-        //     } catch (err: any) {
-        //         console.log(err?.message);
-        //         console.log(err?.response?.data);
-        //         console.error("Error refreshing token for X: ", err);
-        //         return Response.json({
-        //             success: false,
-        //             message: "Failed to refresh access token for user's X account",
-        //             data: {
-        //                 lastUpdate: refreshResponse.last_update
-        //             }
-        //         }, { status: 500 });
-        //     }
-        // }
-
         if (Date.now() - Number(userData.lastUpdated) > 86400000) { // min 24 hrs gap between api calls
             // getting user data and tweets from X.
             const twitterClient = new Client(refreshResponse.access_token);
-            console.log("After creating new Client and before findMyUser");
             const user = await twitterClient.users.findMyUser({
                 "user.fields": ["id", "public_metrics", "username", "name"]
             });
-            console.log("After findMyUser");
             
             if (user?.errors && Array.isArray(user.errors)) {
                 let statusCode = 400;
@@ -118,7 +77,6 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                         message: messages.join(", ")
                     }, { status: statusCode });
                 }
-                console.log("After usersIdTweets");
                 
                 posts = res;
             }
@@ -128,8 +86,6 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                     post_ids.push(post.id);
                 });
             }
-
-            console.log("Post ids: ", post_ids);
     
             const tweets = await twitterClient.tweets.findTweetsById({
                 "ids": post_ids,
@@ -139,9 +95,6 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                     "public_metrics"
                 ]
             });
-
-            // TODO: remove the below console.log
-            console.log(tweets);
 
             if (tweets?.errors && Array.isArray(tweets.errors)) {
                 let statusCode = 400;
@@ -161,9 +114,6 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
 
             const results = await TwitterDataModel.updateOne({ userEmail: email }, {
                 $set: {
-                    //accessToken: refreshResponse.access_token,
-                    //refreshToken: refreshResponse.refresh_token,
-                    //tokenExpiry: refreshResponse.expires_at,
                     userData: formattedUserData,
                     post_ids: post_ids,
                     chartsData: updatedChartsData,

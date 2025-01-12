@@ -23,8 +23,7 @@ export async function POST(request: Request) {
             lastUpdated: null,
             accessToken: tokenInfo.token.access_token,
             refreshToken: tokenInfo.token.refresh_token,
-            tokenExpiry: tokenInfo.token.expires_at,
-            data: null
+            tokenExpiry: tokenInfo.token.expires_at
         });
         await newTwitterData.save();
         
