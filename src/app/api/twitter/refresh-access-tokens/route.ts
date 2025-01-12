@@ -14,35 +14,26 @@ export async function GET(_request: Request) {
         const clientSecret = process.env.TWITTER_CLIENT_SECRET as string;
         const encoded = Buffer.from(`${clientID}:${clientSecret}`).toString('base64');
 
-        const responseTokenExpirations: any[] = [];
-
         if (allUsers?.length > 0) {
             for (const user of allUsers) {
                 const params = new URLSearchParams();
                 params.append('refresh_token', user.refreshToken);
                 params.append('grant_type', 'refresh_token');
                 params.append('client_id', clientID);
-
-                console.log("Inside allUsers forEach, params: ", params);
         
                 try {
-                    console.log("Inside try block before api call");
                     const response = await axios.post(`https://api.x.com/2/oauth2/token`, params, {
                         headers: {
                             'Authorization': `Basic ${encoded}`,
                             'Content-Type': 'application/x-www-form-urlencoded'
                         }
                     });
-
-                    console.log("Token refresh response: ", response);
-
-                    responseTokenExpirations.push(response.data.expires_at);
         
                     const results = await TwitterDataModel.updateOne({ userEmail: user.userEmail }, {
                         $set: {
                             accessToken: response.data.access_token,
                             refreshToken: response.data.refresh_token,
-                            tokenExpiry: response.data.expires_at
+                            tokenExpiry: response.data.expires_in
                         }
                     });
                     
@@ -51,17 +42,12 @@ export async function GET(_request: Request) {
                     console.log(err?.response?.data);
                     console.error("Error refreshing token for X user: ", err);
                 }
-                console.log("Outside try-catch for api call");
             }
         }
 
         return Response.json({
             success: true,
-            message: "All access tokens refreshed successfully",
-            data: {
-                users: allUsers,
-                tokenExpirations: responseTokenExpirations
-            }
+            message: "All access tokens refreshed successfully"
         }, { status: 200 });
         
     } catch (error) {
