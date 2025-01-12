@@ -132,7 +132,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
 
         return Response.json({
             success: false,
-            message: "Data can be updated only once a day",
+            message: "Data can be updated only once a day.",
             data: {
                 lastUpdate: refreshResponse.last_update
             }
