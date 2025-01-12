@@ -49,7 +49,7 @@ export default function Header() {
       >
         <div className="flex items-center space-x-3">
           <ChartNoAxesCombined className="size-7 text-purple-600" />
-          <span className="text-2xl font-bold text-gray-800">Socialytics</span>
+          <span className="text-2xl font-bold text-gray-800">Analyzr</span>
         </div>
         {session ? (
           <motion.button
