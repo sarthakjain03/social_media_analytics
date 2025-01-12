@@ -120,7 +120,7 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
               <div className="flex items-center space-x-3">
                 <ChartNoAxesCombined className="size-7 text-purple-600" />
                 <span className="text-2xl font-bold text-gray-800 font-poppins">
-                  Analyzr
+                  Socialytics
                 </span>
               </div>
               <Typography
@@ -132,7 +132,7 @@ const SignInModal = ({ open, onClose }: ModalProps) => {
               >
                 {formType === "signin"
                   ? "Sign In to your Account"
-                  : "Create a Analyzr Account"}
+                  : "Create a Socialytics Account"}
               </Typography>
             </Stack>
             <Stack spacing={2.5}>

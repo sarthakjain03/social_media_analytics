@@ -142,7 +142,7 @@ table, td { color: #000000; } @media (max-width: 480px) { #u_content_heading_1 .
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:30px 10px 5px;font-family:'Raleway',sans-serif;" align="left">
         
   <!--[if mso]><table width="100%"><tr><td><![endif]-->
-    <h1 style="margin: 0px; color: #000000; line-height: 140%; text-align: center; word-wrap: break-word; font-family: 'Playfair Display',serif; font-size: 26px; font-weight: 400;"><span><strong>Analyzr</strong></span></h1>
+    <h1 style="margin: 0px; color: #000000; line-height: 140%; text-align: center; word-wrap: break-word; font-family: 'Playfair Display',serif; font-size: 26px; font-weight: 400;"><span><strong>Socialytics</strong></span></h1>
   <!--[if mso]></td></tr></table><![endif]-->
 
       </td>
@@ -157,7 +157,7 @@ table, td { color: #000000; } @media (max-width: 480px) { #u_content_heading_1 .
         
   <div style="font-size: 14px; line-height: 140%; text-align: center; word-wrap: break-word;">
     <div>
-<div>Thank you for signing up with Analyzr! We're excited to have you on board. To complete your account setup, please verify your email by entering the following One-Time Password (OTP):</div>
+<div>Thank you for signing up with Socialytics! We're excited to have you on board. To complete your account setup, please verify your email by entering the following One-Time Password (OTP):</div>
 </div>
   </div>
 
@@ -225,7 +225,7 @@ table, td { color: #000000; } @media (max-width: 480px) { #u_content_heading_1 .
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:10px 10px 40px;font-family:'Raleway',sans-serif;" align="left">
         
   <div style="font-size: 14px; line-height: 160%; text-align: center; word-wrap: break-word;">
-<p style="font-size: 14px; line-height: 160%; margin: 0px;">The Analyzr Team</p>
+<p style="font-size: 14px; line-height: 160%; margin: 0px;">The Socialytics Team</p>
   </div>
 
       </td>
@@ -399,7 +399,7 @@ table, td { color: #000000; } @media (max-width: 480px) { #u_content_heading_1 .
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:30px 10px 5px;font-family:'Raleway',sans-serif;" align="left">
         
   <!--[if mso]><table width="100%"><tr><td><![endif]-->
-    <h1 style="margin: 0px; color: #000000; line-height: 140%; text-align: center; word-wrap: break-word; font-family: 'Playfair Display',serif; font-size: 26px; font-weight: 400;"><span><strong>Analyzr</strong></span></h1>
+    <h1 style="margin: 0px; color: #000000; line-height: 140%; text-align: center; word-wrap: break-word; font-family: 'Playfair Display',serif; font-size: 26px; font-weight: 400;"><span><strong>Socialytics</strong></span></h1>
   <!--[if mso]></td></tr></table><![endif]-->
 
       </td>
@@ -484,7 +484,7 @@ table, td { color: #000000; } @media (max-width: 480px) { #u_content_heading_1 .
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:10px 10px 40px;font-family:'Raleway',sans-serif;" align="left">
         
   <div style="font-size: 14px; line-height: 160%; text-align: center; word-wrap: break-word;">
-<p style="font-size: 14px; line-height: 160%; margin: 0px;">The Analyzr Team</p>
+<p style="font-size: 14px; line-height: 160%; margin: 0px;">The Socialytics Team</p>
   </div>
 
       </td>
@@ -657,7 +657,7 @@ table, td { color: #000000; } @media (max-width: 480px) { #u_content_heading_1 .
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:30px 10px 5px;font-family:'Raleway',sans-serif;" align="left">
         
   <!--[if mso]><table width="100%"><tr><td><![endif]-->
-    <h1 style="margin: 0px; color: #000000; line-height: 140%; text-align: center; word-wrap: break-word; font-family: 'Playfair Display',serif; font-size: 26px; font-weight: 400;"><span><strong>Analyzr</strong></span></h1>
+    <h1 style="margin: 0px; color: #000000; line-height: 140%; text-align: center; word-wrap: break-word; font-family: 'Playfair Display',serif; font-size: 26px; font-weight: 400;"><span><strong>Socialytics</strong></span></h1>
   <!--[if mso]></td></tr></table><![endif]-->
 
       </td>
@@ -712,7 +712,7 @@ table, td { color: #000000; } @media (max-width: 480px) { #u_content_heading_1 .
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:10px 10px 40px;font-family:'Raleway',sans-serif;" align="left">
         
   <div style="font-size: 14px; line-height: 160%; text-align: center; word-wrap: break-word;">
-<p style="font-size: 14px; line-height: 160%; margin: 0px;">The Analyzr Team</p>
+<p style="font-size: 14px; line-height: 160%; margin: 0px;">The Socialytics Team</p>
   </div>
 
       </td>

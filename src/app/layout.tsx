@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Analyzr",
+  title: "Socialytics",
   description: "Social media analytics",
 };
 
@@ -43,7 +43,7 @@ export default function RootLayout({
             </Suspense>
             <footer className="bg-gray-100 py-6 w-full">
               <div className="container mx-auto px-4 text-center text-gray-600">
-                <p>&copy; 2025 Analyzr. All rights reserved.</p>
+                <p>&copy; 2025 Socialytics. All rights reserved.</p>
               </div>
             </footer>
           </div>

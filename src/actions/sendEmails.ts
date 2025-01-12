@@ -10,7 +10,7 @@ type SendEmailProps = {
 
 const subjects = {
   OTP: "OTP Verification",
-  RESET: "Reset your Analyzr Password",
+  RESET: "Reset your Socialytics Password",
   REGISTRATION: "Registration Successfull",
   PASSWORD_CHANGED: "Password Reset Successfull"
 }
