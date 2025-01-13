@@ -159,7 +159,7 @@ export default function Dashboard() {
                     icon={<X fontSize="inherit" style={{ color: 'black' }} />}
                     sx={{ color: "black", borderColor: "black", backgroundColor: grey[200] }}
                   >
-                    {`Analytics will be updated on ${nextUpdateTime?.twitter}`}
+                    {`Analytics will be updated when you login or refresh after ${nextUpdateTime?.twitter}`}
                   </Alert>
                 </Grid2>
               </Grid2>

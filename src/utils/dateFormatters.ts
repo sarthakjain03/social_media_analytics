@@ -36,6 +36,6 @@ export const getNextUpdateDateTime = (date: Date): string => {
     });
 
     // Construct the formatted string
-    return `${day} ${month} ${year} around ${timeString}`;
+    return `${day} ${month} ${year} - ${timeString}`;
     // 'undefined' uses the user's current locale and timezone
 }
