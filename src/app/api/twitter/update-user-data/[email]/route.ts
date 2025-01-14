@@ -7,6 +7,14 @@ import { Client } from "twitter-api-sdk";
 // I think below twitter apis only return metrics for posts not older than 30 days.
 // Will know on 31st Jan depending on my 2025 goals post is returned or not which was posted on 31st Dec. (gap of 30 days)
 
+/*
+    For accurate analytics from X:
+    1. Get the post obj and store it in the db.
+    2. When getting the updated post obj from twitter api call, calculate the difference in metrics from already stored post obj in the db to get correct measurements.
+    3. Update the charts data accordingly.
+    4. Update the post obj with new metrics got from twitter api call.
+ */
+
 export async function GET(_request: Request, { params }: { params: Promise<{ email: string }> }) {
     await dbConnect();
 
