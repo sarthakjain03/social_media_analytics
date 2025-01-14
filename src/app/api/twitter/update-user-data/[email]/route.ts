@@ -4,6 +4,9 @@ import { formatChartData, formatUserData, getMetricTotals } from "@/utils/format
 import axios from "axios";
 import { Client } from "twitter-api-sdk";
 
+// I think below twitter apis only return metrics for posts not older than 30 days.
+// Will know on 31st Jan depending on my 2025 goals post is returned or not which was posted on 31st Dec. (gap of 30 days)
+
 export async function GET(_request: Request, { params }: { params: Promise<{ email: string }> }) {
     await dbConnect();
 
@@ -58,8 +61,6 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                         //"text"
                     ]
                 }
-                
-                // TODO: first get new posts data then update old posts data.
                 
                 if (userData.post_ids?.length > 0) {
                     params.since_id = userData.post_ids[userData.post_ids.length - 1];

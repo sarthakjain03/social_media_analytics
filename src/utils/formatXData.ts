@@ -102,13 +102,10 @@ export const formatChartData = (metricTotals: {
     return updatedData;
 };
 
-// TODO:
 // non-public-metrics only appear for posts not older than 30 days.
-// only update those posts data who are not older than 29 days.
-// remove these older posts from db but do not subtract their data from total. eg: likes, etc.
+// posts metrics data who are older than 30 days might not appear in the api responses.
 // use the /tweets api to get data of multiple posts at once through their ids.
 
-// TODO: BIG PROBLEM: to execute an api when user is not viewing the application which required user's email.
 // try setting up a cron job that updates data of all users in the db with a 15-min delay between each user's api call
 
-// Currently doing: Just call the api and get the metrics for the latest 10 posts (will return 4 most probably though) and get the new post ids. Store the post ids of the latest posts returned by the api request and update those posts data.
+// Currently doing: Just call the api and get the metrics for the latest 10 posts (will return 4 most probably, not sure though) and get the new post ids. Store the post ids of the latest posts returned by the api request and update those posts metrics data.
