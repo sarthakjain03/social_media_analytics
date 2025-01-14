@@ -83,7 +83,9 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
     
             if (posts?.data) {
                 posts.data.map((post) => {
-                    post_ids.push(post.id);
+                    if (!post_ids.includes(post.id)) {
+                        post_ids.push(post.id);
+                    }
                 });
             }
     
