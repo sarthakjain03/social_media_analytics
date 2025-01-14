@@ -16,8 +16,6 @@ export async function GET(_request: Request) {
         const clientSecret = process.env.TWITTER_CLIENT_SECRET as string;
         const encoded = Buffer.from(`${clientID}:${clientSecret}`).toString('base64');
 
-        const allResponses: any[] = [];
-
         if (allUsers?.length > 0) {
             for (const user of allUsers) {
                 if (user.userEmail === "dummy@example.com") {
@@ -29,14 +27,12 @@ export async function GET(_request: Request) {
                 params.append('client_id', clientID);
         
                 try {
-                    const response = await axios.post(`https://api.x.com/1.1/oauth2/token`, params, {
+                    const response = await axios.post(`https://api.x.com/2/oauth2/token`, params, {
                         headers: {
                             'Authorization': `Basic ${encoded}`,
                             'Content-Type': 'application/x-www-form-urlencoded'
                         }
                     });
-
-                    allResponses.push(response.data);
 
                     const expirationTime = new Date(Date.now() + response.data.expires_in * 1000);
         
@@ -58,10 +54,7 @@ export async function GET(_request: Request) {
 
         return Response.json({
             success: true,
-            message: "All access tokens refreshed successfully",
-            data: {
-                responses: allResponses
-            }
+            message: "All access tokens refreshed successfully"
         }, { status: 200 });
         
     } catch (error) {
