@@ -1,4 +1,4 @@
-import { TwitterUserData, TwitterPost } from "@/types/TwitterData";
+import { TwitterUserData } from "@/types/TwitterData";
 import { ChartObject, TwitterChartData } from "@/types/Charts";
 import { formatToDatabaseDate } from "./dateFormatters";
 
@@ -44,7 +44,7 @@ export const formatChartData = (metricTotals: {
     prevChartsData: TwitterChartData;
 }) => {
     const dbDate = formatToDatabaseDate(new Date());
-    const obj = {
+    const obj: { [key: string]: ChartObject } = {
         likes: {
             date: dbDate,
             value: metricTotals.totalLikes
@@ -76,6 +76,17 @@ export const formatChartData = (metricTotals: {
     };
 
     if (metricTotals.prevChartsData) {
+        // Metric Gained = Current value - LastAddedValue.
+        // For ex: Likes Gained = Current Likes on the Post - LastAddedValue in the db.
+        Object.keys(metricTotals.prevChartsData)?.map((metric) => {
+            const metricKey = metric as keyof TwitterChartData;
+            const metricData = metricTotals.prevChartsData[metricKey];
+            const len = metricData.length;
+
+            const diff = obj[metricKey].value - metricData[len-1].value;
+            obj[metricKey].value = diff >= 0 ? diff : 0;
+        });
+
         const updatedChartData: TwitterChartData = {
             likes: [...metricTotals.prevChartsData.likes, obj.likes],
             replies: [...metricTotals.prevChartsData.replies, obj.replies],
