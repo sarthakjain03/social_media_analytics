@@ -84,7 +84,9 @@ export const formatChartData = (metricTotals: {
             const len = metricData.length;
 
             const diff = obj[metricKey].value - metricData[len-1].value;
-            obj[metricKey].value = diff >= 0 ? diff : 0;
+            if (metric !== "followers") {
+                obj[metricKey].value = diff >= 0 ? diff : 0;
+            }
         });
 
         const updatedChartData: TwitterChartData = {
