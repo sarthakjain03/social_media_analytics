@@ -83,17 +83,9 @@ export const formatChartData = (metricTotals: {
             const metricData = metricTotals.prevChartsData[metricKey];
             const len = metricData.length;
 
-            console.log("Metric Key: ", metricKey);
-            console.log("Metric: ", metric);
-            console.log("Metric Data: ", metricData);
-            console.log(`Metric ${metric} !== followers: ${metric !== "followers"}`);
-            console.log(`MetricKey ${metricKey} !== followers: ${metricKey !== "followers"}`);
-
             if (len > 0 && metricKey !== "followers") {
                 const diff = obj[metricKey].value - metricData[len-1].value;
-                console.log(`Difference = ${diff}`);
                 obj[metricKey].value = Math.max(diff, 0);
-                console.log(`Updated obj ${metricKey} value: ${obj[metricKey].value}`);
             }
         });
 
