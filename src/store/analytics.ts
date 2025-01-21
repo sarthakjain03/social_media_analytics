@@ -9,7 +9,7 @@ export const defaultAnalytics: Partial<AnalyticsStore> = {
   lastUpdateOfLinkedin: null,
   isHydrated: false,
   chartsData: {
-    xData: null,
+    twitterData: null,
     linkedinData: null,
     instagramData: null,
     cardsData: null
@@ -24,7 +24,7 @@ export const useAnalyticsStore = create<AnalyticsStore>()(
       lastUpdateOfLinkedin: null,
       isHydrated: false,
       chartsData: {
-        xData: null,
+        twitterData: null,
         linkedinData: null,
         instagramData: null,
         cardsData: null

@@ -6,7 +6,7 @@ export interface AnalyticsStore {
   lastUpdateOfInstagram: Date | null;
   isHydrated: boolean;
   chartsData: {
-    xData: ChartData | null;
+    twitterData: ChartData | null;
     linkedinData: ChartData | null;
     instagramData: ChartData | null;
     cardsData: AllTabCardsData | null;

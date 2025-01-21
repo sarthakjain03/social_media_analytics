@@ -45,7 +45,7 @@ export function usePopulateAnalytics() {
 
 
     setAllChartsData({
-      xChartData: currentChartsData ? currentChartsData.xData : null,
+      xChartData: currentChartsData ? currentChartsData.twitterData : null,
       linkedinChartData: currentChartsData ? currentChartsData.linkedinData : null,
       instagramChartData: currentChartsData ? currentChartsData.instagramData : null,
       cardsData: currentChartsData ? currentChartsData.cardsData : null
