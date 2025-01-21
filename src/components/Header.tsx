@@ -26,7 +26,7 @@ export default function Header() {
     const checkAndAddGoogleUser = async (name: string, email: string) => {
       const user = await checkGoogleUserInDatabase(name, email);
       if (user) {
-        setUser({ ...user });
+        setUser({ ...user, hydrated: true });
       }
     }
 

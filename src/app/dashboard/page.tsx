@@ -42,7 +42,7 @@ export default function Dashboard() {
     isLinkedinConnected,
     setUser,
   } = useUserStore();
-  const { lastUpdateOfX, setAnalytics } = useAnalyticsStore();
+  const { lastUpdateOfX, setAnalytics, isHydrated } = useAnalyticsStore();
   const [loading, setLoading] = useState(false);
   const [nextUpdateTime, setNextUpdateTime] = useState({
     twitter: "",
@@ -83,15 +83,9 @@ export default function Dashboard() {
       setLoading(true);
       let newXUpdateDate = null;
 
-      if (
-        lastUpdateOfX === null ||
-        Date.now() - Number(lastUpdateOfX) >= 86400000
-      ) {
-        // 24 hrs gap
+      if (lastUpdateOfX === null || Date.now() - Number(lastUpdateOfX) >= 86400000) { // 24 hrs gap
         if (isXConnected) {
-          newXUpdateDate = await updateXUserData(
-            session?.user?.email as string
-          );
+          newXUpdateDate = await updateXUserData(session?.user?.email as string);
         }
       }
 
@@ -127,7 +121,7 @@ export default function Dashboard() {
       viewport={{ once: true }}
       className="px-20"
     >
-      {loading ? (
+      {loading || !isHydrated ? (
         <Box sx={{ flexGrow: 1, width: "100%" }}>
           <Grid2 container spacing={5}>
             <Grid2 size={{ xs: 12 }}>

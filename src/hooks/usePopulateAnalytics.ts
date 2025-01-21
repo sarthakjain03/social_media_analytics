@@ -34,9 +34,7 @@ export function usePopulateAnalytics() {
         if (xDataFromDB?.chartsData) {
           currentXData = xDataFromDB.chartsData;
         }
-        if (setAnalytics) {
-          setAnalytics({ xData: currentXData });
-        }
+        
       }
       //setXChartData(currentXData);
       //setLoading(false);
@@ -47,6 +45,10 @@ export function usePopulateAnalytics() {
   const populateAllAnalytics = async () => {
     setLoading(true);
     const updatedXChartData = await populateXData();
+
+    if (setAnalytics) {
+      setAnalytics({ xData: updatedXChartData, isHydrated: true });
+    }
 
     setAllChartsData({
       xChartData: updatedXChartData
