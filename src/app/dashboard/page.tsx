@@ -124,7 +124,7 @@ export default function Dashboard() {
       viewport={{ once: true }}
       className="px-20"
     >
-      {loading || !isHydrated ? (
+      {loading ? (
         <Box sx={{ flexGrow: 1, width: "100%" }}>
           <Grid2 container spacing={5}>
             <Grid2 size={{ xs: 12 }}>

@@ -6,6 +6,7 @@ import { Box, Grid2, Skeleton } from "@mui/material";
 import { formatToDayMonthYear } from "@/utils/dateFormatters";
 import { usePopulateAnalytics } from "@/hooks/usePopulateAnalytics";
 import { AllChartsData, AllTabCardsData, ChartObject } from "@/types/Charts";
+import { useAnalyticsStore } from "@/store/analytics";
 
 const chartColors = [
   "#000000", // for X (Twitter)
@@ -20,6 +21,7 @@ const AccountLinkButtons = dynamic(
 );
 
 const AllTabContent = () => {
+  const { isHydrated } = useAnalyticsStore();
   const { loading, allChartsData } = usePopulateAnalytics();
   const [allAnalyticsData, setAllAnalyticsData] = useState<{
     xaxisLabels: string[];
@@ -70,7 +72,7 @@ const AllTabContent = () => {
 
   return (
     <div className="flex flex-col gap-8 items-center justify-center mt-6 mb-20 w-full">
-      {!loading && <AccountLinkButtons />}
+      {!loading && isHydrated && <AccountLinkButtons />}
       {loading ? (
         <Box sx={{ flexGrow: 1, width: "100%" }}>
           <Grid2 container spacing={3}>
