@@ -32,10 +32,14 @@ export function usePopulateAnalytics() {
     let currentChartsData = chartsData;
 
     if (isXConnected || isInstagramConnected || isLinkedinConnected) {
-      const latestChartsData = await getUserChartsAndCardsData(userEmail);
+      const { instagramData, twitterData, linkedinData } = chartsData;
 
-      if (latestChartsData) {
-        currentChartsData = latestChartsData;
+      if (!twitterData && !instagramData && !linkedinData) {
+        const latestChartsData = await getUserChartsAndCardsData(userEmail);
+  
+        if (latestChartsData) {
+          currentChartsData = latestChartsData;
+        }
       }
     }
 
