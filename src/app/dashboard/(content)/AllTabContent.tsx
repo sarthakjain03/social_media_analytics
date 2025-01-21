@@ -5,22 +5,13 @@ import { useState, useEffect } from "react";
 import { Box, Grid2, Skeleton } from "@mui/material";
 import { formatToDayMonthYear } from "@/utils/dateFormatters";
 import { usePopulateAnalytics } from "@/hooks/usePopulateAnalytics";
-import { ChartObject } from "@/types/Charts";
+import { AllChartsData, AllTabCardsData, ChartObject } from "@/types/Charts";
 
 const chartColors = [
   "#000000", // for X (Twitter)
   "#1f77b4", // for LinkedIn
   "#9467bd", // for Instagram
 ];
-
-interface AllChartsData {
-  likes: Array<{ name: string; data: number[] }>;
-  replies: Array<{ name: string; data: number[] }>;
-  bookmarks: Array<{ name: string; data: number[] }>;
-  reposts: Array<{ name: string; data: number[] }>; // retweets for X (Twitter)
-  followers: Array<{ name: string; data: number[] }>;
-  impressions: Array<{ name: string; data: number[] }>;
-}
 
 const AccountLinkButtons = dynamic(
   // as I am using 'window' i.e. browser API in these components
@@ -34,34 +25,30 @@ const AllTabContent = () => {
     xaxisLabels: string[];
     metricData: AllChartsData;
   } | null>(null);
+  const [cardsData, setCardsData] = useState<AllTabCardsData | null>(null);
+  // Total 3 cards of followers, impressions, likes
 
   const formatAllChartData = () => {
-    const { xChartData } = allChartsData;
-    const chartsData: {
-      xaxisLabels: string[];
-      metricData: AllChartsData;
-    } = {
+    const { xChartData, instagramChartData, linkedinChartData } = allChartsData;
+    const chartsData: { xaxisLabels: string[]; metricData: AllChartsData; } = {
       xaxisLabels: [],
-      metricData: {
-        likes: [{ name: "X (Twitter)", data: [] },],
-        replies: [{ name: "X (Twitter)", data: [] },],
-        bookmarks: [{ name: "X (Twitter)", data: [] },],
-        reposts: [{ name: "X (Twitter)", data: [] },], // retweets for X (Twitter)
-        followers: [{ name: "X (Twitter)", data: [] },],
-        impressions: [{ name: "X (Twitter)", data: [] },],
-      }
+      metricData: { likes: [], replies: [], bookmarks: [], reposts: [], followers: [], impressions: [] }
     };
     
     if (xChartData) {
+      Object.keys(chartsData.metricData)?.forEach((metric) => {
+        const metricKey = metric as keyof AllChartsData;
+        chartsData.metricData[metricKey].push({ name: "X (Twitter)", data: [] });
+      });
+
       Object.keys(xChartData)?.forEach((metric) => {
         const arr: ChartObject[] = (xChartData as any)[metric];
         arr?.forEach((obj: ChartObject) => {
           if (chartsData?.xaxisLabels?.length < arr.length) {
             chartsData.xaxisLabels.push(formatToDayMonthYear(obj.date));
           }
-          if (metric === "retweets") {
-            chartsData.metricData.reposts[0].data.push(obj.value);
-          } else if (metric !== "engagements") {
+
+          if (metric !== "engagements") {
             const key = metric as keyof AllChartsData;
             chartsData.metricData[key][0].data?.push(obj.value);
           }
@@ -73,10 +60,13 @@ const AllTabContent = () => {
   };
 
   useEffect(() => {
-    if (allChartsData?.xChartData) {
+    if (allChartsData) {
+      setCardsData(allChartsData.cardsData);
       formatAllChartData();
     }
   }, [allChartsData]);
+
+  // TODO: display the cards with the cardsData. Also add the skeletons for cards.
 
   return (
     <div className="flex flex-col gap-8 items-center justify-center mt-6 mb-20 w-full">

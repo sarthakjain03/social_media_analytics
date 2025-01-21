@@ -1,21 +1,23 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { getXUserData } from "@/actions/twitterActions";
-import { ChartData } from "@/types/Charts";
+import { AllTabCardsData, ChartData } from "@/types/Charts";
 import { useUserStore } from "@/store/user";
 import { useAnalyticsStore } from "@/store/analytics";
+import { getUserChartsAndCardsData } from "@/actions/chartActions";
 
 export function usePopulateAnalytics() {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
-  const [xChartData, setXChartData] = useState<ChartData | null>(null);
   const [allChartsData, setAllChartsData] = useState<{
     xChartData: ChartData | null,
-    // linkedin and instagram to be added
+    linkedinChartData: ChartData | null,
+    instagramChartData: ChartData | null,
+    cardsData: AllTabCardsData | null
   }>({
     xChartData: null,
-    //linkedinChartData: null,
-    //instagramChartData: null
+    linkedinChartData: null,
+    instagramChartData: null,
+    cardsData: null
   });
   const {
     isXConnected,
@@ -23,43 +25,39 @@ export function usePopulateAnalytics() {
     isLinkedinConnected,
     email,
   } = useUserStore();
-  const { setAnalytics, xData, lastUpdateOfX } = useAnalyticsStore();
+  const { setAnalytics, chartsData, lastUpdateOfX, lastUpdateOfInstagram, lastUpdateOfLinkedin } = useAnalyticsStore();
 
-  const populateXData = async () : Promise<ChartData | null> => {
-    let currentXData: ChartData | null = xData ? xData : null;
-    if (isXConnected) {
-      //setLoading(true);
-      if (currentXData === null) {
-        const xDataFromDB = await getXUserData(email as string);
-        if (xDataFromDB?.chartsData) {
-          currentXData = xDataFromDB.chartsData;
-        }
-        
-      }
-      //setXChartData(currentXData);
-      //setLoading(false);
-    }
-    return currentXData;
-  }
+  const populateAllAnalytics = async (userEmail: string | null) => {
+    if (!userEmail) return;
 
-  const populateAllAnalytics = async () => {
     setLoading(true);
-    const updatedXChartData = await populateXData();
-
-    if (setAnalytics) {
-      setAnalytics({ xData: updatedXChartData, isHydrated: true });
+    let currentChartsData = chartsData;
+    if (isXConnected || isInstagramConnected || isLinkedinConnected) {
+      if (!currentChartsData) {
+        const latestChartsData = await getUserChartsAndCardsData(userEmail);
+    
+        if (latestChartsData) {
+          currentChartsData = latestChartsData;
+        }
+      }
     }
+    if (setAnalytics) {
+      setAnalytics({ chartsData: currentChartsData, isHydrated: true });
+    }
+
 
     setAllChartsData({
-      xChartData: updatedXChartData
+      xChartData: currentChartsData ? currentChartsData.xData : null,
+      linkedinChartData: currentChartsData ? currentChartsData.linkedinData : null,
+      instagramChartData: currentChartsData ? currentChartsData.instagramData : null,
+      cardsData: currentChartsData ? currentChartsData.cardsData : null
     });
     setLoading(false);
   };
 
   useEffect(() => {
     if (session?.user && email === session.user.email) {
-      //populateXData();
-      populateAllAnalytics();
+      populateAllAnalytics(email);
     }
   }, [lastUpdateOfX]);
 

@@ -41,7 +41,7 @@ export const formatChartData = (metricTotals: {
     totalReplies: number;
     totalEngagements: number;
     totalFollowers: number;
-    prevChartsData: ChartData;
+    prevChartsData: ChartData | null;
 }) => {
     const dbDate = formatToDatabaseDate(new Date());
     const obj: { [key: string]: ChartObject } = {
@@ -75,13 +75,13 @@ export const formatChartData = (metricTotals: {
         }
     };
 
-    if (metricTotals.prevChartsData) {
+    if (metricTotals.prevChartsData && Object.keys(metricTotals.prevChartsData).length > 0) {
         // Metric Gained = Current value - LastAddedValue.
         // For ex: Likes Gained = Current Likes on the Post - LastAddedValue in the db.
         Object.keys(metricTotals.prevChartsData)?.map((metric) => {
             const metricKey = metric as keyof ChartData;
-            const metricData = metricTotals.prevChartsData[metricKey];
-            const len = metricData.length;
+            const metricData = metricTotals.prevChartsData?.[metricKey] ?? [];
+            const len = metricData?.length;
 
             if (len > 0 && metricKey !== "followers") {
                 const diff = obj[metricKey].value - metricData[len-1].value;

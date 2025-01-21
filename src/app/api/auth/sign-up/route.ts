@@ -1,4 +1,5 @@
 import dbConnect from "@/database/dbConnect";
+import ChartsDataModel from "@/models/ChartsData";
 import OtpModel from "@/models/Otp";
 import UserModel from "@/models/User";
 import bcrypt from "bcryptjs";
@@ -31,6 +32,15 @@ export async function POST(request: Request) {
             password: hashedPassword
         });
         newUser.save();
+
+        const newChartsData = new ChartsDataModel({ 
+            userEmail: email,
+            cardsData: null,
+            twitterData: null,
+            instagramData: null,
+            linkedinData: null
+        });
+        newChartsData.save();
 
         await OtpModel.deleteOne({ email });
 

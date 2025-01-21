@@ -1,4 +1,5 @@
 import dbConnect from "@/database/dbConnect";
+import ChartsDataModel from "@/models/ChartsData";
 import UserModel from "@/models/User";
 import bcrypt from "bcryptjs";
 
@@ -20,6 +21,15 @@ export async function POST(request: Request) {
                 password: hashedDefaultPassword
             });
             newUser.save();
+
+            const newChartsData = new ChartsDataModel({ 
+                userEmail: email,
+                cardsData: null,
+                twitterData: null,
+                instagramData: null,
+                linkedinData: null
+            });
+            newChartsData.save();
 
             return Response.json({
                 success: true,

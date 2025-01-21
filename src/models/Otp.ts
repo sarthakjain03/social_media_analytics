@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 
-export interface Otp extends Document {
+interface Otp extends Document {
   email: string;
   otp: number;
   createdAt: Date;

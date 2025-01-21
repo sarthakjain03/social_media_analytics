@@ -12,6 +12,7 @@ import { Skeleton, Box, Grid2, Alert } from "@mui/material";
 import { getNextUpdateDateTime } from "@/utils/dateFormatters";
 import { X } from "@mui/icons-material";
 import { common, grey } from "@mui/material/colors";
+import { updateCardsData } from "@/actions/chartActions";
 
 const AllTabContent = dynamic(
   () => import("@/app/dashboard/(content)/AllTabContent"),
@@ -78,7 +79,7 @@ export default function Dashboard() {
   }, [lastUpdateOfX]);
 
   useEffect(() => {
-    // update all social media's analytics data
+    // update all social media's analytics data and all tab cards data
     const updateAllAnalyticsData = async () => {
       setLoading(true);
       let newXUpdateDate = null;
@@ -86,6 +87,8 @@ export default function Dashboard() {
       if (lastUpdateOfX === null || Date.now() - Number(lastUpdateOfX) >= 86400000) { // 24 hrs gap
         if (isXConnected) {
           newXUpdateDate = await updateXUserData(session?.user?.email as string);
+
+          await updateCardsData(session?.user?.email as string);
         }
       }
 

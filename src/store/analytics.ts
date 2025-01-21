@@ -5,16 +5,30 @@ import { AnalyticsStore } from "@/types/Stores";
 
 export const defaultAnalytics: Partial<AnalyticsStore> = {
   lastUpdateOfX: null,
+  lastUpdateOfInstagram: null,
+  lastUpdateOfLinkedin: null,
   isHydrated: false,
-  xData: null,
+  chartsData: {
+    xData: null,
+    linkedinData: null,
+    instagramData: null,
+    cardsData: null
+  }
 };
 
 export const useAnalyticsStore = create<AnalyticsStore>()(
   persist(
     immer((set) => ({
       lastUpdateOfX: null,
+      lastUpdateOfInstagram: null,
+      lastUpdateOfLinkedin: null,
       isHydrated: false,
-      xData: null,
+      chartsData: {
+        xData: null,
+        linkedinData: null,
+        instagramData: null,
+        cardsData: null
+      },
       setIsHydrated: () => {
         set((state) => {
           state.isHydrated = true;

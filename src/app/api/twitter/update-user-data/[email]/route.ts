@@ -1,7 +1,7 @@
 import dbConnect from "@/database/dbConnect";
+import ChartsDataModel from "@/models/ChartsData";
 import TwitterDataModel from "@/models/TwitterData";
 import { formatChartData, formatUserData, getMetricTotals } from "@/utils/formatXData";
-import axios from "axios";
 import { Client } from "twitter-api-sdk";
 
 // I think below twitter apis only return metrics for posts not older than 30 days.
@@ -18,6 +18,14 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
             return Response.json({
                 success: false,
                 message: "User has not connected their X account"
+            }, { status: 404 });
+        }
+
+        const prevChartsData = await ChartsDataModel.findOne({ userEmail: email });
+        if (!prevChartsData) {
+            return Response.json({
+                success: false,
+                message: "User charts data not found"
             }, { status: 404 });
         }
 
@@ -113,14 +121,20 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
 
             const formattedUserData = formatUserData(user.data);
             const metricTotals = getMetricTotals(tweets?.data);
-            const updatedChartsData = formatChartData({ ...metricTotals, totalFollowers: formattedUserData?.followers, prevChartsData: userData.chartsData });
+            const updatedChartsData = formatChartData({ ...metricTotals, totalFollowers: formattedUserData?.followers, prevChartsData: prevChartsData.twitterData });
 
             const results = await TwitterDataModel.updateOne({ userEmail: email }, {
                 $set: {
                     userData: formattedUserData,
                     post_ids: post_ids,
-                    chartsData: updatedChartsData,
+                    //chartsData: updatedChartsData,
                     lastUpdated: Date.now()
+                }
+            });
+
+            const chartsResults = await ChartsDataModel.updateOne({ userEmail: email }, {
+                $set: {
+                    twitterData: updatedChartsData
                 }
             });
 
@@ -135,7 +149,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
 
         return Response.json({
             success: false,
-            message: "Data can be updated only once a day",
+            message: "Data will be updated only once a day",
             data: {
                 lastUpdate: refreshResponse.last_update
             }

@@ -1,9 +1,16 @@
-import { ChartData } from "./Charts";
+import { AllTabCardsData, ChartData } from "./Charts";
 
 export interface AnalyticsStore {
   lastUpdateOfX: Date | null;
+  lastUpdateOfLinkedin: Date | null;
+  lastUpdateOfInstagram: Date | null;
   isHydrated: boolean;
-  xData: ChartData | null;
+  chartsData: {
+    xData: ChartData | null;
+    linkedinData: ChartData | null;
+    instagramData: ChartData | null;
+    cardsData: AllTabCardsData | null;
+  };
 
   setIsHydrated: () => void;
   setAnalytics: (updatedData: Partial<AnalyticsStore>) => void;
