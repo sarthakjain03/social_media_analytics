@@ -70,15 +70,6 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    if (lastUpdateOfX) {
-      setNextUpdateTime((prev) => ({
-        ...prev,
-        twitter: getNextUpdateDateTime(lastUpdateOfX),
-      }));
-    }
-  }, [lastUpdateOfX]);
-
-  useEffect(() => {
     // update all social media's analytics data and all tab cards data
     const updateAllAnalyticsData = async () => {
       setLoading(true);
@@ -94,6 +85,10 @@ export default function Dashboard() {
 
       if (newXUpdateDate?.date) {
         setAnalytics({ lastUpdateOfX: newXUpdateDate.date });
+        setNextUpdateTime((prev) => ({
+          ...prev,
+          twitter: getNextUpdateDateTime(newXUpdateDate.date),
+        }));
       }
       setLoading(false);
     };
