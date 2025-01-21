@@ -4,7 +4,7 @@ import { useUserStore } from "@/store/user";
 import { useState, useEffect } from "react";
 import { X } from "@mui/icons-material";
 import { Box, Grid2, Skeleton } from "@mui/material";
-import { ChartObject, TwitterChartData, ChartSeriesObject } from "@/types/Charts";
+import { ChartObject, ChartData, ChartSeriesObject } from "@/types/Charts";
 import { formatToDayMonthYear } from "@/utils/dateFormatters";
 import { usePopulateAnalytics } from "@/hooks/usePopulateAnalytics";
 
@@ -33,14 +33,14 @@ const XTabContent = () => {
     data: [],
   });
 
-  const formatChartData = (data: TwitterChartData) => {
+  const formatChartData = (data: ChartData) => {
     const dataObj = {
       followers: { name: "Followers", data: [] },
       likes: { name: "Likes", data: [] },
       impressions: { name: "Impressions", data: [] },
       replies: { name: "Replies", data: [] },
       engagements: { name: "Engagements", data: [] },
-      retweets: { name: "Retweets", data: [] },
+      reposts: { name: "Retweets/Reposts", data: [] },
       bookmarks: { name: "Bookmarks", data: [] },
     };
     const labels: string[] = [];

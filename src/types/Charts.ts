@@ -8,12 +8,21 @@ export interface ChartSeriesObject {
     data: number[];
 }
 
-export interface TwitterChartData {
+export interface ChartData {
     likes: Array<ChartObject>;
     impressions: Array<ChartObject>;
-    retweets: Array<ChartObject>;
+    reposts: Array<ChartObject>;
     replies: Array<ChartObject>;
     engagements: Array<ChartObject>;
     bookmarks: Array<ChartObject>;
     followers: Array<ChartObject>;
+}
+
+export interface AllChartsData {
+  likes: Array<ChartSeriesObject>;
+  replies: Array<ChartSeriesObject>;
+  bookmarks: Array<ChartSeriesObject>;
+  reposts: Array<ChartSeriesObject>;
+  followers: Array<ChartSeriesObject>;
+  impressions: Array<ChartSeriesObject>;
 }

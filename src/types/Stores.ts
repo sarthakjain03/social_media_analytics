@@ -1,9 +1,9 @@
-import { TwitterChartData } from "./Charts";
+import { ChartData } from "./Charts";
 
 export interface AnalyticsStore {
   lastUpdateOfX: Date | null;
   isHydrated: boolean;
-  xData: TwitterChartData | null;
+  xData: ChartData | null;
 
   setIsHydrated: () => void;
   setAnalytics: (updatedData: Partial<AnalyticsStore>) => void;

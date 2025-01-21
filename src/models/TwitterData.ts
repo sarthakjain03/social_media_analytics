@@ -1,13 +1,12 @@
-import { TwitterPost, TwitterUserData } from "@/types/TwitterData";
-import { TwitterChartData } from "@/types/Charts";
+import { TwitterUserData } from "@/types/TwitterData";
+import { ChartData } from "@/types/Charts";
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface TwitterData extends Document {
   userEmail: string;
   userData: TwitterUserData;
   post_ids: Array<string>;
-  //posts: Array<TwitterPost>;
-  chartsData: TwitterChartData;
+  chartsData: ChartData;
   accessToken: string;
   refreshToken: string;
   tokenExpiry: Date;
@@ -26,9 +25,6 @@ const TwitterSchema: Schema<TwitterData> = new Schema({
   post_ids: {
     type: [String]
   },
-  // posts: {
-  //   type: [Object]
-  // },
   chartsData: {
     type: Object
   },

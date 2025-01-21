@@ -1,5 +1,5 @@
 import { TwitterUserData } from "@/types/TwitterData";
-import { ChartObject, TwitterChartData } from "@/types/Charts";
+import { ChartObject, ChartData } from "@/types/Charts";
 import { formatToDatabaseDate } from "./dateFormatters";
 
 export const formatUserData = (data: any) => {
@@ -41,7 +41,7 @@ export const formatChartData = (metricTotals: {
     totalReplies: number;
     totalEngagements: number;
     totalFollowers: number;
-    prevChartsData: TwitterChartData;
+    prevChartsData: ChartData;
 }) => {
     const dbDate = formatToDatabaseDate(new Date());
     const obj: { [key: string]: ChartObject } = {
@@ -49,7 +49,7 @@ export const formatChartData = (metricTotals: {
             date: dbDate,
             value: metricTotals.totalLikes
         },
-        retweets: {
+        reposts: {
             date: dbDate,
             value: metricTotals.totalRetweets
         },
@@ -79,7 +79,7 @@ export const formatChartData = (metricTotals: {
         // Metric Gained = Current value - LastAddedValue.
         // For ex: Likes Gained = Current Likes on the Post - LastAddedValue in the db.
         Object.keys(metricTotals.prevChartsData)?.map((metric) => {
-            const metricKey = metric as keyof TwitterChartData;
+            const metricKey = metric as keyof ChartData;
             const metricData = metricTotals.prevChartsData[metricKey];
             const len = metricData.length;
 
@@ -89,10 +89,10 @@ export const formatChartData = (metricTotals: {
             }
         });
 
-        const updatedChartData: TwitterChartData = {
+        const updatedChartData: ChartData = {
             likes: [...metricTotals.prevChartsData.likes, obj.likes],
             replies: [...metricTotals.prevChartsData.replies, obj.replies],
-            retweets: [...metricTotals.prevChartsData.retweets, obj.retweets],
+            reposts: [...metricTotals.prevChartsData.reposts, obj.reposts],
             engagements: [...metricTotals.prevChartsData.engagements, obj.engagements],
             impressions: [...metricTotals.prevChartsData.impressions, obj.impressions],
             bookmarks: [...metricTotals.prevChartsData.bookmarks, obj.bookmarks],
@@ -102,10 +102,10 @@ export const formatChartData = (metricTotals: {
         return updatedChartData;
     }
 
-    const updatedData: TwitterChartData = {
+    const updatedData: ChartData = {
         likes: [obj.likes],
         replies: [obj.replies],
-        retweets: [obj.retweets],
+        reposts: [obj.reposts],
         engagements: [obj.engagements],
         impressions: [obj.impressions],
         bookmarks: [obj.bookmarks],

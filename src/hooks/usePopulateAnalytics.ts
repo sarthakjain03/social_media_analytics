@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { getXUserData } from "@/actions/twitterActions";
-import { TwitterChartData } from "@/types/Charts";
+import { ChartData } from "@/types/Charts";
 import { useUserStore } from "@/store/user";
 import { useAnalyticsStore } from "@/store/analytics";
 
 export function usePopulateAnalytics() {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
-  const [xChartData, setXChartData] = useState<TwitterChartData | null>(null);
+  const [xChartData, setXChartData] = useState<ChartData | null>(null);
   const [allChartsData, setAllChartsData] = useState<{
-    xChartData: TwitterChartData | null,
+    xChartData: ChartData | null,
     // linkedin and instagram to be added
   }>({
     xChartData: null,
@@ -25,8 +25,8 @@ export function usePopulateAnalytics() {
   } = useUserStore();
   const { setAnalytics, xData, lastUpdateOfX } = useAnalyticsStore();
 
-  const populateXData = async () : Promise<TwitterChartData | null> => {
-    let currentXData: TwitterChartData | null = xData ? xData : null;
+  const populateXData = async () : Promise<ChartData | null> => {
+    let currentXData: ChartData | null = xData ? xData : null;
     if (isXConnected) {
       //setLoading(true);
       if (currentXData === null) {
