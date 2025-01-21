@@ -7,7 +7,7 @@ import { getUserChartsAndCardsData } from "@/actions/chartActions";
 
 export function usePopulateAnalytics() {
   const { data: session } = useSession();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [allChartsData, setAllChartsData] = useState<{
     xChartData: ChartData | null,
     linkedinChartData: ChartData | null,
@@ -60,6 +60,8 @@ export function usePopulateAnalytics() {
   useEffect(() => {
     if (session?.user && email === session.user.email) {
       populateAllAnalytics(session.user.email as string);
+    } else {
+      setLoading(false);
     }
   }, [lastUpdateOfX]);
 

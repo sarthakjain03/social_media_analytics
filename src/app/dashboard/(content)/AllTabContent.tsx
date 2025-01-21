@@ -73,7 +73,7 @@ const AllTabContent = () => {
   return (
     <div className="flex flex-col gap-8 items-center justify-center mt-6 mb-20 w-full">
       {!loading && isHydrated && <AccountLinkButtons />}
-      {loading ? (
+      {loading || !allAnalyticsData ? (
         <Box sx={{ flexGrow: 1, width: "100%" }}>
           <Grid2 container spacing={3}>
             {[1, 2, 3, 4, 5, 6]?.map((data) => (
