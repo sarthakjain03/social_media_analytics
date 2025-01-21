@@ -27,20 +27,18 @@ export function usePopulateAnalytics() {
   } = useUserStore();
   const { setAnalytics, chartsData, lastUpdateOfX, lastUpdateOfInstagram, lastUpdateOfLinkedin } = useAnalyticsStore();
 
-  const populateAllAnalytics = async (userEmail: string | null) => {
-    if (!userEmail) return;
-
+  const populateAllAnalytics = async (userEmail: string) => {
     setLoading(true);
     let currentChartsData = chartsData;
+
     if (isXConnected || isInstagramConnected || isLinkedinConnected) {
-      if (!currentChartsData) {
-        const latestChartsData = await getUserChartsAndCardsData(userEmail);
-    
-        if (latestChartsData) {
-          currentChartsData = latestChartsData;
-        }
+      const latestChartsData = await getUserChartsAndCardsData(userEmail);
+
+      if (latestChartsData) {
+        currentChartsData = latestChartsData;
       }
     }
+
     if (setAnalytics) {
       setAnalytics({ chartsData: currentChartsData, isHydrated: true });
     }
@@ -57,7 +55,7 @@ export function usePopulateAnalytics() {
 
   useEffect(() => {
     if (session?.user && email === session.user.email) {
-      populateAllAnalytics(email);
+      populateAllAnalytics(session.user.email as string);
     }
   }, [lastUpdateOfX]);
 
