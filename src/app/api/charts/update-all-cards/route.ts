@@ -16,6 +16,10 @@ export async function GET(_request: Request) {
         }
 
         const updatePromises = allChartsData.map(async (chartsData) => {
+            if (chartsData.userEmail === "dummy@example.com") { // Skip dummy user
+                return null;
+            }
+
             if (chartsData?.cardsData?.retrievalDate && Date.now() - Number(chartsData.cardsData.retrievalDate) < 86400000) {
                 // Skip updating if data is up-to-date
                 return null;

@@ -23,6 +23,11 @@ export async function GET(_request: Request) {
 
         for (const userData of allUsers) {
             const email = userData.userEmail;
+
+            if (email === "dummy@example.com") { // Skip dummy user
+                continue;
+            }
+
             const prevChartsData = await ChartsDataModel.findOne({ userEmail: email });
 
             if (!prevChartsData) {
