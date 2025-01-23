@@ -7,6 +7,7 @@ import { formatToDayMonthYear } from "@/utils/dateFormatters";
 import { usePopulateAnalytics } from "@/hooks/usePopulateAnalytics";
 import { AllChartsData, AllTabCardsData, ChartObject } from "@/types/Charts";
 import { useAnalyticsStore } from "@/store/analytics";
+import MetricCard from "@/components/MetricCard";
 
 const chartColors = [
   "#000000", // for X (Twitter)
@@ -68,14 +69,17 @@ const AllTabContent = () => {
     }
   }, [allChartsData]);
 
-  // TODO: display the cards with the cardsData. Also add the skeletons for cards.
-
   return (
-    <div className="flex flex-col gap-8 items-center justify-center mt-6 mb-20 w-full">
+    <div className="flex flex-col gap-4 items-center justify-center mt-6 mb-20 w-full">
       {!loading && isHydrated && <AccountLinkButtons />}
       {loading || !allAnalyticsData ? (
         <Box sx={{ flexGrow: 1, width: "100%" }}>
           <Grid2 container spacing={3}>
+            {[1, 2, 3]?.map((data) => (
+              <Grid2 key={`${data}-card-skeleton`} size={{ xs: 12, lg: 4 }}>
+                <Skeleton variant="rounded" height={150} width={"100%"} />
+              </Grid2>
+            ))}
             {[1, 2, 3, 4, 5, 6]?.map((data) => (
               <Grid2 key={`${data}-skeleton`} size={{ xs: 12, md: 6, xl: 4 }}>
                 <Skeleton variant="rounded" height={480} width={"100%"} />
@@ -85,8 +89,32 @@ const AllTabContent = () => {
         </Box>
       ) : (
         <Box sx={{ flexGrow: 1, width: "100%" }}>
-          {allAnalyticsData && (
+          {allAnalyticsData && cardsData && (
             <Grid2 container spacing={3}>
+              <Grid2 size={{ xs: 12, lg: 4 }}>
+                <MetricCard
+                  comparisonDate={cardsData.comparisonDate}
+                  title={cardsData.followers.title}
+                  value={cardsData.followers.value}
+                  percentChange={cardsData.followers.percentChange}
+                />
+              </Grid2>
+              <Grid2 size={{ xs: 12, lg: 4 }}>
+                <MetricCard
+                  comparisonDate={cardsData.comparisonDate}
+                  title={cardsData.impressions.title}
+                  value={cardsData.impressions.value}
+                  percentChange={cardsData.impressions.percentChange}
+                />
+              </Grid2>
+              <Grid2 size={{ xs: 12, lg: 4 }}>
+                <MetricCard
+                  comparisonDate={cardsData.comparisonDate}
+                  title={cardsData.likes.title}
+                  value={cardsData.likes.value}
+                  percentChange={cardsData.likes.percentChange}
+                />
+              </Grid2>
               <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
                 <AreaChart
                   title="Followers"

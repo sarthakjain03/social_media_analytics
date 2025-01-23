@@ -11,6 +11,11 @@ const AccountLinkButtons = () => {
         }
     };
 
+    // if (isXConnected && isLinkedinConnected && isInstagramConnected) {
+    if (isXConnected) {
+        return null;
+    }
+
   return (
     <div className="flex gap-4 items-center justify-center flex-wrap my-3">
         {!isXConnected && (
