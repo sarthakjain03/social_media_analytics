@@ -20,7 +20,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
             return Response.json({
                 success: true,
                 message: "User cards data is up to date"
-            }, { status: 304 });
+            }, { status: 200 });
         }
 
         const updatedCards = getFormattedCardsData({
