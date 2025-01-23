@@ -3,7 +3,7 @@ import DashboardTabs from "@/app/dashboard/(content)/DashboardTabs";
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { getXAccessToken, updateXUserData } from "@/actions/twitterActions";
+import { getXAccessToken } from "@/actions/twitterActions";
 import { motion } from "motion/react";
 import { useUserStore } from "@/store/user";
 import { useAnalyticsStore } from "@/store/analytics";
@@ -11,8 +11,7 @@ import dynamic from "next/dynamic";
 import { Skeleton, Box, Grid2, Alert } from "@mui/material";
 import { getNextUpdateDateTime } from "@/utils/dateFormatters";
 import { X } from "@mui/icons-material";
-import { common, grey } from "@mui/material/colors";
-import { updateCardsData } from "@/actions/chartActions";
+import { grey } from "@mui/material/colors";
 
 const AllTabContent = dynamic(
   () => import("@/app/dashboard/(content)/AllTabContent"),
@@ -70,33 +69,13 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    // update all social media's analytics data and all tab cards data
-    const updateAllAnalyticsData = async () => {
-      setLoading(true);
-      let newXUpdateDate = null;
-
-      if (lastUpdateOfX === null || Date.now() - Number(lastUpdateOfX) >= 86400000) { // 24 hrs gap
-        if (isXConnected) {
-          newXUpdateDate = await updateXUserData(session?.user?.email as string);
-
-          await updateCardsData(session?.user?.email as string);
-        }
-      }
-
-      if (newXUpdateDate?.date) {
-        setAnalytics({ lastUpdateOfX: newXUpdateDate.date });
-        setNextUpdateTime((prev) => ({
-          ...prev,
-          twitter: getNextUpdateDateTime(newXUpdateDate.date),
-        }));
-      }
-      setLoading(false);
-    };
-
-    if (session?.user && email === session.user.email) {
-      updateAllAnalyticsData();
+    if (session?.user && email === session.user.email && lastUpdateOfX) {
+      setNextUpdateTime((prev) => ({
+        ...prev,
+        twitter: getNextUpdateDateTime(lastUpdateOfX),
+      }));
     }
-  }, [isXConnected, session, email]);
+  }, [session, email, lastUpdateOfX]);
 
   useEffect(() => {
     if (session?.user) {

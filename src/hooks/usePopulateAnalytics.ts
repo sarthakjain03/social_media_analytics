@@ -30,21 +30,26 @@ export function usePopulateAnalytics() {
   const populateAllAnalytics = async (userEmail: string) => {
     setLoading(true);
     let currentChartsData = chartsData;
+    let lastXUpdate: Date | null = null;
 
     if (isXConnected || isInstagramConnected || isLinkedinConnected) {
       const { instagramData, twitterData, linkedinData } = chartsData;
 
       if (!twitterData && !instagramData && !linkedinData) {
         const latestChartsData = await getUserChartsAndCardsData(userEmail);
+
+        if (latestChartsData?.lastUpdateOfX) {
+          lastXUpdate = latestChartsData.lastUpdateOfX;
+        }
   
-        if (latestChartsData) {
-          currentChartsData = latestChartsData;
+        if (latestChartsData?.chartsData) {
+          currentChartsData = latestChartsData.chartsData;
         }
       }
     }
 
     if (setAnalytics) {
-      setAnalytics({ chartsData: currentChartsData, isHydrated: true });
+      setAnalytics({ chartsData: currentChartsData, lastUpdateOfX: lastXUpdate, isHydrated: true });
     }
 
 

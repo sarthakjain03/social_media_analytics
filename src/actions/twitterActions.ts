@@ -25,23 +25,3 @@ export const getXAccessToken = async (
     //showToast("error", message);
   }
 };
-
-export const updateXUserData = async (email: string) => {
-    try {
-        const response = await axios.get(`/api/twitter/update-user-data/${email}`);
-
-        return {
-          success: true,
-          date: response?.data?.data?.lastUpdate
-        };
-    
-      } catch (error) {
-        const axiosError = error as AxiosError<ApiResponse>;
-        const message = axiosError.response?.data.message ?? "Error updating user's X account data";
-        //showToast("error", message);
-        return {
-          success: false,
-          date: axiosError.response?.data?.data?.lastUpdate
-        };
-      }
-}

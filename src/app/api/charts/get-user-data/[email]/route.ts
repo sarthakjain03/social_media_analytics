@@ -1,11 +1,20 @@
 import dbConnect from "@/database/dbConnect";
 import ChartsDataModel from "@/models/ChartsData";
+import TwitterDataModel from "@/models/TwitterData";
 
 export async function GET(_request: Request, { params }: { params: Promise<{ email: string }> }) {
     await dbConnect();
 
     try {
         const email = (await params).email;
+
+        const userXData = await TwitterDataModel.findOne({ userEmail: email });
+        if (!userXData) {
+            return Response.json({
+                success: false,
+                message: "User twitter data not found"
+            }, { status: 404 });
+        }
 
         const chartsData = await ChartsDataModel.findOne({ userEmail: email });
         if (!chartsData) {
@@ -19,10 +28,13 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
             success: true,
             message: "User charts data retrieved successfully",
             data: {
-                cardsData: chartsData.cardsData,
-                twitterData: chartsData.twitterData,
-                linkedinData: chartsData.linkedinData,
-                instagramData: chartsData.instagramData
+                chartsData: {
+                    cardsData: chartsData.cardsData,
+                    twitterData: chartsData.twitterData,
+                    linkedinData: chartsData.linkedinData,
+                    instagramData: chartsData.instagramData
+                },
+                lastUpdateOfX: userXData.lastUpdated
             }
         }, { status: 200 });
 
