@@ -96,10 +96,14 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                         post_ids.push(post.id);
                     }
                 });
+                if (post_ids.length > 100) {
+                    const excessLength = post_ids.length - 100;
+                    post_ids.splice(0, excessLength);
+                }
             }
     
             const tweets = await twitterClient.tweets.findTweetsById({
-                "ids": post_ids,
+                "ids": post_ids, // max of 100 ids only
                 "tweet.fields": [
                     "id",
                     "non_public_metrics",
