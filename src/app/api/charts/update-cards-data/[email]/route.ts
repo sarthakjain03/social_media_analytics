@@ -16,6 +16,13 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
             }, { status: 404 });
         }
 
+        if (chartsData?.cardsData?.retrievalDate && Date.now() - Number(chartsData.cardsData.retrievalDate) < 86400000) {
+            return Response.json({
+                success: true,
+                message: "User cards data is up to date"
+            }, { status: 304 });
+        }
+
         const updatedCards = getFormattedCardsData({
             twitter: chartsData.twitterData,
             linkedin: chartsData.linkedinData,
