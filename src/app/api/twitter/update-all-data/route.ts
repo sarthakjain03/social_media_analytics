@@ -126,8 +126,8 @@ export async function GET(_request: Request) {
             }
 
             // Delay of 15.1 minutes (906,000 milliseconds) before updating the next user
-            console.log(`Waiting 15.1 minutes before processing the next user...`);
-            await delay(906000);
+            //console.log(`Waiting 15.1 minutes before processing the next user...`);
+            //await delay(906000);
         }
 
         return Response.json({
