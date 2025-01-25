@@ -68,7 +68,7 @@ export function usePopulateAnalytics() {
     } else {
       setLoading(false);
     }
-  }, [lastUpdateOfX]);
+  }, [lastUpdateOfX, session, email]);
 
   return { loading, allChartsData };
 }
