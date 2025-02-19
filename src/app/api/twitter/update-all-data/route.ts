@@ -76,6 +76,8 @@ export async function GET(_request: Request) {
                     posts = res;
                 }
 
+                console.log(posts)
+
                 if (posts?.data) {
                     posts.data.forEach((post) => {
                         if (!post_ids.includes(post.id)) {
