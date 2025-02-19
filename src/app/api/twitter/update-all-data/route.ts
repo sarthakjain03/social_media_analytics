@@ -59,7 +59,7 @@ export async function GET(_request: Request) {
                 if (user?.data?.id) {
                     const params: any = {
                         "max_results": 10,
-                        "tweet.fields": ["id"]
+                        "tweet.fields": ["id", "created_at"]
                     };
 
                     if (userData.post_ids?.length > 0) {
@@ -94,6 +94,7 @@ export async function GET(_request: Request) {
                     "ids": post_ids, // Max of 100 ids only
                     "tweet.fields": ["id", "non_public_metrics", "public_metrics"]
                 });
+                // posts older than 30 days will give error in the above api call
 
                 if (tweets?.errors && Array.isArray(tweets.errors)) {
                     console.error(`Errors fetching tweet metrics for user: ${email}`, tweets.errors);
