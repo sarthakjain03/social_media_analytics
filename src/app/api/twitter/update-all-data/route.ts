@@ -4,10 +4,6 @@ import TwitterDataModel from "@/models/TwitterData";
 import { formatChartData, formatUserData, getMetricTotals } from "@/utils/formatXData";
 import { Client } from "twitter-api-sdk";
 
-function delay(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 export async function GET(_request: Request) {
     await dbConnect();
 
@@ -54,7 +50,19 @@ export async function GET(_request: Request) {
                 }
 
                 let posts = null;
-                const post_ids = [...userData.post_ids];
+                const storedPosts = [...userData.posts];
+                const post_ids: string[] = [];
+
+                const now = new Date();
+                const thirtyDaysAgo = new Date();
+                thirtyDaysAgo.setDate(now.getDate() - 30);
+                for (let i = 0; i < storedPosts.length; i++) {
+                    if (storedPosts[i].createdAt > thirtyDaysAgo) {
+                        post_ids.push(storedPosts[i].id)
+                    } else {
+                        storedPosts.splice(i, 1)
+                    }
+                }
 
                 if (user?.data?.id) {
                     const params: any = {
@@ -62,8 +70,8 @@ export async function GET(_request: Request) {
                         "tweet.fields": ["id", "created_at"]
                     };
 
-                    if (userData.post_ids?.length > 0) {
-                        params.since_id = userData.post_ids[userData.post_ids.length - 1];
+                    if (post_ids?.length > 0) {
+                        params.since_id = post_ids[post_ids.length - 1];
                     }
 
                     const res = await twitterClient.tweets.usersIdTweets(user.data.id, params);
@@ -76,12 +84,16 @@ export async function GET(_request: Request) {
                     posts = res;
                 }
 
-                console.log(posts)
-
                 if (posts?.data) {
                     posts.data.forEach((post) => {
                         if (!post_ids.includes(post.id)) {
                             post_ids.push(post.id);
+                            if (post.created_at) {
+                                const isOld = new Date(post.created_at) <= thirtyDaysAgo
+                                if (!isOld) {
+                                    storedPosts.push({ id: post.id, createdAt: new Date(post.created_at) })
+                                } 
+                            }
                         }
                     });
                     if (post_ids.length > 100) {
@@ -112,7 +124,7 @@ export async function GET(_request: Request) {
                 await TwitterDataModel.updateOne({ userEmail: email }, {
                     $set: {
                         userData: formattedUserData,
-                        post_ids: post_ids,
+                        posts: storedPosts,
                         lastUpdated: Date.now()
                     }
                 });

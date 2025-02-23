@@ -1,12 +1,11 @@
 import { TwitterUserData } from "@/types/TwitterData";
-import { ChartData } from "@/types/Charts";
 import mongoose, { Schema, Document } from "mongoose";
 
 interface TwitterData extends Document {
   userEmail: string;
   userData: TwitterUserData;
-  post_ids: Array<string>;
-  //chartsData: ChartData;
+  // post_ids: Array<string>;
+  posts: Array<{ id: string; createdAt: Date }>;
   accessToken: string;
   refreshToken: string;
   tokenExpiry: Date;
@@ -22,12 +21,9 @@ const TwitterSchema: Schema<TwitterData> = new Schema({
   userData: {
     type: Object
   },
-  post_ids: {
-    type: [String]
+  posts: {
+    type: [{ id: String, createdAt: Date }]
   },
-  // chartsData: {
-  //   type: Object
-  // },
   accessToken: {
     type: String
   },
