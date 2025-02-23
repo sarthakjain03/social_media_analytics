@@ -87,10 +87,10 @@ export async function GET(_request: Request) {
                 if (posts?.data) {
                     posts.data.forEach((post) => {
                         if (!post_ids.includes(post.id)) {
-                            post_ids.push(post.id);
                             if (post.created_at) {
                                 const isOld = new Date(post.created_at) <= thirtyDaysAgo
                                 if (!isOld) {
+                                    post_ids.push(post.id);
                                     storedPosts.push({ id: post.id, createdAt: new Date(post.created_at) })
                                 } 
                             }
