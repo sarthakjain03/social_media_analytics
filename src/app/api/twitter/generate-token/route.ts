@@ -17,6 +17,7 @@ export async function POST(request: Request) {
         }
         
         const tokenInfo = await authClient.requestAccessToken(code as string);
+        console.log(tokenInfo)
         
         const newTwitterData = new TwitterDataModel({
             userEmail: email,
