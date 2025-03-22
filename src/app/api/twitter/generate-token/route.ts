@@ -16,8 +16,10 @@ export async function POST(request: Request) {
             }, { status: 400 });
         }
         
+        // console.log("Before X authclient line")
+        // console.log(code as string)
         const tokenInfo = await authClient.requestAccessToken(code as string);
-        console.log(tokenInfo)
+        // console.log(tokenInfo)
         
         const newTwitterData = new TwitterDataModel({
             userEmail: email,
