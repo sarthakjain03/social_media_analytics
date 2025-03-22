@@ -39,10 +39,12 @@ export async function GET(_request: Request) {
             };
 
             if (Date.now() - Number(userData.lastUpdated) > 86400000) { // Min 24 hrs gap between API calls
+                console.log(refreshResponse)
                 const twitterClient = new Client(refreshResponse.access_token);
                 const user = await twitterClient.users.findMyUser({
                     "user.fields": ["id", "public_metrics", "username", "name"]
                 });
+                console.log("Post fetching user details from X.")
 
                 if (user?.errors && Array.isArray(user.errors)) {
                     console.error(`Errors for user: ${email}`, user.errors);
@@ -75,6 +77,7 @@ export async function GET(_request: Request) {
                     }
 
                     const res = await twitterClient.tweets.usersIdTweets(user.data.id, params);
+                    console.log("Post fetching user TWEETS from X.")
 
                     if (res?.errors && Array.isArray(res.errors)) {
                         console.error(`Errors fetching tweets for user: ${email}`, res.errors);
@@ -106,6 +109,7 @@ export async function GET(_request: Request) {
                     "ids": post_ids, // Max of 100 ids only
                     "tweet.fields": ["id", "non_public_metrics", "public_metrics"]
                 });
+                console.log("Post fetching user Tweets BY ID from X.")
                 // posts older than 30 days will give error in the above api call
 
                 if (tweets?.errors && Array.isArray(tweets.errors)) {
