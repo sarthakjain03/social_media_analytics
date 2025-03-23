@@ -32,22 +32,22 @@ const InstagramTabContent = () => {
     data: [],
   });
 
-//   if (!isInstagramConnected) {
-//     return (
-//       <div className="flex gap-4 items-center justify-center my-3">
-//         <button
-//           onClick={() => {}}
-//           className="rounded-lg bg-black text-white font-poppins font-medium flex gap-2 py-2 px-3 items-center"
-//         >
-//           <span>Link</span>
-//           <span>
-//             <Instagram fontSize="small" />
-//           </span>
-//           <span>Account</span>
-//         </button>
-//       </div>
-//     );
-//   }
+  if (!isInstagramConnected) {
+    return (
+      <div className="flex gap-4 items-center justify-center my-6">
+        <button
+          onClick={() => {}}
+          className="rounded-lg bg-gradient-to-br from-yellow-400 via-pink-500 to-purple-600 text-white font-poppins font-medium flex gap-2 py-2 px-3 items-center"
+        >
+          <span>Link</span>
+          <span>
+            <Instagram fontSize="small" />
+          </span>
+          <span>Account</span>
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="font-poppins font-medium text-6xl flex items-center justify-center text-gray-500/20 min-h-[250px]">
