@@ -17,7 +17,7 @@ export async function POST(request: Request) {
         const accessTokenResponse = await axios.get('https://graph.instagram.com/access_token', { params })
         console.log("Long lived access token response: ", accessTokenResponse) // TODO: remove
 
-        if (accessTokenResponse?.data?.access_token) {
+        if (accessTokenResponse?.data?.access_token && accessTokenResponse?.data?.expires_in) {
             // valid for 60 days, can be refreshed only after 24 hours atleast if not expired
             const updateIGUser = new InstagramDataModel({
                 userEmail: email,

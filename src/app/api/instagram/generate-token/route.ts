@@ -20,13 +20,13 @@ export async function POST(request: Request) {
         })
         console.log("Short lived access token response: ", response) // TODO: remove
 
-        if (response?.data?.data && response?.data?.data[0]) {
-            const accessToken = response?.data?.data[0]?.access_token
+        if (response?.data?.access_token) {
+            const accessToken = response?.data?.access_token
             return Response.json({
                 success: true,
                 message: "Short-term access token generated successfully!",
                 data: {
-                    accessToken: response?.data?.data[0]?.access_token
+                    accessToken: response?.data?.access_token
                 }
             }, { status: 200 })
         }
