@@ -3,7 +3,6 @@ import axios from "axios";
 export async function POST(request: Request) {
     try {
         const { code } = await request.json();
-        const usableCodeStr = code.slice(0, -2) // removing #_ from the end
         const clientID = process.env.INSTAGRAM_APP_ID as string
         const clientSecret = process.env.INSTAGRAM_APP_SECRET as string
         const redirectUri = process.env.INSTAGRAM_CALLBACK_URI as string
@@ -13,8 +12,9 @@ export async function POST(request: Request) {
         formData.append('client_secret', clientSecret);
         formData.append('grant_type', 'authorization_code');
         formData.append('redirect_uri', redirectUri);
-        formData.append('code', usableCodeStr);
+        formData.append('code', code);
 
+        console.log("Before making instagram api call.")
         const response = await axios.post('https://api.instagram.com/oauth/access_token', formData, {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         })
