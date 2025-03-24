@@ -22,7 +22,7 @@ export async function POST(request: Request) {
             const updateIGUser = new InstagramDataModel({
                 userEmail: email,
                 accessCumRefreshToken: accessTokenResponse?.data?.access_token,
-                tokenExpiry: accessTokenResponse?.data?.expires_in,
+                tokenExpiry: new Date(Date.now() + accessTokenResponse?.data?.expires_in * 1000),
                 lastUpdated: null,
                 userData: null
             })
