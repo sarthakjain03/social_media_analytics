@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { getXAccessToken } from "@/actions/twitterActions";
+import { getIGShortLivedAccessToken } from "@/actions/instagramActions";
 import { motion } from "motion/react";
 import { useUserStore } from "@/store/user";
 import { useAnalyticsStore } from "@/store/analytics";
@@ -12,6 +13,7 @@ import { Skeleton, Box, Grid2, Alert } from "@mui/material";
 import { getNextUpdateDateTime } from "@/utils/dateFormatters";
 import { X } from "@mui/icons-material";
 import { grey } from "@mui/material/colors";
+import showToast from "@/utils/toast";
 
 const AllTabContent = dynamic(
   () => import("@/app/dashboard/(content)/AllTabContent"),
@@ -42,12 +44,12 @@ export default function Dashboard() {
     isLinkedinConnected,
     setUser,
   } = useUserStore();
-  const { lastUpdateOfX, setAnalytics, isHydrated } = useAnalyticsStore();
+  const { lastUpdateOfX } = useAnalyticsStore();
   const [loading, setLoading] = useState(false);
   const [nextUpdateTime, setNextUpdateTime] = useState({
     twitter: "",
     //linkedin: "",
-    //instagram: "",
+    instagram: ""
   });
 
   // Function for getting code for X account linking from url
@@ -68,6 +70,22 @@ export default function Dashboard() {
     }
   };
 
+  // Function for getting code for Instagram account linking from url
+  const getInstagramTokenAndRedirect = async () => {
+    const code = searchParams.get("code");
+    const error = searchParams.get("error");
+
+    if (error) {
+      showToast("error", error?.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '))
+    } else if (code && session?.user) {
+      const connectedIG = await getIGShortLivedAccessToken(code, session.user.email ?? "");
+      if (connectedIG) {
+        setUser({ isInstagramConnected: true });
+      }
+      router.replace("/dashboard?tab=all");
+    }
+  };
+
   useEffect(() => {
     if (session?.user && email === session.user.email && lastUpdateOfX) {
       setNextUpdateTime((prev) => ({
@@ -81,6 +99,9 @@ export default function Dashboard() {
     if (session?.user) {
       if (!isXConnected) {
         getXTokenAndRedirect();
+      }
+      if (!isInstagramConnected) {
+        getInstagramTokenAndRedirect();
       }
     }
 
