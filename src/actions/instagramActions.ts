@@ -6,23 +6,13 @@ import UserModel from "@/models/User";
 
 export const getIGLongLivedAccessToken = async (tempAccessToken: string, email: string) => {
     try {
-        const params = {
-            grant_type: 'ig_exchange_token',
-            client_secret: process.env.INSTAGRAM_APP_SECRET as string,
-            access_token: tempAccessToken
-        };
-        const accessTokenResponse = await axios.get('https://graph.instagram.com/access_token', { params })
-        console.log("Long lived access token response: ", accessTokenResponse) // TODO: remove
+        const response = await axios.post<ApiResponse>(`/api/instagram/add-ig-user`, {
+            accessToken: tempAccessToken,
+            email: email
+        })
 
-        if (accessTokenResponse?.data?.access_token) {
-            // valid for 60 days, can be refreshed only after 24 hours atleast if not expired
-            const dbUserUpdate = await axios.post<ApiResponse>(`/api/instagram/add-ig-user`, {
-                email: email,
-                accessToken: accessTokenResponse?.data?.access_token,
-                expiresIn: accessTokenResponse?.data?.expires_in
-            })
-
-            return dbUserUpdate?.data?.success
+        if (response?.data?.success) {
+            return true
         }
 
         return false
@@ -38,27 +28,12 @@ export const getIGLongLivedAccessToken = async (tempAccessToken: string, email: 
 
 export const getIGShortLivedAccessToken = async (code: string, email: string) => {
     try {
-        const usableCodeStr = code.slice(0, -2) // removing #_ from the end
-        const clientID = process.env.INSTAGRAM_APP_ID as string
-        const clientSecret = process.env.INSTAGRAM_APP_SECRET as string
-        const redirectUri = process.env.INSTAGRAM_CALLBACK_URI as string
+        const response = await axios.post<ApiResponse>(`/api/instagram/generate-token`, { code: code });
 
-        const formData = new URLSearchParams()
-        formData.append('client_id', clientID);
-        formData.append('client_secret', clientSecret);
-        formData.append('grant_type', 'authorization_code');
-        formData.append('redirect_uri', redirectUri);
-        formData.append('code', usableCodeStr);
+        if (response?.data?.success && response?.data?.data?.accessToken) {
+            const longLivedResponse = await getIGLongLivedAccessToken(response?.data?.data?.accessToken, email);
 
-        const response = await axios.post('https://api.instagram.com/oauth/access_token', formData, {
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-        })
-        console.log("Short lived access token response: ", response) // TODO: remove
-
-        if (response?.data?.data && response?.data?.data[0]) {
-            const accessToken = response?.data?.data[0]?.access_token
-            const generatedLongTerm = await getIGLongLivedAccessToken(accessToken, email)
-            return generatedLongTerm
+            return longLivedResponse;
         }
 
         return false
