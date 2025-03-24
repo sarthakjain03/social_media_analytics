@@ -11,6 +11,12 @@ const AccountLinkButtons = () => {
         }
     };
 
+    const instagramAuthRedirect = () => {
+        if (typeof window !== "undefined") {
+            window.location.href = "/api/instagram/get-auth-url";
+        }
+    }
+
     // if (isXConnected && isLinkedinConnected && isInstagramConnected) {
     if (isXConnected && isInstagramConnected) {
         return null;
@@ -33,7 +39,7 @@ const AccountLinkButtons = () => {
             </button>
         )} */}
         {!isInstagramConnected && (
-            <button onClick={() => {}} className="rounded-lg bg-gradient-to-br from-yellow-400 via-pink-500 to-purple-600 text-white font-poppins font-medium flex gap-2 py-2 px-3 items-center">
+            <button onClick={instagramAuthRedirect} className="rounded-lg bg-gradient-to-br from-yellow-400 via-pink-500 to-purple-600 text-white font-poppins font-medium flex gap-2 py-2 px-3 items-center">
                 <span>Link</span>
                 <span><Instagram /></span>
                 <span>Account</span>

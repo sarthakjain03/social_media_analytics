@@ -32,11 +32,18 @@ const InstagramTabContent = () => {
     data: [],
   });
 
+  const instagramAuthRedirect = () => {
+    const url = process.env.INSTAGRAM_EMBED_URL as string;
+    if (typeof window !== "undefined") {
+        window.location.href = url;
+    }
+  }
+
   if (!isInstagramConnected) {
     return (
       <div className="flex gap-4 items-center justify-center my-6">
         <button
-          onClick={() => {}}
+          onClick={instagramAuthRedirect}
           className="rounded-lg bg-gradient-to-br from-yellow-400 via-pink-500 to-purple-600 text-white font-poppins font-medium flex gap-2 py-2 px-3 items-center"
         >
           <span>Link</span>
