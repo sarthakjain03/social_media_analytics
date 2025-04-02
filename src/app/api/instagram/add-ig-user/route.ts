@@ -15,16 +15,27 @@ export async function POST(request: Request) {
             access_token: accessToken
         };
         const accessTokenResponse = await axios.get('https://graph.instagram.com/access_token', { params })
-        console.log("Long lived access token response: ", accessTokenResponse) // TODO: remove
 
         if (accessTokenResponse?.data?.access_token && accessTokenResponse?.data?.expires_in) {
             // valid for 60 days, can be refreshed only after 24 hours atleast if not expired
+            const userIdParams = {
+                fields: 'user_id,username,followers_count',
+                access_token: accessTokenResponse?.data?.access_token
+            };
+            const igUserIdResponse = await axios.get('https://graph.instagram.com/v22.0/me', { params: userIdParams })
+
+            console.log("IG ME api response: ", igUserIdResponse); // TODO: remove this
+
             const updateIGUser = new InstagramDataModel({
                 userEmail: email,
                 accessCumRefreshToken: accessTokenResponse?.data?.access_token,
                 tokenExpiry: new Date(Date.now() + accessTokenResponse?.data?.expires_in * 1000),
                 lastUpdated: null,
-                userData: null
+                userData: {
+                    ig_userId: igUserIdResponse?.data?.user_id,
+                    username: igUserIdResponse?.data?.username,
+                    followers: igUserIdResponse?.data?.followers_count
+                }
             })
             await updateIGUser.save()
             

@@ -9,28 +9,32 @@ export function usePopulateAnalytics() {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(true);
   const [allChartsData, setAllChartsData] = useState<{
-    xChartData: ChartData | null,
-    linkedinChartData: ChartData | null,
-    instagramChartData: ChartData | null,
-    cardsData: AllTabCardsData | null
+    xChartData: ChartData | null;
+    linkedinChartData: ChartData | null;
+    instagramChartData: ChartData | null;
+    cardsData: AllTabCardsData | null;
   }>({
     xChartData: null,
     linkedinChartData: null,
     instagramChartData: null,
-    cardsData: null
+    cardsData: null,
   });
+  const { isXConnected, isInstagramConnected, isLinkedinConnected, email } =
+    useUserStore();
   const {
-    isXConnected,
-    isInstagramConnected,
-    isLinkedinConnected,
-    email,
-  } = useUserStore();
-  const { setAnalytics, chartsData, lastUpdateOfX, lastUpdateOfInstagram, lastUpdateOfLinkedin } = useAnalyticsStore();
+    setAnalytics,
+    chartsData,
+    lastUpdateOfX,
+    lastUpdateOfInstagram,
+    lastUpdateOfLinkedin,
+  } = useAnalyticsStore();
 
   const populateAllAnalytics = async (userEmail: string) => {
     setLoading(true);
     let currentChartsData = chartsData;
     let lastXUpdate: Date | null = null;
+    let lastInstagramUpdate: Date | null = null;
+    // let lastLinkedInUpdate: Date | null = null;
 
     if (isXConnected || isInstagramConnected || isLinkedinConnected) {
       const { instagramData, twitterData, linkedinData } = chartsData;
@@ -41,7 +45,15 @@ export function usePopulateAnalytics() {
         if (latestChartsData?.lastUpdateOfX) {
           lastXUpdate = latestChartsData.lastUpdateOfX;
         }
-  
+
+        if (latestChartsData?.lastUpdateOfInstagram) {
+          lastInstagramUpdate = latestChartsData.lastUpdateOfInstagram;
+        }
+
+        // if (latestChartsData?.lastUpdateOfLinkedin) {
+        //   lastLinkedInUpdate = latestChartsData.lastUpdateOfLinkedin;
+        // }
+
         if (latestChartsData?.chartsData) {
           currentChartsData = latestChartsData.chartsData;
         }
@@ -49,15 +61,23 @@ export function usePopulateAnalytics() {
     }
 
     if (setAnalytics) {
-      setAnalytics({ chartsData: currentChartsData, lastUpdateOfX: lastXUpdate, isHydrated: true });
+      setAnalytics({
+        chartsData: currentChartsData,
+        lastUpdateOfX: lastXUpdate,
+        lastUpdateOfInstagram: lastInstagramUpdate,
+        isHydrated: true,
+      });
     }
-
 
     setAllChartsData({
       xChartData: currentChartsData ? currentChartsData.twitterData : null,
-      linkedinChartData: currentChartsData ? currentChartsData.linkedinData : null,
-      instagramChartData: currentChartsData ? currentChartsData.instagramData : null,
-      cardsData: currentChartsData ? currentChartsData.cardsData : null
+      linkedinChartData: currentChartsData
+        ? currentChartsData.linkedinData
+        : null,
+      instagramChartData: currentChartsData
+        ? currentChartsData.instagramData
+        : null,
+      cardsData: currentChartsData ? currentChartsData.cardsData : null,
     });
     setLoading(false);
   };
@@ -68,7 +88,8 @@ export function usePopulateAnalytics() {
     } else {
       setLoading(false);
     }
-  }, [lastUpdateOfX, session, email]);
+  }, [lastUpdateOfX, session, email, lastUpdateOfInstagram]);
+  // }, [lastUpdateOfX, session, email, lastUpdateOfInstagram, lastUpdateOfLinkedin]);
 
   return { loading, allChartsData };
 }

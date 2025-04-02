@@ -58,6 +58,27 @@ const AllTabContent = () => {
         });
       });
     }
+
+    if (instagramChartData) {
+      Object.keys(chartsData.metricData)?.forEach((metric) => {
+        const metricKey = metric as keyof AllChartsData;
+        chartsData.metricData[metricKey].push({ name: "Instagram", data: [] });
+      });
+
+      Object.keys(instagramChartData)?.forEach((metric) => {
+        const arr: ChartObject[] = (instagramChartData as any)[metric];
+        arr?.forEach((obj: ChartObject) => {
+          if (chartsData?.xaxisLabels?.length < arr.length) {
+            chartsData.xaxisLabels.push(formatToDayMonthYear(obj.date));
+          }
+
+          if (metric !== "engagements") {
+            const key = metric as keyof AllChartsData;
+            chartsData.metricData[key][0].data?.push(obj.value);
+          }
+        });
+      });
+    }
     
     setAllAnalyticsData(chartsData);
   };
