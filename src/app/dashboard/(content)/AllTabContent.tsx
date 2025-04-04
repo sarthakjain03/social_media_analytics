@@ -112,54 +112,66 @@ const AllTabContent = () => {
         <Box sx={{ flexGrow: 1, width: "100%" }}>
           {allAnalyticsData && cardsData && (
             <Grid2 container spacing={3}>
-              <Grid2 size={{ xs: 12, lg: 4 }}>
-                <MetricCard
-                  comparisonDate={cardsData.comparisonDate}
-                  title={cardsData.followers.title}
-                  value={cardsData.followers.value}
-                  percentChange={cardsData.followers.percentChange}
-                />
-              </Grid2>
-              <Grid2 size={{ xs: 12, lg: 4 }}>
-                <MetricCard
-                  comparisonDate={cardsData.comparisonDate}
-                  title={cardsData.impressions.title}
-                  value={cardsData.impressions.value}
-                  percentChange={cardsData.impressions.percentChange}
-                />
-              </Grid2>
-              <Grid2 size={{ xs: 12, lg: 4 }}>
-                <MetricCard
-                  comparisonDate={cardsData.comparisonDate}
-                  title={cardsData.likes.title}
-                  value={cardsData.likes.value}
-                  percentChange={cardsData.likes.percentChange}
-                />
-              </Grid2>
-              <Grid2 size={{ xs: 12, lg: 4 }}>
-                <MetricCard
-                  comparisonDate={cardsData.comparisonDate}
-                  title={cardsData.replies.title}
-                  value={cardsData.replies.value}
-                  percentChange={cardsData.replies.percentChange}
-                />
-              </Grid2>
-              <Grid2 size={{ xs: 12, lg: 4 }}>
-                <MetricCard
-                  comparisonDate={cardsData.comparisonDate}
-                  title={cardsData.engagements.title}
-                  value={cardsData.engagements.value}
-                  percentChange={cardsData.engagements.percentChange}
-                />
-              </Grid2>
-              <Grid2 size={{ xs: 12, lg: 4 }}>
-                <MetricCard
-                  comparisonDate={cardsData.comparisonDate}
-                  title={cardsData.bookmarks.title}
-                  value={cardsData.bookmarks.value}
-                  percentChange={cardsData.bookmarks.percentChange}
-                />
-              </Grid2>
+              {cardsData?.followers && (
+                <Grid2 size={{ xs: 12, lg: 4 }}>
+                  <MetricCard
+                    comparisonDate={cardsData.comparisonDate}
+                    title={cardsData.followers.title}
+                    value={cardsData.followers.value}
+                    percentChange={cardsData.followers.percentChange}
+                  />
+                </Grid2>
+              )}
+              {cardsData?.impressions && (
+                <Grid2 size={{ xs: 12, lg: 4 }}>
+                  <MetricCard
+                    comparisonDate={cardsData.comparisonDate}
+                    title={cardsData.impressions.title}
+                    value={cardsData.impressions.value}
+                    percentChange={cardsData.impressions.percentChange}
+                  />
+                </Grid2>
+              )}
+              {cardsData?.likes && (
+                <Grid2 size={{ xs: 12, lg: 4 }}>
+                  <MetricCard
+                    comparisonDate={cardsData.comparisonDate}
+                    title={cardsData.likes.title}
+                    value={cardsData.likes.value}
+                    percentChange={cardsData.likes.percentChange}
+                  />
+                </Grid2>
+              )}
+              {cardsData?.replies && (
+                <Grid2 size={{ xs: 12, lg: 4 }}>
+                  <MetricCard
+                    comparisonDate={cardsData.comparisonDate}
+                    title={cardsData.replies.title}
+                    value={cardsData.replies.value}
+                    percentChange={cardsData.replies.percentChange}
+                  />
+                </Grid2>
+              )}
+              {cardsData?.engagements && (
+                <Grid2 size={{ xs: 12, lg: 4 }}>
+                  <MetricCard
+                    comparisonDate={cardsData.comparisonDate}
+                    title={cardsData.engagements.title}
+                    value={cardsData.engagements.value}
+                    percentChange={cardsData.engagements.percentChange}
+                  />
+                </Grid2>
+              )}
+              {cardsData?.bookmarks && (
+                <Grid2 size={{ xs: 12, lg: 4 }}>
+                  <MetricCard
+                    comparisonDate={cardsData.comparisonDate}
+                    title={cardsData.bookmarks.title}
+                    value={cardsData.bookmarks.value}
+                    percentChange={cardsData.bookmarks.percentChange}
+                  />
+                </Grid2>
+              )}
               {/* <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
                 <AreaChart
                   title="Followers"
