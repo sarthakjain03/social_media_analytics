@@ -44,7 +44,8 @@ export async function GET(_request: Request) {
             const params = {
                 access_token: igUser?.accessCumRefreshToken,
                 metric_type: 'total_value',
-                metric: 'accounts_engaged,impressions,replies,saves,shares,views,comments,likes'
+                metric: 'accounts_engaged,impressions,replies,saves,shares,views,comments,likes',
+                period: 'day'
             };
     
             const insightsResponse = await axios.get(`https://graph.instagram.com/${userId}/insights`, { params });
