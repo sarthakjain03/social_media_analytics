@@ -179,7 +179,7 @@ export default function Dashboard() {
                     sx={{
                       color: "black",
                       borderColor: "purple",
-                      backgroundColor: purple[100]
+                      backgroundColor: purple[50]
                     }}
                   >
                     {`Analytics will be updated when you login or refresh after ${nextUpdateTime?.instagram}`}
