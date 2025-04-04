@@ -44,7 +44,7 @@ export default function Dashboard() {
     isLinkedinConnected,
     setUser,
   } = useUserStore();
-  const { lastUpdateOfX } = useAnalyticsStore();
+  const { lastUpdateOfX, lastUpdateOfInstagram } = useAnalyticsStore();
   const [loading, setLoading] = useState(false);
   const [nextUpdateTime, setNextUpdateTime] = useState({
     twitter: "",
@@ -87,13 +87,14 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    if (session?.user && email === session.user.email && lastUpdateOfX) {
+    if (session?.user && email === session.user.email) {
       setNextUpdateTime((prev) => ({
         ...prev,
-        twitter: getNextUpdateDateTime(lastUpdateOfX),
+        twitter: lastUpdateOfX ? getNextUpdateDateTime(lastUpdateOfX) : "",
+        instagram: lastUpdateOfInstagram ? getNextUpdateDateTime(lastUpdateOfInstagram) : ""
       }));
     }
-  }, [session, email, lastUpdateOfX]);
+  }, [session, email, lastUpdateOfX, lastUpdateOfInstagram]);
 
   useEffect(() => {
     if (session?.user) {
