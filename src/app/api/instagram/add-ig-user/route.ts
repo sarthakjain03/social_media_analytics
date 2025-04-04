@@ -22,20 +22,13 @@ export async function POST(request: Request) {
                 fields: 'user_id,username,followers_count',
                 access_token: accessTokenResponse?.data?.access_token
             };
-            const igUserIdResponse = await axios.get('https://graph.instagram.com/v22.0/me', { params: userIdParams })
-
-            console.log("IG ME api response: ", igUserIdResponse); // TODO: remove this
 
             const updateIGUser = new InstagramDataModel({
                 userEmail: email,
                 accessCumRefreshToken: accessTokenResponse?.data?.access_token,
                 tokenExpiry: new Date(Date.now() + accessTokenResponse?.data?.expires_in * 1000),
                 lastUpdated: null,
-                userData: {
-                    ig_userId: igUserIdResponse?.data?.user_id,
-                    username: igUserIdResponse?.data?.username,
-                    followers: igUserIdResponse?.data?.followers_count
-                }
+                userData: null
             })
             await updateIGUser.save()
             

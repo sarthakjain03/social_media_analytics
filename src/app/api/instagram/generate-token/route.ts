@@ -14,14 +14,11 @@ export async function POST(request: Request) {
         formData.append('redirect_uri', redirectUri);
         formData.append('code', code);
 
-        console.log("Before making instagram api call.")
         const response = await axios.post('https://api.instagram.com/oauth/access_token', formData, {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         })
-        console.log("Short lived access token response: ", response) // TODO: remove
 
         if (response?.data?.access_token) {
-            const accessToken = response?.data?.access_token
             return Response.json({
                 success: true,
                 message: "Short-term access token generated successfully!",
