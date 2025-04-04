@@ -26,43 +26,85 @@ export const getFormattedCardsData = (data: {
     prevCardsData: AllTabCardsData | null;
 }): AllTabCardsData => {
     const { twitter, linkedin, instagram, prevCardsData } = data;
-    
+
     const followersArr: Array<Array<ChartObject>> = [];
     const likesArr: Array<Array<ChartObject>> = [];
     const impressionsArr: Array<Array<ChartObject>> = [];
+    const engagementsArr: Array<Array<ChartObject>> = [];
+    const repliesArr: Array<Array<ChartObject>> = [];
+    const bookmarksArr: Array<Array<ChartObject>> = [];
 
     if (twitter) {
         followersArr.push(twitter.followers);
         likesArr.push(twitter.likes);
         impressionsArr.push(twitter.impressions);
+        engagementsArr.push(twitter.engagements);
+        repliesArr.push(twitter.replies);
+        bookmarksArr.push(twitter.bookmarks);
     }
     if (linkedin) {
         followersArr.push(linkedin.followers);
         likesArr.push(linkedin.likes);
         impressionsArr.push(linkedin.impressions);
+        engagementsArr.push(linkedin.engagements);
+        repliesArr.push(linkedin.replies);
+        bookmarksArr.push(linkedin.bookmarks);
     }
     if (instagram) {
         followersArr.push(instagram.followers);
         likesArr.push(instagram.likes);
         impressionsArr.push(instagram.impressions);
+        engagementsArr.push(instagram.engagements);
+        repliesArr.push(instagram.replies);
+        bookmarksArr.push(instagram.bookmarks);
     }
 
     const totalFollowers = getFollowerTotal(followersArr);
     const totalLikes = getOtherTotal(likesArr);
     const totalImpressions = getOtherTotal(impressionsArr);
+    const totalEngagements = getOtherTotal(engagementsArr);
+    const totalReplies = getOtherTotal(repliesArr);
+    const totalBookmarks = getOtherTotal(bookmarksArr);
 
     let newComparisonDate = new Date();
-    let followersPercentChange = 0.00, likesPercentChange = 0.00, impressionsPercentChange = 0.00;
+    let followersPercentChange = 0.0,
+        likesPercentChange = 0.0,
+        impressionsPercentChange = 0.0,
+        engagementsPercentChange = 0.0,
+        repliesPercentChange = 0.0,
+        bookmarksPercentChange = 0.0;
 
     if (prevCardsData) {
-        const { followers, likes, impressions, retrievalDate } = prevCardsData;
+        const {
+            followers,
+            likes,
+            impressions,
+            engagements,
+            replies,
+            bookmarks,
+            retrievalDate,
+        } = prevCardsData;
+
         newComparisonDate = retrievalDate;
-        const followersChange = totalFollowers - followers.value;
-        const likesChange = totalLikes - likes.value;
-        const impressionsChange = totalImpressions - impressions.value;
-        followersPercentChange = Number(((followersChange / followers.value) * 100).toFixed(2));
-        likesPercentChange = Number(((likesChange / likes.value) * 100).toFixed(2));
-        impressionsPercentChange = Number(((impressionsChange / impressions.value) * 100).toFixed(2));
+
+        followersPercentChange = Number(
+            (((totalFollowers - followers.value) / followers.value) * 100).toFixed(2)
+        );
+        likesPercentChange = Number(
+            (((totalLikes - likes.value) / likes.value) * 100).toFixed(2)
+        );
+        impressionsPercentChange = Number(
+            (((totalImpressions - impressions.value) / impressions.value) * 100).toFixed(2)
+        );
+        engagementsPercentChange = Number(
+            (((totalEngagements - engagements.value) / engagements.value) * 100).toFixed(2)
+        );
+        repliesPercentChange = Number(
+            (((totalReplies - replies.value) / replies.value) * 100).toFixed(2)
+        );
+        bookmarksPercentChange = Number(
+            (((totalBookmarks - bookmarks.value) / bookmarks.value) * 100).toFixed(2)
+        );
     }
 
     return {
@@ -82,6 +124,21 @@ export const getFormattedCardsData = (data: {
             title: "Impressions",
             value: totalImpressions,
             percentChange: impressionsPercentChange,
+        },
+        engagements: {
+            title: "Engagements",
+            value: totalEngagements,
+            percentChange: engagementsPercentChange,
+        },
+        replies: {
+            title: "Replies",
+            value: totalReplies,
+            percentChange: repliesPercentChange,
+        },
+        bookmarks: {
+            title: "Bookmarks",
+            value: totalBookmarks,
+            percentChange: bookmarksPercentChange,
         },
     };
 };

@@ -136,7 +136,31 @@ const AllTabContent = () => {
                   percentChange={cardsData.likes.percentChange}
                 />
               </Grid2>
-              <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
+              <Grid2 size={{ xs: 12, lg: 4 }}>
+                <MetricCard
+                  comparisonDate={cardsData.comparisonDate}
+                  title={cardsData.replies.title}
+                  value={cardsData.replies.value}
+                  percentChange={cardsData.replies.percentChange}
+                />
+              </Grid2>
+              <Grid2 size={{ xs: 12, lg: 4 }}>
+                <MetricCard
+                  comparisonDate={cardsData.comparisonDate}
+                  title={cardsData.engagements.title}
+                  value={cardsData.engagements.value}
+                  percentChange={cardsData.engagements.percentChange}
+                />
+              </Grid2>
+              <Grid2 size={{ xs: 12, lg: 4 }}>
+                <MetricCard
+                  comparisonDate={cardsData.comparisonDate}
+                  title={cardsData.bookmarks.title}
+                  value={cardsData.bookmarks.value}
+                  percentChange={cardsData.bookmarks.percentChange}
+                />
+              </Grid2>
+              {/* <Grid2 size={{ xs: 12, md: 6, xl: 4 }}>
                 <AreaChart
                   title="Followers"
                   xaxisLabels={allAnalyticsData?.xaxisLabels ?? []}
@@ -189,7 +213,7 @@ const AllTabContent = () => {
                   showLegendForSingleSeries={true}
                   data={allAnalyticsData?.metricData?.bookmarks ?? []}
                 />
-              </Grid2>
+              </Grid2> */}
             </Grid2>
           )}
         </Box>

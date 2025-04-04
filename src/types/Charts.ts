@@ -30,6 +30,9 @@ export interface AllTabCardsData {
   followers: CardData;
   likes: CardData;
   impressions: CardData;
+  engagements: CardData;
+  bookmarks: CardData;
+  replies: CardData;
 }
 
 export interface AllChartsData {
