@@ -88,11 +88,18 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (session?.user && email === session.user.email) {
-      setNextUpdateTime((prev) => ({
-        ...prev,
-        twitter: lastUpdateOfX ? getNextUpdateDateTime(lastUpdateOfX) : "",
-        instagram: lastUpdateOfInstagram ? getNextUpdateDateTime(lastUpdateOfInstagram) : ""
-      }));
+      if (lastUpdateOfX) {
+        setNextUpdateTime((prev) => ({
+          ...prev,
+          twitter: getNextUpdateDateTime(lastUpdateOfX)
+        }));
+      }
+      if (lastUpdateOfInstagram) {
+        setNextUpdateTime((prev) => ({
+          ...prev,
+          instagram: getNextUpdateDateTime(lastUpdateOfInstagram)
+        }));
+      }
     }
   }, [session, email, lastUpdateOfX, lastUpdateOfInstagram]);
 

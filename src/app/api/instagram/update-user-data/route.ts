@@ -38,7 +38,6 @@ export async function GET(_request: Request) {
                 access_token: igUser?.accessCumRefreshToken
             };
             const igUserIdResponse = await axios.get('https://graph.instagram.com/v22.0/me', { params: userIdParams })
-            console.log("After Me call");
     
             const userId = igUserIdResponse?.data?.user_id;
             const params = {
@@ -49,7 +48,6 @@ export async function GET(_request: Request) {
             };
     
             const insightsResponse = await axios.get(`https://graph.instagram.com/${userId}/insights`, { params });
-            console.log("After Insights call");
     
             const dataArray = insightsResponse?.data?.data;
             const metricTotals = getInstagramMetricsData(dataArray);
@@ -65,14 +63,12 @@ export async function GET(_request: Request) {
                     }
                 }
             })
-            console.log("After Instagram data update call");
     
             await ChartsDataModel.updateOne({ userEmail: email }, {
                 $set: {
                     instagramData: updatedChartsData
                 }
             });
-            console.log("After Charts update call");
         }
 
         return Response.json({

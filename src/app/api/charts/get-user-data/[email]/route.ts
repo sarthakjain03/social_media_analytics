@@ -1,5 +1,6 @@
 import dbConnect from "@/database/dbConnect";
 import ChartsDataModel from "@/models/ChartsData";
+import InstagramDataModel from "@/models/InstagramData";
 import TwitterDataModel from "@/models/TwitterData";
 
 export async function GET(_request: Request, { params }: { params: Promise<{ email: string }> }) {
@@ -13,6 +14,14 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
             return Response.json({
                 success: false,
                 message: "User twitter data not found"
+            }, { status: 404 });
+        }
+
+        const userIgData = await InstagramDataModel.findOne({ userEmail: email });
+        if (!userIgData) {
+            return Response.json({
+                success: false,
+                message: "User instagram data not found"
             }, { status: 404 });
         }
 
@@ -34,7 +43,8 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
                     linkedinData: chartsData.linkedinData,
                     instagramData: chartsData.instagramData
                 },
-                lastUpdateOfX: userXData.lastUpdated
+                lastUpdateOfX: userXData.lastUpdated,
+                lastUpdateOfInstagram: userIgData.lastUpdated
             }
         }, { status: 200 });
 
