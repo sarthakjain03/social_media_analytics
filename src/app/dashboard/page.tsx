@@ -11,8 +11,8 @@ import { useAnalyticsStore } from "@/store/analytics";
 import dynamic from "next/dynamic";
 import { Skeleton, Box, Grid2, Alert } from "@mui/material";
 import { getNextUpdateDateTime } from "@/utils/dateFormatters";
-import { X } from "@mui/icons-material";
-import { grey } from "@mui/material/colors";
+import { X, Instagram } from "@mui/icons-material";
+import { grey, pink, purple, orange } from "@mui/material/colors";
 import showToast from "@/utils/toast";
 
 const AllTabContent = dynamic(
@@ -139,9 +139,9 @@ export default function Dashboard() {
         </Box>
       ) : (
         <>
-          {nextUpdateTime?.twitter && (
-            <Box sx={{ flexGrow: 1, width: "100%", marginBottom: "0.75rem", marginTop: "0.5rem" }}>
-              <Grid2 container spacing={5}>
+          <Box sx={{ flexGrow: 1, width: "100%", marginBottom: "0.75rem", marginTop: "0.5rem" }}>
+            <Grid2 container spacing={3}>
+              {nextUpdateTime?.twitter && (
                 <Grid2 size={{ xs: 12 }}>
                   <Alert
                     severity="info"
@@ -154,9 +154,32 @@ export default function Dashboard() {
                     {`Analytics will be updated when you login or refresh after ${nextUpdateTime?.twitter}`}
                   </Alert>
                 </Grid2>
-              </Grid2>
-            </Box>
-          )}
+              )}
+              {nextUpdateTime?.instagram && (
+                <Grid2 size={{ xs: 12 }}>
+                  <Alert
+                    severity="info"
+                    onClose={() =>
+                      setNextUpdateTime((prev) => ({ ...prev, instagram: "" }))
+                    }
+                    icon={
+                      <Instagram
+                        fontSize="inherit"
+                        style={{ color: `linear-gradient(45deg, ${pink[500]}, ${purple[500]}, ${orange[500]})` }}
+                      />
+                    }
+                    sx={{
+                      color: "white",
+                      borderColor: purple[500],
+                      backgroundColor: `linear-gradient(45deg, ${pink[500]}, ${purple[500]}, ${orange[500]})`
+                    }}
+                  >
+                    {`Analytics will be updated when you login or refresh after ${nextUpdateTime?.instagram}`}
+                  </Alert>
+                </Grid2>
+              )}
+            </Grid2>
+          </Box>
           <DashboardTabs selected={openTab} />
           {openTab === "all" && <AllTabContent />}
           {openTab === "twitter" && <XTabContent />}
