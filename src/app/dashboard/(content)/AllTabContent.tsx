@@ -11,8 +11,8 @@ import MetricCard from "@/components/MetricCard";
 
 const chartColors = [
   "#000000", // for X (Twitter)
-  "#1f77b4", // for LinkedIn
   "#9467bd", // for Instagram
+  "#1f77b4", // for LinkedIn
 ];
 
 const AccountLinkButtons = dynamic(
