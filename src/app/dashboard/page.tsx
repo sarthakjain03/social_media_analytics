@@ -12,7 +12,7 @@ import dynamic from "next/dynamic";
 import { Skeleton, Box, Grid2, Alert } from "@mui/material";
 import { getNextUpdateDateTime } from "@/utils/dateFormatters";
 import { X, Instagram } from "@mui/icons-material";
-import { grey, pink, purple, orange } from "@mui/material/colors";
+import { grey, purple } from "@mui/material/colors";
 import showToast from "@/utils/toast";
 
 const AllTabContent = dynamic(
@@ -173,13 +173,13 @@ export default function Dashboard() {
                     icon={
                       <Instagram
                         fontSize="inherit"
-                        style={{ color: `linear-gradient(45deg, ${pink[500]}, ${purple[500]}, ${orange[500]})` }}
+                        style={{ color: "purple" }}
                       />
                     }
                     sx={{
                       color: "white",
-                      borderColor: purple[500],
-                      backgroundColor: `linear-gradient(45deg, ${pink[500]}, ${purple[500]}, ${orange[500]})`
+                      borderColor: "purple",
+                      backgroundColor: purple[200]
                     }}
                   >
                     {`Analytics will be updated when you login or refresh after ${nextUpdateTime?.instagram}`}
