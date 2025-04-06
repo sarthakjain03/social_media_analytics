@@ -11,6 +11,7 @@ import MetricCard from "@/components/MetricCard";
 
 const chartColors = [
   "#000000", // for X (Twitter)
+  "#ffffff", // for Github
   "#9467bd", // for Instagram
   "#1f77b4", // for LinkedIn
 ];
@@ -32,12 +33,19 @@ const AllTabContent = () => {
   // Total 3 cards of followers, impressions, likes
 
   const formatAllChartData = () => {
-    const { xChartData, instagramChartData, linkedinChartData } = allChartsData;
-    const chartsData: { xaxisLabels: string[]; metricData: AllChartsData; } = {
+    const { xChartData, instagramChartData } = allChartsData; // Removed githubChartData
+    const chartsData: { xaxisLabels: string[]; metricData: AllChartsData } = {
       xaxisLabels: [],
-      metricData: { likes: [], replies: [], bookmarks: [], reposts: [], followers: [], impressions: [] }
+      metricData: {
+        likes: [],
+        replies: [],
+        bookmarks: [],
+        reposts: [],
+        followers: [],
+        impressions: [],
+      },
     };
-    
+
     if (xChartData) {
       Object.keys(chartsData.metricData)?.forEach((metric) => {
         const metricKey = metric as keyof AllChartsData;
@@ -79,7 +87,7 @@ const AllTabContent = () => {
         });
       });
     }
-    
+
     setAllAnalyticsData(chartsData);
   };
 

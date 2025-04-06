@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { AllTabCardsData, ChartData } from "@/types/Charts";
+import { AllTabCardsData, ChartData, GithubChartData } from "@/types/Charts";
 import { useUserStore } from "@/store/user";
 import { useAnalyticsStore } from "@/store/analytics";
 import { getUserChartsAndCardsData } from "@/actions/chartActions";
@@ -9,37 +9,36 @@ export function usePopulateAnalytics() {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(true);
   const [allChartsData, setAllChartsData] = useState<{
-    xChartData: ChartData | null;
-    linkedinChartData: ChartData | null;
-    instagramChartData: ChartData | null;
-    cardsData: AllTabCardsData | null;
+    xChartData: ChartData | null,
+    githubChartData: GithubChartData | null,
+    instagramChartData: ChartData | null,
+    cardsData: AllTabCardsData | null
   }>({
     xChartData: null,
-    linkedinChartData: null,
+    githubChartData: null,
     instagramChartData: null,
     cardsData: null,
   });
-  const { isXConnected, isInstagramConnected, isLinkedinConnected, email } =
     useUserStore();
   const {
-    setAnalytics,
-    chartsData,
-    lastUpdateOfX,
-    lastUpdateOfInstagram,
-    lastUpdateOfLinkedin,
-  } = useAnalyticsStore();
+    isXConnected,
+    isInstagramConnected,
+    isGithubConnected,
+    email,
+  } = useUserStore();
+  const { setAnalytics, chartsData, lastUpdateOfX, lastUpdateOfInstagram, lastUpdateOfGithub } = useAnalyticsStore();
 
   const populateAllAnalytics = async (userEmail: string) => {
     setLoading(true);
     let currentChartsData = chartsData;
     let lastXUpdate: Date | null = null;
     let lastInstagramUpdate: Date | null = null;
-    // let lastLinkedInUpdate: Date | null = null;
+    let lastGithubUpdate: Date | null = null;
 
-    if (isXConnected || isInstagramConnected || isLinkedinConnected) {
-      const { instagramData, twitterData, linkedinData } = chartsData;
+    if (isXConnected || isInstagramConnected || isGithubConnected) {
+      const { instagramData, twitterData, githubData } = chartsData;
 
-      if (!twitterData && !instagramData && !linkedinData) {
+      if (!twitterData && !instagramData && !githubData) {
         const latestChartsData = await getUserChartsAndCardsData(userEmail);
 
         if (latestChartsData?.lastUpdateOfX) {
@@ -50,9 +49,9 @@ export function usePopulateAnalytics() {
           lastInstagramUpdate = latestChartsData.lastUpdateOfInstagram;
         }
 
-        // if (latestChartsData?.lastUpdateOfLinkedin) {
-        //   lastLinkedInUpdate = latestChartsData.lastUpdateOfLinkedin;
-        // }
+        if (latestChartsData?.lastUpdateOfGithub) {
+          lastGithubUpdate = latestChartsData.lastUpdateOfGithu;
+        }
 
         if (latestChartsData?.chartsData) {
           currentChartsData = latestChartsData.chartsData;
@@ -71,13 +70,9 @@ export function usePopulateAnalytics() {
 
     setAllChartsData({
       xChartData: currentChartsData ? currentChartsData.twitterData : null,
-      linkedinChartData: currentChartsData
-        ? currentChartsData.linkedinData
-        : null,
-      instagramChartData: currentChartsData
-        ? currentChartsData.instagramData
-        : null,
-      cardsData: currentChartsData ? currentChartsData.cardsData : null,
+      githubChartData: currentChartsData ? currentChartsData.githubData : null,
+      instagramChartData: currentChartsData ? currentChartsData.instagramData : null,
+      cardsData: currentChartsData ? currentChartsData.cardsData : null
     });
     setLoading(false);
   };

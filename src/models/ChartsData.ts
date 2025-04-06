@@ -1,11 +1,11 @@
-import { AllTabCardsData, ChartData } from "@/types/Charts";
+import { AllTabCardsData, ChartData, GithubChartData } from "@/types/Charts";
 import mongoose, { Schema, Document } from "mongoose";
 
 interface ChartsData extends Document {
   userEmail: string;
   cardsData: AllTabCardsData | null;
   twitterData: ChartData | null;
-  linkedinData: ChartData | null;
+  githubData: GithubChartData | null;
   instagramData: ChartData | null;
 }
 
@@ -21,7 +21,7 @@ const ChartsSchema: Schema<ChartsData> = new Schema({
   twitterData: {
     type: Object,
   },
-  linkedinData: {
+  githubData: {
     type: Object,
   },
   instagramData: {

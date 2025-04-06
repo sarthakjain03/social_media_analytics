@@ -23,8 +23,8 @@ const InstagramTabContent = dynamic(
   () => import("@/app/dashboard/(content)/InstagramTabContent"),
   { ssr: false }
 );
-const LinkedinTabContent = dynamic(
-  () => import("@/app/dashboard/(content)/LinkedinTabContent"),
+const GithubTabContent = dynamic(
+  () => import("@/app/dashboard/(content)/GithubTabContent"),
   { ssr: false }
 );
 const XTabContent = dynamic(
@@ -41,14 +41,14 @@ export default function Dashboard() {
     isXConnected,
     email,
     isInstagramConnected,
-    isLinkedinConnected,
+    isGithubConnected,
     setUser,
   } = useUserStore();
   const { lastUpdateOfX, lastUpdateOfInstagram } = useAnalyticsStore();
   const [loading, setLoading] = useState(false);
   const [nextUpdateTime, setNextUpdateTime] = useState({
     twitter: "",
-    //linkedin: "",
+    //github: "",
     instagram: ""
   });
 
@@ -192,7 +192,7 @@ export default function Dashboard() {
           {openTab === "all" && <AllTabContent />}
           {openTab === "twitter" && <XTabContent />}
           {openTab === "instagram" && <InstagramTabContent />}
-          {openTab === "linkedin" && <LinkedinTabContent />}
+          {openTab === "github" && <GithubTabContent />}
         </>
       )}
     </motion.div>

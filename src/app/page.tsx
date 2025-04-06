@@ -159,10 +159,10 @@ export default function LandingPage() {
                   className="rounded-full"
                 />
                 <Image
-                  src={"/linkedin.svg"}
-                  width={200}
-                  height={150}
-                  alt="Linkedin"
+                  src={"/github.svg"}
+                  width={60}
+                  height={60}
+                  alt="Github"
                 />
               </div>
             </motion.div>

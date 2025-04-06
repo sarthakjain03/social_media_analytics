@@ -9,7 +9,7 @@ interface User extends Document {
   createdAt: Date;
   isXConnected: boolean;
   isInstagramConnected: boolean;
-  isLinkedinConnected: boolean;
+  isGithubConnected: boolean;
 }
 
 const UserSchema: Schema<User> = new Schema({
@@ -47,7 +47,7 @@ const UserSchema: Schema<User> = new Schema({
     type: Boolean,
     default: false
   },
-  isLinkedinConnected: {
+  isGithubConnected: {
     type: Boolean,
     default: false
   }
