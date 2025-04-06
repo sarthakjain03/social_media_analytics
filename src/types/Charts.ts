@@ -18,6 +18,16 @@ export interface ChartData {
   followers: Array<ChartObject>;
 }
 
+export interface GithubChartData {
+  followers: Array<ChartObject>;
+  stars: Array<ChartObject>;
+  contributions: Array<ChartObject>;
+  commits: Array<ChartObject>;
+  pullRequests: Array<ChartObject>;
+  issues: Array<ChartObject>;
+  // forks: Array<ChartObject>;
+}
+
 interface CardData {
   title: string;
   value: number;

@@ -38,7 +38,7 @@ export async function POST(request: Request) {
             cardsData: null,
             twitterData: null,
             instagramData: null,
-            linkedinData: null
+            githubData: null
         });
         newChartsData.save();
 

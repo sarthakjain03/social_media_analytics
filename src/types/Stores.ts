@@ -1,13 +1,13 @@
-import { AllTabCardsData, ChartData } from "./Charts";
+import { AllTabCardsData, ChartData, GithubChartData } from "./Charts";
 
 export interface AnalyticsStore {
   lastUpdateOfX: Date | null;
-  lastUpdateOfLinkedin: Date | null;
+  lastUpdateOfGithub: Date | null;
   lastUpdateOfInstagram: Date | null;
   isHydrated: boolean;
   chartsData: {
     twitterData: ChartData | null;
-    linkedinData: ChartData | null;
+    githubData: GithubChartData | null;
     instagramData: ChartData | null;
     cardsData: AllTabCardsData | null;
   };
@@ -21,7 +21,7 @@ export interface UserStore {
   email: string | null;
   isXConnected: boolean;
   isInstagramConnected: boolean;
-  isLinkedinConnected: boolean;
+  isGithubConnected: boolean;
   hydrated: boolean;
 
   setHydrated: () => void;

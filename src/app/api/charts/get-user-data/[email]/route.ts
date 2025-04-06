@@ -2,30 +2,23 @@ import dbConnect from "@/database/dbConnect";
 import ChartsDataModel from "@/models/ChartsData";
 import InstagramDataModel from "@/models/InstagramData";
 import TwitterDataModel from "@/models/TwitterData";
+import GithubDataModel from "@/models/GithubData";
 
 export async function GET(_request: Request, { params }: { params: Promise<{ email: string }> }) {
     await dbConnect();
 
     try {
-        const email = (await params).email;
+        const { email } = await params;
 
-        const userXData = await TwitterDataModel.findOne({ userEmail: email });
-        if (!userXData) {
-            return Response.json({
-                success: false,
-                message: "User twitter data not found"
-            }, { status: 404 });
-        }
+        // Fetch data from all sources
+        const [userGithubData, userXData, userIgData, chartsData] = await Promise.all([
+            GithubDataModel.findOne({ userEmail: email }),
+            TwitterDataModel.findOne({ userEmail: email }),
+            InstagramDataModel.findOne({ userEmail: email }),
+            ChartsDataModel.findOne({ userEmail: email }),
+        ]);
 
-        const userIgData = await InstagramDataModel.findOne({ userEmail: email });
-        if (!userIgData) {
-            return Response.json({
-                success: false,
-                message: "User instagram data not found"
-            }, { status: 404 });
-        }
-
-        const chartsData = await ChartsDataModel.findOne({ userEmail: email });
+        // Require charts data to exist (as it's likely essential)
         if (!chartsData) {
             return Response.json({
                 success: false,
@@ -38,13 +31,14 @@ export async function GET(_request: Request, { params }: { params: Promise<{ ema
             message: "User charts data retrieved successfully",
             data: {
                 chartsData: {
-                    cardsData: chartsData.cardsData,
-                    twitterData: chartsData.twitterData,
-                    linkedinData: chartsData.linkedinData,
-                    instagramData: chartsData.instagramData
+                    cardsData: chartsData.cardsData ?? null,
+                    twitterData: chartsData.twitterData ?? null,
+                    githubData: chartsData.githubData ?? null,
+                    instagramData: chartsData.instagramData ?? null
                 },
-                lastUpdateOfX: userXData.lastUpdated,
-                lastUpdateOfInstagram: userIgData.lastUpdated
+                lastUpdateOfX: userXData?.lastUpdated ?? null,
+                lastUpdateOfInstagram: userIgData?.lastUpdated ?? null,
+                lastUpdateOfGithub: userGithubData?.lastUpdated ?? null
             }
         }, { status: 200 });
 

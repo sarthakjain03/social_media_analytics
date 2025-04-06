@@ -27,7 +27,7 @@ export async function POST(request: Request) {
                 cardsData: null,
                 twitterData: null,
                 instagramData: null,
-                linkedinData: null
+                githubData: null
             });
             newChartsData.save();
 
@@ -45,7 +45,7 @@ export async function POST(request: Request) {
                 name,
                 email,
                 isXConnected: userRegistered.isXConnected,
-                isLinkedinConnected: userRegistered.isLinkedinConnected,
+                isGithubConnected: userRegistered.isGithubConnected,
                 isInstagramConnected: userRegistered.isInstagramConnected
             }
         }, { status: 200 });

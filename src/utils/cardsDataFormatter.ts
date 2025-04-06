@@ -1,4 +1,4 @@
-import { AllTabCardsData, ChartData, ChartObject } from "@/types/Charts";
+import { AllTabCardsData, ChartData, ChartObject, GithubChartData } from "@/types/Charts";
 
 const getFollowerTotal = (followers: Array<Array<ChartObject>>): number => {
     let totalFollowers = 0;
@@ -21,12 +21,12 @@ const getOtherTotal = (data: Array<Array<ChartObject>>): number => {
 
 export const getFormattedCardsData = (data: {
     twitter: ChartData | null;
-    linkedin: ChartData | null;
+    github:  GithubChartData | null;
     instagram: ChartData | null;
     prevCardsData: AllTabCardsData | null;
 }): AllTabCardsData => {
-    const { twitter, linkedin, instagram, prevCardsData } = data;
-
+    const { twitter, github, instagram, prevCardsData } = data;
+    
     const followersArr: Array<Array<ChartObject>> = [];
     const likesArr: Array<Array<ChartObject>> = [];
     const impressionsArr: Array<Array<ChartObject>> = [];
@@ -42,14 +42,11 @@ export const getFormattedCardsData = (data: {
         repliesArr.push(twitter.replies);
         bookmarksArr.push(twitter.bookmarks);
     }
-    if (linkedin) {
-        followersArr.push(linkedin.followers);
-        likesArr.push(linkedin.likes);
-        impressionsArr.push(linkedin.impressions);
-        engagementsArr.push(linkedin.engagements);
-        repliesArr.push(linkedin.replies);
-        bookmarksArr.push(linkedin.bookmarks);
-    }
+    // if (github) {
+    //     followersArr.push(github.followers);
+    //     likesArr.push(github.likes);
+    //     impressionsArr.push(github.impressions);
+    // }
     if (instagram) {
         followersArr.push(instagram.followers);
         likesArr.push(instagram.likes);

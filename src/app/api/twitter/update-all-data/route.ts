@@ -1,164 +1,108 @@
 import dbConnect from "@/database/dbConnect";
 import ChartsDataModel from "@/models/ChartsData";
-import TwitterDataModel from "@/models/TwitterData";
-import { formatChartData, formatUserData, getMetricTotals } from "@/utils/formatXData";
-import { Client } from "twitter-api-sdk";
+import GithubDataModel from "@/models/GithubData";
+import { Octokit } from "@octokit/rest";
+import { formatGithubChartData } from "@/utils/formatGithubData";
+
+const octokit = new Octokit({ auth: process.env.GITHUB_API_TOKEN });
 
 export async function GET(_request: Request) {
-    await dbConnect();
+  await dbConnect();
 
-    try {
-        const allUsers = await TwitterDataModel.find(); // Fetch all users
+  try {
+    const allUsers = await GithubDataModel.find();
 
-        if (!allUsers || allUsers.length === 0) {
-            return Response.json({
-                success: false,
-                message: "No users found to update"
-            }, { status: 404 });
-        }
-
-        for (const userData of allUsers) {
-            const email = userData.userEmail;
-
-            if (email === "dummy@example.com") { // Skip dummy user
-                continue;
-            }
-
-            const prevChartsData = await ChartsDataModel.findOne({ userEmail: email });
-
-            if (!prevChartsData) {
-                console.log(`No charts data found for user: ${email}`);
-                continue;
-            }
-
-            const refreshResponse = {
-                access_token: userData.accessToken,
-                refresh_token: userData.refreshToken,
-                expires_at: userData.tokenExpiry,
-                last_update: userData.lastUpdated
-            };
-
-            if (Date.now() - Number(userData.lastUpdated) > 86400000) { // Min 24 hrs gap between API calls
-                // console.log(refreshResponse)
-                const twitterClient = new Client(refreshResponse.access_token);
-                const user = await twitterClient.users.findMyUser({
-                    "user.fields": ["id", "public_metrics", "username", "name"]
-                });
-                // console.log("Post fetching user details from X.")
-
-                if (user?.errors && Array.isArray(user.errors)) {
-                    console.error(`Errors for user: ${email}`, user.errors);
-                    continue;
-                }
-
-                let posts = null;
-                const storedPosts = [...userData.posts];
-                const post_ids: string[] = [];
-
-                const now = new Date();
-                const thirtyDaysAgo = new Date();
-                thirtyDaysAgo.setDate(now.getDate() - 30);
-                for (let i = 0; i < storedPosts.length; i++) {
-                    if (storedPosts[i].createdAt > thirtyDaysAgo) {
-                        post_ids.push(storedPosts[i].id)
-                    } else {
-                        storedPosts.splice(i, 1)
-                    }
-                }
-
-                if (user?.data?.id) {
-                    const params: any = {
-                        "max_results": 10,
-                        "tweet.fields": ["id", "created_at"]
-                    };
-
-                    if (post_ids?.length > 0) {
-                        params.since_id = post_ids[post_ids.length - 1];
-                    }
-
-                    const res = await twitterClient.tweets.usersIdTweets(user.data.id, params);
-                    // console.log("Post fetching user TWEETS from X.")
-
-                    if (res?.errors && Array.isArray(res.errors)) {
-                        console.error(`Errors fetching tweets for user: ${email}`, res.errors);
-                        continue;
-                    }
-
-                    posts = res;
-                }
-
-                if (posts?.data) {
-                    posts.data.forEach((post) => {
-                        if (!post_ids.includes(post.id)) {
-                            if (post.created_at) {
-                                const isOld = new Date(post.created_at) <= thirtyDaysAgo
-                                if (!isOld) {
-                                    post_ids.push(post.id);
-                                    storedPosts.push({ id: post.id, createdAt: new Date(post.created_at) })
-                                } 
-                            }
-                        }
-                    });
-                    if (post_ids.length > 100) {
-                        const excessLength = post_ids.length - 100;
-                        post_ids.splice(0, excessLength);
-                    }
-                }
-
-                const tweets = await twitterClient.tweets.findTweetsById({
-                    "ids": post_ids, // Max of 100 ids only
-                    "tweet.fields": ["id", "non_public_metrics", "public_metrics"]
-                });
-                // console.log("Post fetching user Tweets BY ID from X.")
-                // posts older than 30 days will give error in the above api call
-
-                if (tweets?.errors && Array.isArray(tweets.errors)) {
-                    console.error(`Errors fetching tweet metrics for user: ${email}`, tweets.errors);
-                    continue;
-                }
-
-                const formattedUserData = formatUserData(user.data);
-                const metricTotals = getMetricTotals(tweets?.data);
-                const updatedChartsData = formatChartData({
-                    ...metricTotals,
-                    totalFollowers: formattedUserData?.followers,
-                    prevChartsData: prevChartsData.twitterData
-                });
-
-                await TwitterDataModel.updateOne({ userEmail: email }, {
-                    $set: {
-                        userData: formattedUserData,
-                        posts: storedPosts,
-                        lastUpdated: Date.now()
-                    }
-                });
-
-                await ChartsDataModel.updateOne({ userEmail: email }, {
-                    $set: {
-                        twitterData: updatedChartsData
-                    }
-                });
-
-                console.log(`Successfully updated data for user: ${email}`);
-            } else {
-                console.log(`User: ${email} was updated less than 24 hours ago`);
-            }
-
-            // Delay of 15.1 minutes (906,000 milliseconds) before updating the next user
-            //console.log(`Waiting 15.1 minutes before processing the next user...`);
-            //await delay(906000);
-        }
-
-        return Response.json({
-            success: true,
-            message: "All users' data updated successfully"
-        }, { status: 200 });
-
-    } catch (error) {
-        console.error("Error updating all users' data: ", error);
-        return Response.json({
-            success: false,
-            message: "Error updating all users' data"
-        }, { status: 500 });
+    if (!allUsers || allUsers.length === 0) {
+      return Response.json({
+        success: false,
+        message: "No users found to update",
+      }, { status: 404 });
     }
+
+    for (const userData of allUsers) {
+      const email = userData.userEmail;
+      const username = userData.username;
+
+      if (email === "dummy@example.com") continue;
+
+      const prevChartsData = await ChartsDataModel.findOne({ userEmail: email });
+      if (!prevChartsData) {
+        console.log(`No charts data found for user: ${email}`);
+        continue;
+      }
+
+      if (Date.now() - Number(userData.lastUpdated) > 86400000) {
+        try {
+          const [userRes, reposRes, eventsRes] = await Promise.all([
+            octokit.users.getByUsername({ username }),
+            octokit.repos.listForUser({ username, per_page: 100 }),
+            octokit.activity.listPublicEventsForUser({ username, per_page: 100 }),
+          ]);
+
+          const user = userRes.data;
+          const repos = reposRes.data;
+          const events = eventsRes.data;
+
+          const stars = repos.reduce((sum, repo) => sum + (repo.stargazers_count || 0), 0);
+          const contributionsBreakdown = {
+            commits: events.filter(e => e.type === "PushEvent").reduce((c, e) => c + ((e.payload as any).commits?.length || 0), 0),
+            issues: events.filter(e => e.type === "IssuesEvent").length,
+            pullRequests: events.filter(e => e.type === "PullRequestEvent").length,
+            reviews: events.filter(e => e.type === "PullRequestReviewEvent").length,
+            reposCreated: events.filter(e => e.type === "CreateEvent" && (e.payload as any)?.ref_type === "repository").length,
+          };
+
+          const formattedUserData = {
+            followers: user.followers.toString(),
+            following: user.following.toString(),
+            stars: stars.toString(),
+            repos: repos.length.toString(),
+            contributions: (
+              contributionsBreakdown.commits +
+              contributionsBreakdown.issues +
+              contributionsBreakdown.pullRequests +
+              contributionsBreakdown.reviews +
+              contributionsBreakdown.reposCreated
+            ).toString(),
+            contributionsBreakdown,
+          };
+
+          const updatedChartsData = formatGithubChartData({
+            prevChartsData: prevChartsData.githubData,
+            userData: formattedUserData,
+          });
+
+          await GithubDataModel.updateOne({ userEmail: email }, {
+            $set: {
+              userData: formattedUserData,
+              lastUpdated: Date.now(),
+            },
+          });
+
+          await ChartsDataModel.updateOne({ userEmail: email }, {
+            $set: {
+              githubData: updatedChartsData,
+            },
+          });
+
+          console.log(`Successfully updated data for user: ${email}`);
+        } catch (err) {
+          console.error(`Error fetching data for user: ${email}`, err);
+        }
+      } else {
+        console.log(`User: ${email} was updated less than 24 hours ago`);
+      }
+    }
+
+    return Response.json({
+      success: true,
+      message: "All users' data updated successfully",
+    }, { status: 200 });
+  } catch (error) {
+    console.error("Error updating all users' data: ", error);
+    return Response.json({
+      success: false,
+      message: "Error updating all users' data",
+    }, { status: 500 });
+  }
 }

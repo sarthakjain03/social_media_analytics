@@ -27,7 +27,7 @@ export async function GET(_request: Request) {
 
             const updatedCards = getFormattedCardsData({
                 twitter: chartsData.twitterData,
-                linkedin: chartsData.linkedinData,
+                github: chartsData.githubData,
                 instagram: chartsData.instagramData,
                 prevCardsData: chartsData.cardsData
             });

@@ -6,11 +6,11 @@ import { AnalyticsStore } from "@/types/Stores";
 export const defaultAnalytics: Partial<AnalyticsStore> = {
   lastUpdateOfX: null,
   lastUpdateOfInstagram: null,
-  lastUpdateOfLinkedin: null,
+  lastUpdateOfGithub: null,
   isHydrated: false,
   chartsData: {
     twitterData: null,
-    linkedinData: null,
+    githubData: null,
     instagramData: null,
     cardsData: null
   }
@@ -21,11 +21,11 @@ export const useAnalyticsStore = create<AnalyticsStore>()(
     immer((set) => ({
       lastUpdateOfX: null,
       lastUpdateOfInstagram: null,
-      lastUpdateOfLinkedin: null,
+      lastUpdateOfGithub: null,
       isHydrated: false,
       chartsData: {
         twitterData: null,
-        linkedinData: null,
+        githubData: null,
         instagramData: null,
         cardsData: null
       },
