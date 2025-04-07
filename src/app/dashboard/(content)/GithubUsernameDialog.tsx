@@ -28,7 +28,7 @@ const GithubUsernameDialog = ({
           const response = await fetch("/api/github/link-account", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ githubUsername }),
+            body: JSON.stringify({ username: githubUsername }),
           });
 
           const result = await response.json();
