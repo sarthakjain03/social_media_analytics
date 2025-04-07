@@ -48,7 +48,7 @@ const GithubUsernameDialog = ({
   };
 
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={onClose} PaperProps={{ style: { width: '450px' } }}>
       <DialogTitle>Connect your Github account</DialogTitle>
       <DialogContent>
         <TextField

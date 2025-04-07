@@ -78,11 +78,12 @@ const GithubTabContent = () => {
 
   if (!isGithubConnected) {
     return (
+      <>
       <div className="flex gap-4 items-center justify-center my-3">
         <button
           onClick={handleLinkClick}
           className="rounded-lg bg-black text-white font-poppins font-medium flex gap-2 py-2 px-3 items-center"
-        >
+          >
           <span>Link</span>
           <span>
             <GitHub fontSize="small" />
@@ -90,6 +91,10 @@ const GithubTabContent = () => {
           <span>Account</span>
         </button>
       </div>
+      {openUsernameDialog && (
+        <GithubUsernameDialog open={openUsernameDialog} onClose={() => setOpenUsernameDialog(false)} />
+      )}
+      </>
     );
   }
 
@@ -133,9 +138,6 @@ const GithubTabContent = () => {
         </Box>
       )}
     </div>
-    {openUsernameDialog && (
-      <GithubUsernameDialog open={openUsernameDialog} onClose={() => setOpenUsernameDialog(false)} />
-    )}
     </>
   );
 };
