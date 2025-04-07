@@ -1,9 +1,12 @@
 "use client"
 import { X, Instagram, GitHub } from "@mui/icons-material";
 import { useUserStore } from "@/store/user";
+import { useState } from "react";
+import GithubUsernameDialog from "./GithubUsernameDialog";
 
 const AccountLinkButtons = () => {
     const { isInstagramConnected, isGithubConnected, isXConnected } = useUserStore();
+    const [openUsernameDialog, setOpenUsernameDialog] = useState(false);
 
     const getXUrlAndRedirect = () => {
         if (typeof window !== "undefined") {
@@ -17,31 +20,8 @@ const AccountLinkButtons = () => {
         }
     };
 
-    const githubAuthRedirect = async () => {
-        if (typeof window !== "undefined") {
-            const username = prompt("Enter your GitHub username:");
-            if (username) {
-                try {
-                    const response = await fetch("/api/github/link-account", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({ username }),
-                    });
-
-                    const result = await response.json();
-                    if (result.success) {
-                        alert("GitHub account linked successfully!");
-                        window.location.reload();
-                    } else {
-                        alert(result.message || "Failed to link GitHub account.");
-                    }
-                } catch (error) {
-                    alert("An error occurred while linking your GitHub account.");
-                }
-            }
-        }
+    const handleLinkClickGithub = async () => {
+        setOpenUsernameDialog(true);
     };
 
     if (isXConnected && isInstagramConnected && isGithubConnected) {
@@ -49,6 +29,7 @@ const AccountLinkButtons = () => {
     }
 
     return (
+        <>
         <div className="flex gap-4 items-center justify-center flex-wrap mb-3">
             {!isXConnected && (
                 <button onClick={getXUrlAndRedirect} className="rounded-lg bg-black text-white font-poppins font-medium flex gap-2 py-2 px-3 items-center">
@@ -65,13 +46,17 @@ const AccountLinkButtons = () => {
                 </button>
             )}
             {!isGithubConnected && (
-                <button onClick={githubAuthRedirect} className="rounded-lg bg-black text-white font-poppins font-medium flex gap-2 py-2 px-3 items-center">
+                <button onClick={handleLinkClickGithub} className="rounded-lg bg-black text-white font-poppins font-medium flex gap-2 py-2 px-3 items-center">
                     <span>Link</span>
                     <span><GitHub /></span>
                     <span>Account</span>
                 </button>
             )}
         </div>
+        {openUsernameDialog && (
+            <GithubUsernameDialog open={openUsernameDialog} onClose={() => setOpenUsernameDialog(false)} />
+        )}
+        </>
     );
 };
 

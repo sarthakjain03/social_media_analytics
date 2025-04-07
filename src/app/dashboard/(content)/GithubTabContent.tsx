@@ -7,6 +7,7 @@ import { Box, Grid2, Skeleton } from "@mui/material";
 import { ChartObject, GithubChartData, ChartSeriesObject } from "@/types/Charts";
 import { formatToDayMonthYear } from "@/utils/dateFormatters";
 import { usePopulateAnalytics } from "@/hooks/usePopulateAnalytics";
+import GithubUsernameDialog from "./GithubUsernameDialog";
 
 const chartColors = [
   "#1f77b4",
@@ -24,6 +25,7 @@ const chartColors = [
 const GithubTabContent = () => {
   const { isGithubConnected } = useUserStore();
   const { loading, allChartsData } = usePopulateAnalytics();
+  const [openUsernameDialog, setOpenUsernameDialog] = useState(false);
 
   const [chartData, setChartData] = useState<{
     xaxisLabels: string[];
@@ -64,29 +66,8 @@ const GithubTabContent = () => {
   };
   
 
-  const githubAuthRedirect = async () => {
-    if (typeof window !== "undefined") {
-      const username = prompt("Enter your GitHub username:");
-      if (username) {
-        try {
-          const response = await fetch("/api/github/link-account", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username }),
-          });
-
-          const result = await response.json();
-          if (result.success) {
-            alert("GitHub account linked successfully!");
-            window.location.reload();
-          } else {
-            alert(result.message || "Failed to link GitHub account.");
-          }
-        } catch (error) {
-          alert("An error occurred while linking your GitHub account.");
-        }
-      }
-    }
+  const handleLinkClick = () => {
+    setOpenUsernameDialog(true);
   };
 
   useEffect(() => {
@@ -99,7 +80,7 @@ const GithubTabContent = () => {
     return (
       <div className="flex gap-4 items-center justify-center my-3">
         <button
-          onClick={githubAuthRedirect}
+          onClick={handleLinkClick}
           className="rounded-lg bg-black text-white font-poppins font-medium flex gap-2 py-2 px-3 items-center"
         >
           <span>Link</span>
@@ -113,6 +94,7 @@ const GithubTabContent = () => {
   }
 
   return (
+    <>
     <div className="flex gap-4 items-center justify-center mt-12 mb-20 w-full">
       {loading ? (
         <Box sx={{ flexGrow: 1, width: "100%" }}>
@@ -134,7 +116,7 @@ const GithubTabContent = () => {
                   colors={chartColors}
                   xaxisLabels={chartData?.xaxisLabels ?? []}
                   data={chartData?.data ?? []}
-                />
+                  />
               </Grid2>
               {chartData?.data?.map((data, index) => (
                 <Grid2 key={data.name} size={{ xs: 12, md: 6, xl: 4 }}>
@@ -143,7 +125,7 @@ const GithubTabContent = () => {
                     colors={[chartColors[index]]}
                     xaxisLabels={chartData?.xaxisLabels ?? []}
                     data={[data]}
-                  />
+                    />
                 </Grid2>
               ))}
             </Grid2>
@@ -151,6 +133,10 @@ const GithubTabContent = () => {
         </Box>
       )}
     </div>
+    {openUsernameDialog && (
+      <GithubUsernameDialog open={openUsernameDialog} onClose={() => setOpenUsernameDialog(false)} />
+    )}
+    </>
   );
 };
 

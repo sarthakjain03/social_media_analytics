@@ -11,7 +11,7 @@ import { useAnalyticsStore } from "@/store/analytics";
 import dynamic from "next/dynamic";
 import { Skeleton, Box, Grid2, Alert } from "@mui/material";
 import { getNextUpdateDateTime } from "@/utils/dateFormatters";
-import { X, Instagram } from "@mui/icons-material";
+import { X, Instagram, GitHub } from "@mui/icons-material";
 import { grey, purple } from "@mui/material/colors";
 import showToast from "@/utils/toast";
 
@@ -44,11 +44,11 @@ export default function Dashboard() {
     isGithubConnected,
     setUser,
   } = useUserStore();
-  const { lastUpdateOfX, lastUpdateOfInstagram } = useAnalyticsStore();
+  const { lastUpdateOfX, lastUpdateOfInstagram, lastUpdateOfGithub } = useAnalyticsStore();
   const [loading, setLoading] = useState(false);
   const [nextUpdateTime, setNextUpdateTime] = useState({
     twitter: "",
-    //github: "",
+    github: "",
     instagram: ""
   });
 
@@ -100,8 +100,14 @@ export default function Dashboard() {
           instagram: getNextUpdateDateTime(lastUpdateOfInstagram)
         }));
       }
+      if (lastUpdateOfGithub) {
+        setNextUpdateTime((prev) => ({
+          ...prev,
+          github: getNextUpdateDateTime(lastUpdateOfGithub)
+        }));
+      }
     }
-  }, [session, email, lastUpdateOfX, lastUpdateOfInstagram]);
+  }, [session, email, lastUpdateOfX, lastUpdateOfInstagram, lastUpdateOfGithub]);
 
   useEffect(() => {
     if (session?.user) {
@@ -183,6 +189,20 @@ export default function Dashboard() {
                     }}
                   >
                     {`Analytics will be updated when you login or refresh after ${nextUpdateTime?.instagram}`}
+                  </Alert>
+                </Grid2>
+              )}
+              {nextUpdateTime?.github && (
+                <Grid2 size={{ xs: 12 }}>
+                  <Alert
+                    severity="info"
+                    onClose={() =>
+                      setNextUpdateTime((prev) => ({ ...prev, github: "" }))
+                    }
+                    icon={<GitHub fontSize="inherit" style={{ color: 'black' }} />}
+                    sx={{ color: "white", borderColor: "black", backgroundColor: grey[900] }}
+                  >
+                    {`Analytics will be updated when you login or refresh after ${nextUpdateTime?.github}`}
                   </Alert>
                 </Grid2>
               )}

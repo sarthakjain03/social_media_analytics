@@ -50,7 +50,7 @@ export function usePopulateAnalytics() {
         }
 
         if (latestChartsData?.lastUpdateOfGithub) {
-          lastGithubUpdate = latestChartsData.lastUpdateOfGithu;
+          lastGithubUpdate = latestChartsData.lastUpdateOfGithub;
         }
 
         if (latestChartsData?.chartsData) {
@@ -64,6 +64,7 @@ export function usePopulateAnalytics() {
         chartsData: currentChartsData,
         lastUpdateOfX: lastXUpdate,
         lastUpdateOfInstagram: lastInstagramUpdate,
+        lastUpdateOfGithub: lastGithubUpdate,
         isHydrated: true,
       });
     }
@@ -83,8 +84,7 @@ export function usePopulateAnalytics() {
     } else {
       setLoading(false);
     }
-  }, [lastUpdateOfX, session, email, lastUpdateOfInstagram]);
-  // }, [lastUpdateOfX, session, email, lastUpdateOfInstagram, lastUpdateOfLinkedin]);
+  }, [lastUpdateOfX, session, email, lastUpdateOfInstagram, lastUpdateOfGithub]);
 
   return { loading, allChartsData };
 }
