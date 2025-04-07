@@ -50,12 +50,13 @@ const GithubUsernameDialog = ({
   return (
     <Dialog open={open} onClose={onClose} PaperProps={{ style: { width: '450px' } }}>
       <DialogTitle>Connect your Github account</DialogTitle>
-      <DialogContent>
+      <DialogContent sx={{ paddingTop: '10px' }}>
         <TextField
           label="GitHub Username"
           placeholder="Enter your github username here"
           value={githubUsername}
           onChange={(e) => setGithubUsername(e.target.value)}
+          fullWidth
         />
       </DialogContent>
       <DialogActions>
