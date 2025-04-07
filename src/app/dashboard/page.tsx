@@ -199,7 +199,7 @@ export default function Dashboard() {
                     onClose={() =>
                       setNextUpdateTime((prev) => ({ ...prev, github: "" }))
                     }
-                    icon={<GitHub fontSize="inherit" style={{ color: 'black' }} />}
+                    icon={<GitHub fontSize="inherit" style={{ color: 'white' }} />}
                     sx={{ color: "white", borderColor: "black", backgroundColor: grey[900] }}
                   >
                     {`Analytics will be updated when you login or refresh after ${nextUpdateTime?.github}`}
