@@ -4,7 +4,7 @@ const getFollowerTotal = (followers: Array<Array<ChartObject>>): number => {
     let totalFollowers = 0;
     followers.forEach((follows) => {
         const len = follows.length;
-        totalFollowers += follows[len - 1].value;
+        totalFollowers += follows[len - 1]?.value ?? 0;
     });
     return totalFollowers;
 };
@@ -13,7 +13,7 @@ const getOtherTotal = (data: Array<Array<ChartObject>>): number => {
     let totalLikes = 0;
     data.forEach((cardMetric) => {
         for (let i=0 ; i<cardMetric.length ; i++) {
-            totalLikes += cardMetric[i].value;
+            totalLikes += cardMetric[i]?.value ?? 0;
         }
     });
     return totalLikes;
@@ -84,24 +84,36 @@ export const getFormattedCardsData = (data: {
 
         newComparisonDate = retrievalDate;
 
-        followersPercentChange = Number(
-            (((totalFollowers - followers.value) / followers.value) * 100).toFixed(2)
-        );
-        likesPercentChange = Number(
-            (((totalLikes - likes.value) / likes.value) * 100).toFixed(2)
-        );
-        impressionsPercentChange = Number(
-            (((totalImpressions - impressions.value) / impressions.value) * 100).toFixed(2)
-        );
-        engagementsPercentChange = Number(
-            (((totalEngagements - engagements.value) / engagements.value) * 100).toFixed(2)
-        );
-        repliesPercentChange = Number(
-            (((totalReplies - replies.value) / replies.value) * 100).toFixed(2)
-        );
-        bookmarksPercentChange = Number(
-            (((totalBookmarks - bookmarks.value) / bookmarks.value) * 100).toFixed(2)
-        );
+        if (followers?.value) {
+            followersPercentChange = Number(
+                (((totalFollowers - followers?.value) / followers?.value) * 100).toFixed(2)
+            );
+        }
+        if (likes?.value) {
+            likesPercentChange = Number(
+                (((totalLikes - likes?.value) / likes?.value) * 100).toFixed(2)
+            );
+        }
+        if (impressions?.value) {
+            impressionsPercentChange = Number(
+                (((totalImpressions - impressions?.value) / impressions?.value) * 100).toFixed(2)
+            );
+        }
+        if (engagements?.value) {
+            engagementsPercentChange = Number(
+                (((totalEngagements - engagements?.value) / engagements?.value) * 100).toFixed(2)
+            );
+        }
+        if (replies?.value) {
+            repliesPercentChange = Number(
+                (((totalReplies - replies?.value) / replies?.value) * 100).toFixed(2)
+            );
+        }
+        if (bookmarks?.value) {
+            bookmarksPercentChange = Number(
+                (((totalBookmarks - bookmarks?.value) / bookmarks?.value) * 100).toFixed(2)
+            );
+        }
     }
 
     return {
