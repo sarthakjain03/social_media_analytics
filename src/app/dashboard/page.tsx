@@ -131,7 +131,7 @@ export default function Dashboard() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       viewport={{ once: true }}
-      className="px-20"
+      className="px-12 md:px-20"
     >
       {loading ? (
         <Box sx={{ flexGrow: 1, width: "100%" }}>

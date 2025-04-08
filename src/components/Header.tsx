@@ -45,7 +45,7 @@ export default function Header() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
-        className="flex justify-between items-center px-20 py-6"
+        className="flex justify-between items-center px-12 md:px-20 py-6"
       >
         <div className="flex items-center space-x-3">
           <ChartNoAxesCombined className="size-5 lg:size-7 text-purple-600" />

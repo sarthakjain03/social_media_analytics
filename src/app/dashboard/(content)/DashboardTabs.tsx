@@ -19,28 +19,31 @@ export default function DashboardTabs({ selected }: { selected: string }) {
           onChange={handleChange}
           variant={isSmall ? "scrollable" : "fullWidth"}
           scrollButtons="auto"
-          centered
+          centered={!isSmall}
           textColor="secondary"
           indicatorColor="secondary"
         >
-          <Tab label="All" value="all" />
+          <Tab label="All" value="all" sx={{ fontSize: isSmall ? 13 : 16 }} />
           <Tab
             label="X (Twitter)"
-            icon={<X />}
+            icon={<X fontSize={isSmall ? "small" : "medium"} />}
             iconPosition="start"
             value="twitter"
+            sx={{ fontSize: isSmall ? 13 : 16 }}
           />
           <Tab
             label="Github"
-            icon={<GitHub />}
+            icon={<GitHub fontSize={isSmall ? "small" : "medium"} />}
             iconPosition="start"
             value="github"
+            sx={{ fontSize: isSmall ? 13 : 16 }}
           />
           <Tab
             label="Instagram"
-            icon={<Instagram />}
+            icon={<Instagram fontSize={isSmall ? "small" : "medium"} />}
             iconPosition="start"
             value="instagram"
+            sx={{ fontSize: isSmall ? 13 : 16 }}
           />
         </Tabs>
       </Box>
