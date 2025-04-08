@@ -48,14 +48,14 @@ export default function Header() {
         className="flex justify-between items-center px-20 py-6"
       >
         <div className="flex items-center space-x-3">
-          <ChartNoAxesCombined className="size-7 text-purple-600" />
-          <span className="text-2xl font-bold text-gray-800">Socialytics</span>
+          <ChartNoAxesCombined className="size-5 lg:size-7 text-purple-600" />
+          <span className="text-xl lg:text-2xl font-bold text-gray-800">Socialytics</span>
         </div>
         {session ? (
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.9 }}
-            className={`hover:shadow font-medium font-poppins px-4 py-2 rounded-md text-base border bg-white hover:bg-slate-100 text-black`}
+            className={`hover:shadow font-medium font-poppins px-4 py-2 rounded-md text-sm lg:text-base border bg-white hover:bg-slate-100 text-black`}
             onClick={userSignOut}
           >
             Sign Out
@@ -64,7 +64,7 @@ export default function Header() {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.9 }}
-            className={`hover:shadow font-medium font-poppins px-4 py-2 rounded-md text-base border bg-white hover:bg-slate-100 text-black`}
+            className={`hover:shadow font-medium font-poppins px-3 lg:px-4 py-1 lg:py-2 rounded-md text-sm lg:text-base border bg-white hover:bg-slate-100 text-black`}
             onClick={() => setOpenModal(true)}
           >
             Sign In

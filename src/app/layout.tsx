@@ -42,7 +42,7 @@ export default function RootLayout({
               </main>
             </Suspense>
             <footer className="bg-gray-100 py-6 w-full">
-              <div className="container mx-auto px-4 text-center text-gray-600">
+              <div className="container mx-auto px-4 text-center text-gray-600 text-sm lg:text-base">
                 <p>&copy; 2025 Socialytics. All rights reserved.</p>
               </div>
             </footer>
